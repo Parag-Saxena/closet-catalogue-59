@@ -1,5 +1,5 @@
-
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import WelcomeHeader from '../components/dashboard/WelcomeHeader';
 import WardrobeSummary from '../components/dashboard/WardrobeSummary';
@@ -8,16 +8,31 @@ import SuggestedOutfits from '../components/dashboard/SuggestedOutfits';
 import WardrobeAnalytics from '../components/dashboard/WardrobeAnalytics';
 import QuickActions from '../components/dashboard/QuickActions';
 import { ClothingItem } from '../components/ClothingCard';
+import { Button } from '@/components/ui/button';
+import { LogIn } from 'lucide-react';
+
+interface User {
+  name: string;
+  email: string;
+}
 
 const Index = () => {
   const [items, setItems] = useState<ClothingItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     // In a real app, we would fetch from an API
     // For this demo, we'll use localStorage
     const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
     setItems(storedItems);
+    
+    // Check if user is logged in
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+    
     setIsLoading(false);
   }, []);
 
@@ -80,13 +95,39 @@ const Index = () => {
     totalItems: items.length,
     categories: categories.length,
     outfits: recentOutfits.length, // In a real app, this would be actual outfits count
-    favorites: items.filter(item => item.isFavorite).length  // Changed from 'favorite' to 'isFavorite'
+    favorites: items.filter(item => item.isFavorite).length
   };
+
+  if (!user) {
+    return (
+      <Layout>
+        <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-closet-gray-dark">Welcome to Closet Keeper</h1>
+          <p className="text-lg text-closet-gray-medium max-w-md">
+            Sign in to your account to manage your wardrobe, create outfits, and get style recommendations.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 mt-4">
+            <Button asChild className="bg-closet-blue hover:bg-closet-blue/90">
+              <Link to="/sign-in">
+                <LogIn className="mr-2 h-4 w-4" />
+                Sign In
+              </Link>
+            </Button>
+            <Button asChild variant="outline">
+              <Link to="/sign-up">
+                Create Account
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
       <div className="space-y-6">
-        <WelcomeHeader userName="Guest" />
+        <WelcomeHeader userName={user.name || "Guest"} />
         
         <WardrobeSummary 
           totalItems={dashboardMetrics.totalItems} 

@@ -15,6 +15,8 @@ import Account from "./pages/Account";
 import Settings from "./pages/Settings";
 import AddOutfit from "./pages/AddOutfit";
 import AddStyleGuide from "./pages/AddStyleGuide";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
           <Route path="/add-style" element={<AddStyleGuide />} />
           <Route path="/account" element={<Account />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
