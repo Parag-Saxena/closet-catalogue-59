@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, Hanger } from 'lucide-react';
+import { Plus, Shirt } from 'lucide-react';
 
 const Header = () => {
   const location = useLocation();
@@ -13,7 +13,7 @@ const Header = () => {
           to="/" 
           className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          <Hanger className="h-6 w-6 text-closet-blue" />
+          <Shirt className="h-6 w-6 text-closet-blue" />
           <span className="font-semibold text-lg text-closet-gray-dark">Closet Keeper</span>
         </Link>
         

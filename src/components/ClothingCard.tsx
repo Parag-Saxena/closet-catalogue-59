@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Tag } from 'lucide-react';
+import { Tag, Shirt } from 'lucide-react';
 
 export interface ClothingItem {
   id: string;
@@ -32,7 +32,7 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item }) => {
           </div>
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-secondary">
-            <Hanger className="h-16 w-16 text-muted-foreground opacity-30" />
+            <Shirt className="h-16 w-16 text-muted-foreground opacity-30" />
           </div>
         )}
         <div className="absolute top-3 left-3">
