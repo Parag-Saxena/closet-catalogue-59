@@ -80,7 +80,7 @@ const Index = () => {
     totalItems: items.length,
     categories: categories.length,
     outfits: recentOutfits.length, // In a real app, this would be actual outfits count
-    favorites: items.filter(item => item.favorite).length
+    favorites: items.filter(item => item.isFavorite).length  // Changed from 'favorite' to 'isFavorite'
   };
 
   return (
