@@ -9,6 +9,7 @@ export interface ClothingItem {
   color: string;
   notes?: string;
   imageUrl?: string;
+  isFavorite?: boolean;
 }
 
 interface ClothingCardProps {
