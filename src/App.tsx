@@ -13,6 +13,8 @@ import Outfits from "./pages/Outfits";
 import Style from "./pages/Style";
 import Account from "./pages/Account";
 import Settings from "./pages/Settings";
+import AddOutfit from "./pages/AddOutfit";
+import AddStyleGuide from "./pages/AddStyleGuide";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +30,9 @@ const App = () => (
           <Route path="/wardrobe" element={<Wardrobe />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/outfits" element={<Outfits />} />
+          <Route path="/add-outfit" element={<AddOutfit />} />
           <Route path="/style" element={<Style />} />
+          <Route path="/add-style" element={<AddStyleGuide />} />
           <Route path="/account" element={<Account />} />
           <Route path="/settings" element={<Settings />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
