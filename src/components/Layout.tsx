@@ -12,6 +12,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isAddPage = location.pathname === '/add';
+  const isDashboard = location.pathname === '/';
 
   return (
     <SidebarProvider defaultOpen={true}>
@@ -19,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <AppSidebar />
         <div className="flex-1 flex flex-col">
           <Header />
-          <main className={`flex-1 px-4 py-6 md:px-6 lg:px-8 max-w-5xl mx-auto w-full ${isAddPage ? 'pt-4' : 'pt-6'}`}>
+          <main className={`flex-1 px-4 py-6 md:px-6 lg:px-8 max-w-6xl mx-auto w-full ${isDashboard ? 'pt-4 pb-12' : isAddPage ? 'pt-4' : 'pt-6'}`}>
             <div className="animate-fade-in w-full">
               {children}
             </div>
