@@ -36,39 +36,6 @@ const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
             <span className="sr-only">Settings</span>
           </Link>
         </Button>
-        
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="icon">
-              <User className="h-4 w-4" />
-              <span className="sr-only">Profile</span>
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-56" align="end">
-            <div className="space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                  <User className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="font-medium">Guest User</p>
-                  <p className="text-xs text-muted-foreground">Using local storage</p>
-                </div>
-              </div>
-              <div className="flex flex-col gap-1">
-                <Button asChild variant="ghost" size="sm" className="justify-start">
-                  <Link to="/account">Account</Link>
-                </Button>
-                <Button asChild variant="ghost" size="sm" className="justify-start">
-                  <Link to="/settings">Settings</Link>
-                </Button>
-                <Button variant="ghost" size="sm" className="justify-start text-destructive hover:text-destructive">
-                  Logout
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
       </div>
     </div>
   );

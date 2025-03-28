@@ -1,12 +1,18 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, Shirt, LogIn, LogOut, User, Menu } from 'lucide-react';
+import { Shirt, LogIn, User, Menu, Settings, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useSidebar } from './ui/sidebar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface User {
   name: string;
@@ -15,7 +21,6 @@ interface User {
 
 const Header = () => {
   const location = useLocation();
-  const isHome = location.pathname === '/';
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
   const { toggleSidebar, isMobile } = useSidebar();
@@ -57,36 +62,48 @@ const Header = () => {
         </div>
         
         <div className="flex items-center gap-2">
-          <ThemeToggle />
-          
           {user ? (
-            <>
-              {isHome && (
-                <Link
-                  to="/add"
-                  className="inline-flex items-center justify-center rounded-full h-10 w-10 bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:scale-105 active:scale-95"
-                  aria-label="Add new item"
-                >
-                  <Plus className="h-5 w-5" />
-                </Link>
-              )}
-              
-              <div className="flex items-center gap-2">
-                <Link to="/account" className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-2 text-sm font-medium">
                   <User className="h-4 w-4" />
                   <span className="hidden md:inline">{user.name}</span>
-                </Link>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={handleSignOut}
-                  className="text-sm font-medium text-foreground hover:text-primary"
-                >
-                  <LogOut className="h-4 w-4 md:mr-2" />
-                  <span className="hidden md:inline">Sign Out</span>
                 </Button>
-              </div>
-            </>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <div className="flex items-center gap-2 p-2">
+                  <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium">{user.name}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/account" className="w-full cursor-pointer">
+                    <User className="h-4 w-4 mr-2" />
+                    Account
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/settings" className="w-full cursor-pointer">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className="p-2">
+                  <ThemeToggle />
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
               <Link
@@ -97,15 +114,6 @@ const Header = () => {
                 <span className="hidden sm:inline">Sign In</span>
               </Link>
             )
-          )}
-          
-          {!isHome && location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
-            <Link
-              to="/"
-              className="text-sm font-medium text-foreground transition-colors hover:text-primary hidden sm:inline-block"
-            >
-              Cancel
-            </Link>
           )}
         </div>
       </div>
