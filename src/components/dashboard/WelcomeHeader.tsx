@@ -3,12 +3,23 @@ import { Button } from "@/components/ui/button";
 import { Search, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useState, useEffect } from "react";
+import { ClothingItem } from "../ClothingCard";
 
 interface WelcomeHeaderProps {
   userName?: string;
 }
 
 const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
+  const [laundryCount, setLaundryCount] = useState(0);
+  
+  useEffect(() => {
+    // Get items that need washing
+    const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]') as ClothingItem[];
+    const laundryItems = storedItems.filter(item => item.needsWashing);
+    setLaundryCount(laundryItems.length);
+  }, []);
+  
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
       <div>
@@ -17,6 +28,11 @@ const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
         </h1>
         <p className="text-muted-foreground mt-1">
           Welcome to your personal closet management dashboard.
+          {laundryCount > 0 && (
+            <span className="text-amber-600 dark:text-amber-400 ml-1">
+              You have {laundryCount} item{laundryCount !== 1 ? 's' : ''} that need washing.
+            </span>
+          )}
         </p>
       </div>
       
