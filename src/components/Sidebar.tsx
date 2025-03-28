@@ -20,6 +20,8 @@ import {
   Settings,
   BookHeart,
   User,
+  Ruler,
+  ShoppingBag,
 } from 'lucide-react';
 
 export const AppSidebar = () => {
@@ -49,6 +51,18 @@ export const AppSidebar = () => {
       url: "/outfits",
       icon: BookHeart,
       isActive: location.pathname === "/outfits"
+    },
+    {
+      title: "My Measurements",
+      url: "/measurements",
+      icon: Ruler,
+      isActive: location.pathname === "/measurements"
+    },
+    {
+      title: "Shopping Schedule",
+      url: "/shopping-schedule",
+      icon: ShoppingBag,
+      isActive: location.pathname === "/shopping-schedule"
     },
     {
       title: "My Style",

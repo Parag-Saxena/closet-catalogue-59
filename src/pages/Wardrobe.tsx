@@ -3,11 +3,23 @@ import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import ClothingCard from '../components/ClothingCard';
 import EmptyState from '../components/EmptyState';
+import EditItemDialog from '../components/EditItemDialog';
 import { ClothingItem } from '../components/ClothingCard';
-import { Search, Plus, WashingMachine } from 'lucide-react';
+import { Search, Plus, WashingMachine, Edit, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const Wardrobe = () => {
   const [items, setItems] = useState<ClothingItem[]>([]);
@@ -16,6 +28,9 @@ const Wardrobe = () => {
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [laundryFilter, setLaundryFilter] = useState<'all' | 'clean' | 'wash'>('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [editingItem, setEditingItem] = useState<ClothingItem | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Get unique categories from items
@@ -71,6 +86,45 @@ const Wardrobe = () => {
         description: `${item.name} has been ${item.needsWashing ? "removed from" : "added to"} your laundry list.`
       });
     }
+  };
+
+  const handleEditItem = (id: string) => {
+    const item = items.find(item => item.id === id);
+    if (item) {
+      setEditingItem(item);
+      setIsEditDialogOpen(true);
+    }
+  };
+
+  const handleSaveItem = (updatedItem: ClothingItem) => {
+    const updatedItems = items.map(item => 
+      item.id === updatedItem.id ? updatedItem : item
+    );
+    setItems(updatedItems);
+    
+    // Update localStorage
+    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
+    
+    toast({
+      title: "Item updated",
+      description: `${updatedItem.name} has been updated successfully.`
+    });
+  };
+
+  const handleDeleteItem = (id: string) => {
+    const itemToDelete = items.find(item => item.id === id);
+    if (!itemToDelete) return;
+
+    const updatedItems = items.filter(item => item.id !== id);
+    setItems(updatedItems);
+    
+    // Update localStorage
+    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
+    
+    toast({
+      title: "Item deleted",
+      description: `${itemToDelete.name} has been removed from your wardrobe.`
+    });
   };
 
   const laundryCount = items.filter(item => item.needsWashing).length;
@@ -154,17 +208,67 @@ const Wardrobe = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-6">
                 {filteredItems.map(item => (
-                  <ClothingCard 
-                    key={item.id} 
-                    item={item} 
-                    onLaundryToggle={handleLaundryToggle}
-                  />
+                  <div key={item.id} className="group relative">
+                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button 
+                        variant="secondary" 
+                        size="icon" 
+                        className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
+                        onClick={() => handleEditItem(item.id)}
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button 
+                            variant="secondary" 
+                            size="icon" 
+                            className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This will permanently delete {item.name} from your wardrobe.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction 
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                              onClick={() => handleDeleteItem(item.id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+                    <ClothingCard 
+                      item={item} 
+                      onLaundryToggle={handleLaundryToggle} 
+                    />
+                  </div>
                 ))}
               </div>
             )}
           </>
         )}
       </div>
+
+      {/* Edit Item Dialog */}
+      <EditItemDialog 
+        item={editingItem}
+        isOpen={isEditDialogOpen}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setEditingItem(null);
+        }}
+        onSave={handleSaveItem}
+      />
     </Layout>
   );
 };

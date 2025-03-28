@@ -1,9 +1,21 @@
 
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { Plus, Folder } from 'lucide-react';
+import { Plus, Folder, Edit, Trash2 } from 'lucide-react';
 import { ClothingItem } from '../components/ClothingCard';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface Category {
   id: string;
@@ -15,6 +27,8 @@ const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [newCategory, setNewCategory] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -89,6 +103,89 @@ const Categories = () => {
     });
   };
 
+  const handleOpenEditDialog = (category: Category) => {
+    setEditingCategory(category);
+    setNewCategory(category.name);
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setEditingCategory(null);
+    setNewCategory('');
+    setIsDialogOpen(false);
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCategory.trim() || !editingCategory) return;
+
+    // Check if the new name already exists (excluding the current category)
+    if (categories.some(cat => 
+      cat.id !== editingCategory.id && 
+      cat.name.toLowerCase() === newCategory.trim().toLowerCase()
+    )) {
+      toast({
+        title: "Category exists",
+        description: "A category with this name already exists.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Update the category's name
+    const updatedCategory = {
+      ...editingCategory,
+      name: newCategory.trim(),
+      id: newCategory.trim().toLowerCase().replace(/\s+/g, '-')
+    };
+
+    // Also update any clothing items that use this category
+    const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]') as ClothingItem[];
+    const updatedItems = storedItems.map(item => {
+      if (item.category === editingCategory.name) {
+        return { ...item, category: newCategory.trim() };
+      }
+      return item;
+    });
+
+    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
+
+    // Update categories
+    setCategories(categories.map(cat => 
+      cat.id === editingCategory.id ? updatedCategory : cat
+    ));
+
+    toast({
+      title: "Category updated",
+      description: `Category has been renamed to "${newCategory.trim()}".`
+    });
+
+    handleCloseDialog();
+  };
+
+  const handleDeleteCategory = (categoryId: string) => {
+    const categoryToDelete = categories.find(cat => cat.id === categoryId);
+    if (!categoryToDelete) return;
+
+    // Check if category is in use
+    if (categoryToDelete.count > 0) {
+      toast({
+        title: "Cannot delete category",
+        description: `This category is used by ${categoryToDelete.count} items. Remove or reassign these items first.`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Delete the category
+    setCategories(categories.filter(cat => cat.id !== categoryId));
+
+    toast({
+      title: "Category deleted",
+      description: `${categoryToDelete.name} has been deleted.`
+    });
+  };
+
   return (
     <Layout>
       <div className="space-y-6">
@@ -125,20 +222,74 @@ const Categories = () => {
             {categories.map(category => (
               <div 
                 key={category.id} 
-                className="flex items-center p-4 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors"
+                className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:bg-accent/50 transition-colors"
               >
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
-                  <Folder className="h-5 w-5 text-primary" />
+                <div className="flex items-center">
+                  <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                    <Folder className="h-5 w-5 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-foreground">{category.name}</h3>
+                    <p className="text-sm text-muted-foreground">{category.count} items</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-foreground">{category.name}</h3>
-                  <p className="text-sm text-muted-foreground">{category.count} items</p>
+                <div className="flex gap-2">
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => handleOpenEditDialog(category)}
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={() => handleDeleteCategory(category.id)}
+                    disabled={category.count > 0}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Category</DialogTitle>
+            <DialogDescription>
+              Change the name of this category. This will update all items using this category.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleEditSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="category-name" className="text-right">
+                  Name
+                </Label>
+                <Input
+                  id="category-name"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  placeholder="Category name"
+                  className="col-span-3"
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button variant="outline" type="button" onClick={handleCloseDialog}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={!newCategory.trim()}>
+                Save Changes
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

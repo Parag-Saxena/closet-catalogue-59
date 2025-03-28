@@ -18,6 +18,8 @@ import AddOutfit from "./pages/AddOutfit";
 import AddStyleGuide from "./pages/AddStyleGuide";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import Measurements from "./pages/Measurements";
+import ShoppingSchedule from "./pages/ShoppingSchedule";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +43,8 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route path="/measurements" element={<Measurements />} />
+            <Route path="/shopping-schedule" element={<ShoppingSchedule />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
