@@ -1,9 +1,12 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Plus, Shirt, LogIn, LogOut, User } from 'lucide-react';
+import { Plus, Shirt, LogIn, LogOut, User, Menu } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useSidebar } from './ui/sidebar';
 
 interface User {
   name: string;
@@ -15,6 +18,7 @@ const Header = () => {
   const isHome = location.pathname === '/';
   const { toast } = useToast();
   const [user, setUser] = useState<User | null>(null);
+  const { toggleSidebar, isMobile } = useSidebar();
   
   useEffect(() => {
     // Check if user is logged in
@@ -34,31 +38,41 @@ const Header = () => {
   };
   
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 border-b border-border">
-      <div className="container flex items-center justify-between h-16 max-w-5xl mx-auto px-4">
-        <Link 
-          to="/" 
-          className="flex items-center gap-2 transition-opacity hover:opacity-80"
-        >
-          <Shirt className="h-6 w-6 text-closet-blue" />
-          <span className="font-semibold text-lg text-closet-gray-dark">Closet Keeper</span>
-        </Link>
+    <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-background/90 border-b border-border">
+      <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
+        <div className="flex items-center gap-2">
+          {isMobile && (
+            <Button variant="ghost" size="icon" onClick={toggleSidebar} className="md:hidden">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          )}
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 transition-opacity hover:opacity-80"
+          >
+            <Shirt className="h-6 w-6 text-primary" />
+            <span className="font-semibold text-lg text-foreground">Closet Keeper</span>
+          </Link>
+        </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          
           {user ? (
             <>
               {isHome && (
                 <Link
                   to="/add"
-                  className="inline-flex items-center justify-center rounded-full h-10 w-10 bg-closet-blue text-white shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center justify-center rounded-full h-10 w-10 bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:scale-105 active:scale-95"
                   aria-label="Add new item"
                 >
                   <Plus className="h-5 w-5" />
                 </Link>
               )}
               
-              <div className="flex items-center gap-3">
-                <Link to="/account" className="flex items-center gap-2 text-sm font-medium text-closet-gray-dark hover:text-closet-blue">
+              <div className="flex items-center gap-2">
+                <Link to="/account" className="flex items-center gap-2 text-sm font-medium text-foreground hover:text-primary">
                   <User className="h-4 w-4" />
                   <span className="hidden md:inline">{user.name}</span>
                 </Link>
@@ -66,9 +80,9 @@ const Header = () => {
                   variant="ghost" 
                   size="sm" 
                   onClick={handleSignOut}
-                  className="text-sm font-medium text-closet-gray-dark hover:text-closet-blue"
+                  className="text-sm font-medium text-foreground hover:text-primary"
                 >
-                  <LogOut className="h-4 w-4 mr-2" />
+                  <LogOut className="h-4 w-4 md:mr-2" />
                   <span className="hidden md:inline">Sign Out</span>
                 </Button>
               </div>
@@ -77,10 +91,10 @@ const Header = () => {
             location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
               <Link
                 to="/sign-in"
-                className="flex items-center gap-1 text-sm font-medium text-closet-blue"
+                className="flex items-center gap-1 text-sm font-medium text-primary"
               >
                 <LogIn className="h-4 w-4" />
-                <span>Sign In</span>
+                <span className="hidden sm:inline">Sign In</span>
               </Link>
             )
           )}
@@ -88,7 +102,7 @@ const Header = () => {
           {!isHome && location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
             <Link
               to="/"
-              className="text-sm font-medium text-closet-gray-dark transition-colors hover:text-closet-blue"
+              className="text-sm font-medium text-foreground transition-colors hover:text-primary hidden sm:inline-block"
             >
               Cancel
             </Link>

@@ -15,13 +15,13 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isDashboard = location.pathname === '/';
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <div className="min-h-screen bg-background flex w-full">
-        <AppSidebar />
-        <div className="flex-1 flex flex-col">
-          <Header />
-          <main className={`flex-1 px-4 py-6 md:px-6 lg:px-8 max-w-6xl mx-auto w-full ${isDashboard ? 'pt-4 pb-12' : isAddPage ? 'pt-4' : 'pt-6'}`}>
-            <div className="animate-fade-in w-full">
+    <SidebarProvider defaultOpen={!window.matchMedia("(max-width: 768px)").matches}>
+      <div className="flex flex-col min-h-screen w-full bg-background">
+        <Header />
+        <div className="flex flex-1 w-full">
+          <AppSidebar />
+          <main className={`flex-1 px-4 py-6 md:px-6 lg:px-8 w-full ${isDashboard ? 'pt-4 pb-12' : isAddPage ? 'pt-4' : 'pt-6'}`}>
+            <div className="animate-fade-in max-w-6xl mx-auto w-full">
               {children}
             </div>
           </main>
