@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { Shirt, BookHeart, Star } from 'lucide-react';
 import { ClothingItem } from '../components/ClothingCard';
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,13 +22,15 @@ const AddOutfit = () => {
   const [availableItems, setAvailableItems] = useState<ClothingItem[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   
+  // Use useEffect with an empty dependency array to only load items once
   useEffect(() => {
     // Load clothing items from localStorage
     const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
     setAvailableItems(storedItems);
   }, []);
 
-  const handleItemToggle = (itemId: string) => {
+  // Move handleItemToggle to useCallback to prevent recreation on every render
+  const handleItemToggle = useCallback((itemId: string) => {
     setSelectedItems(prev => {
       if (prev.includes(itemId)) {
         return prev.filter(id => id !== itemId);
@@ -36,7 +38,7 @@ const AddOutfit = () => {
         return [...prev, itemId];
       }
     });
-  };
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,18 +60,11 @@ const AddOutfit = () => {
       outfits.push(newOutfit);
       localStorage.setItem('outfits', JSON.stringify(outfits));
 
-      toast({
-        title: "Success!",
-        description: "Your outfit has been created",
-      });
+      toast.success("Your outfit has been created");
 
       navigate('/outfits');
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "There was an error creating your outfit",
-      });
+      toast.error("There was an error creating your outfit");
     } finally {
       setIsSubmitting(false);
     }
@@ -141,7 +136,12 @@ const AddOutfit = () => {
                     <p className="mb-4 text-sm text-muted-foreground">
                       Add some items to your wardrobe first
                     </p>
-                    <Button variant="outline" className="mt-2" onClick={() => navigate('/add')}>
+                    <Button 
+                      variant="outline" 
+                      className="mt-2" 
+                      onClick={() => navigate('/add')}
+                      type="button"
+                    >
                       Add Wardrobe Items
                     </Button>
                   </div>
@@ -158,7 +158,6 @@ const AddOutfit = () => {
                             className={`cursor-pointer hover:bg-accent transition-colors ${
                               selectedItems.includes(item.id) ? 'border-primary ring-1 ring-primary' : ''
                             }`}
-                            onClick={() => handleItemToggle(item.id)}
                           >
                             <CardContent className="p-3 flex items-center space-x-3">
                               <Checkbox 
