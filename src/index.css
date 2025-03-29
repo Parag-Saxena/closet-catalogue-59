@@ -62,7 +62,7 @@
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 75%; /* Increased from 65.1% for better contrast */
+    --muted-foreground: 215 20.2% 80%; /* Increased from 75% for better contrast */
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
@@ -194,7 +194,7 @@
 }
 
 .dark .text-muted-foreground {
-  color: rgba(229, 231, 235, 0.8);
+  color: rgba(229, 231, 235, 0.85);
 }
 
 .dark .text-foreground {
@@ -203,7 +203,7 @@
 
 .dark .text-closet-gray-medium, 
 .dark .text-closet-gray-dark {
-  color: rgba(229, 231, 235, 0.9);
+  color: rgba(229, 231, 235, 0.95);
 }
 
 /* Fix form elements in dark mode */
@@ -214,4 +214,52 @@
 
 .dark .hover\:bg-white:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Fix select dropdowns in dark mode */
+.dark [data-radix-popper-content-wrapper] {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+}
+
+/* Fix z-index issues */
+header {
+  z-index: 50;
+}
+
+.sidebar {
+  z-index: 40;
+}
+
+main {
+  z-index: 30;
+}
+
+/* Fix SelectContent visibility in dark mode */
+[data-radix-select-content] {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  border-color: hsl(var(--border));
+}
+
+.dark [data-radix-select-content] {
+  background-color: hsl(var(--popover));
+  color: hsl(var(--popover-foreground));
+  border-color: hsl(var(--border));
+}
+
+/* Improve select item hover state in dark mode */
+.dark [data-radix-select-item]:hover {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--accent-foreground));
+}
+
+/* Ensure proper contrast for select labels in dark mode */
+.dark [data-radix-select-item] {
+  color: hsl(var(--popover-foreground));
+}
+
+/* Ensure dropdown content is visible */
+[data-radix-popper-content] {
+  z-index: 60 !important;
 }
