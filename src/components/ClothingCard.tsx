@@ -8,6 +8,7 @@ export interface ClothingItem {
   name: string;
   category: string;
   color: string;
+  brand?: string;
   notes?: string;
   imageUrl?: string;
   isFavorite?: boolean;
