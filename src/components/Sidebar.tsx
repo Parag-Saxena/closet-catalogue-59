@@ -31,7 +31,6 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
-  
   const navigationItems: NavItem[] = [
     {
       title: "Dashboard",
@@ -94,7 +93,7 @@ const AppSidebar = () => {
 
   return (
     <Sidebar className="z-40">
-      <SidebarContent className="mt-4">
+      <SidebarContent className="mt-16">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>

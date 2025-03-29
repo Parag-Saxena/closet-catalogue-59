@@ -30,25 +30,34 @@ interface ClothingCardProps {
 
 const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
-  
+
   const handleLaundryToggle = () => {
     if (onLaundryToggle) {
       onLaundryToggle(item.id);
     }
   };
-  
+
   return (
     <div className="group animate-scale-in overflow-hidden rounded-2xl bg-white border border-border shadow-sm hover:shadow-md transition-all duration-300 dark:bg-gray-800">
-      <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl && !item.image ? 'bg-muted' : ''}`}>
-        {item.imageUrl || item.image ? (
-          <div className={`image-container ${!imageLoaded ? 'loading' : ''}`}>
+      <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl ? 'bg-muted' : ''}`}>
+        {item.imageUrl ? (
+          <>
             <img
               src={item.image || item.imageUrl}
               alt={item.name}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               onLoad={() => setImageLoaded(true)}
+              onError={(e) => {
+                setImageLoaded(false);
+                e.currentTarget.style.display = 'none';
+              }}
             />
-          </div>
+            {!imageLoaded && (
+              <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-secondary">
+                <Shirt className="h-16 w-16 text-muted-foreground opacity-30" />
+              </div>
+            )}
+          </>
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-secondary">
             <Shirt className="h-16 w-16 text-muted-foreground opacity-30" />
@@ -68,8 +77,8 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
       <div className="p-4">
         <h3 className="font-medium text-base text-closet-gray-dark truncate dark:text-gray-200">{item.name}</h3>
         <div className="mt-1 flex items-center gap-1.5">
-          <div 
-            className="h-3 w-3 rounded-full" 
+          <div
+            className="h-3 w-3 rounded-full"
             style={{ backgroundColor: item.color }}
             aria-label={`Color: ${item.color}`}
           />
@@ -87,9 +96,9 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
           </div>
         )}
         <div className="mt-3 flex justify-end">
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="flex items-center gap-1 text-xs"
             onClick={handleLaundryToggle}
             type="button"
