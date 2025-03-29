@@ -6,13 +6,21 @@ import { Button } from "@/components/ui/button";
 export interface ClothingItem {
   id: string;
   name: string;
+  type: string;
   category: string;
   color: string;
-  brand?: string;
-  notes?: string;
-  imageUrl?: string;
+  size: string;
+  brand: string;
+  material: string;
+  tags: Array<string>;
+  image: string;
+  lastWorn: Date;
+  createdAt: Date;
+  updatedAt: Date;
   isFavorite?: boolean;
   needsWashing?: boolean;
+  imageUrl?: string; // keeping for backward compatibility
+  notes?: string; // keeping for backward compatibility
 }
 
 interface ClothingCardProps {
@@ -31,11 +39,11 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
   
   return (
     <div className="group animate-scale-in overflow-hidden rounded-2xl bg-white border border-border shadow-sm hover:shadow-md transition-all duration-300 dark:bg-gray-800">
-      <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl ? 'bg-muted' : ''}`}>
-        {item.imageUrl ? (
+      <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl && !item.image ? 'bg-muted' : ''}`}>
+        {item.imageUrl || item.image ? (
           <div className={`image-container ${!imageLoaded ? 'loading' : ''}`}>
             <img
-              src={item.imageUrl}
+              src={item.image || item.imageUrl}
               alt={item.name}
               className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               onLoad={() => setImageLoaded(true)}
@@ -65,12 +73,17 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
             style={{ backgroundColor: item.color }}
             aria-label={`Color: ${item.color}`}
           />
-          <p className="text-xs text-closet-gray-medium dark:text-gray-400">{item.color}</p>
+          <p className="text-xs text-closet-gray-medium dark:text-gray-200">{item.color}</p>
+          {item.size && (
+            <p className="text-xs text-closet-gray-medium dark:text-gray-200 ml-2">Size: {item.size}</p>
+          )}
         </div>
-        {item.notes && (
+        {(item.notes || item.tags?.length > 0) && (
           <div className="mt-3 flex items-start gap-1.5">
-            <Tag className="h-3.5 w-3.5 text-closet-gray-medium shrink-0 mt-0.5 dark:text-gray-400" />
-            <p className="text-xs text-closet-gray-medium line-clamp-2 dark:text-gray-400">{item.notes}</p>
+            <Tag className="h-3.5 w-3.5 text-closet-gray-medium shrink-0 mt-0.5 dark:text-gray-300" />
+            <p className="text-xs text-closet-gray-medium line-clamp-2 dark:text-gray-300">
+              {item.tags?.length > 0 ? item.tags.join(', ') : item.notes}
+            </p>
           </div>
         )}
         <div className="mt-3 flex justify-end">

@@ -8,15 +8,18 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
-import { Shirt, BookHeart, Star } from 'lucide-react';
+import { Shirt, BookHeart, Star, CloudSun } from 'lucide-react';
 import { ClothingItem } from '../components/ClothingCard';
 import { Card, CardContent } from "@/components/ui/card";
+import { Outfit } from '../interfaces/OutfitInterface';
 
 const AddOutfit = () => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [occasion, setOccasion] = useState('');
+  const [weather, setWeather] = useState('');
+  const [tags, setTags] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [availableItems, setAvailableItems] = useState<ClothingItem[]>([]);
@@ -48,13 +51,18 @@ const AddOutfit = () => {
     // For this demo, we'll save to localStorage
     try {
       const outfits = JSON.parse(localStorage.getItem('outfits') || '[]');
-      const newOutfit = {
+      const newOutfit: Outfit = {
         id: Date.now().toString(),
         name,
         description,
-        occasion,
         items: selectedItems,
-        created: new Date().toISOString()
+        occasion,
+        weather,
+        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag !== ''),
+        image: '',
+        lastWorn: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       outfits.push(newOutfit);
@@ -112,6 +120,29 @@ const AddOutfit = () => {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="weather">Weather</Label>
+                <div className="flex items-center gap-2">
+                  <CloudSun className="h-5 w-5 text-muted-foreground dark:text-gray-300" />
+                  <Input 
+                    id="weather" 
+                    placeholder="Sunny, Rainy, Cold, etc." 
+                    value={weather}
+                    onChange={(e) => setWeather(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="tags">Tags (comma separated)</Label>
+                <Input 
+                  id="tags" 
+                  placeholder="summer, favorite, blue" 
+                  value={tags}
+                  onChange={(e) => setTags(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
                 <Textarea 
                   id="description" 
@@ -124,7 +155,7 @@ const AddOutfit = () => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="font-medium text-lg text-foreground">Select Items for This Outfit</h3>
+              <h3 className="font-medium text-lg text-foreground dark:text-white">Select Items for This Outfit</h3>
               
               {Object.keys(itemsByCategory).length === 0 ? (
                 <div className="rounded-lg border border-dashed p-10 text-center">
@@ -132,8 +163,8 @@ const AddOutfit = () => {
                     <div className="mb-4 rounded-full bg-primary/10 p-4">
                       <Shirt className="h-8 w-8 text-primary" />
                     </div>
-                    <h3 className="mb-1 text-lg font-medium text-foreground">No Wardrobe Items</h3>
-                    <p className="mb-4 text-sm text-muted-foreground">
+                    <h3 className="mb-1 text-lg font-medium text-foreground dark:text-white">No Wardrobe Items</h3>
+                    <p className="mb-4 text-sm text-muted-foreground dark:text-gray-300">
                       Add some items to your wardrobe first
                     </p>
                     <Button 
@@ -150,7 +181,7 @@ const AddOutfit = () => {
                 <div className="space-y-4">
                   {Object.entries(itemsByCategory).map(([category, items]) => (
                     <div key={category} className="space-y-2">
-                      <h4 className="text-sm font-medium text-foreground">{category}</h4>
+                      <h4 className="text-sm font-medium text-foreground dark:text-white">{category}</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                         {items.map(item => (
                           <Card 
@@ -166,10 +197,10 @@ const AddOutfit = () => {
                                 id={`item-${item.id}`}
                               />
                               <div className="flex-grow">
-                                <Label htmlFor={`item-${item.id}`} className="text-sm font-medium cursor-pointer">
+                                <Label htmlFor={`item-${item.id}`} className="text-sm font-medium cursor-pointer dark:text-white">
                                   {item.name}
                                 </Label>
-                                <p className="text-xs text-muted-foreground">{item.color}</p>
+                                <p className="text-xs text-muted-foreground dark:text-gray-300">{item.color}</p>
                               </div>
                               {item.isFavorite && <Star className="h-4 w-4 text-amber-500" />}
                             </CardContent>

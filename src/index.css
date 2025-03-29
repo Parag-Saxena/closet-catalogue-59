@@ -62,7 +62,7 @@
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted-foreground: 215 20.2% 75%; /* Increased from 65.1% for better contrast */
 
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
@@ -186,4 +186,32 @@
   opacity: 0;
   transform: translateY(-20px);
   transition: opacity 300ms, transform 300ms ease-in-out;
+}
+
+/* Dark mode improvements */
+.dark {
+  color-scheme: dark;
+}
+
+.dark .text-muted-foreground {
+  color: rgba(229, 231, 235, 0.8);
+}
+
+.dark .text-foreground {
+  color: rgba(249, 250, 251, 1);
+}
+
+.dark .text-closet-gray-medium, 
+.dark .text-closet-gray-dark {
+  color: rgba(229, 231, 235, 0.9);
+}
+
+/* Fix form elements in dark mode */
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: rgba(156, 163, 175, 0.8);
+}
+
+.dark .hover\:bg-white:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
 }
