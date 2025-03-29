@@ -79,6 +79,7 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
             size="sm" 
             className="flex items-center gap-1 text-xs"
             onClick={handleLaundryToggle}
+            type="button"
           >
             <WashingMachine className="h-3.5 w-3.5" />
             {item.needsWashing ? 'Mark as Clean' : 'Mark for Laundry'}
