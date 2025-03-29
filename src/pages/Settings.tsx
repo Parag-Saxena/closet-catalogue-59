@@ -5,6 +5,7 @@ import { Switch } from '@/components/ui/switch';
 import { useTheme } from '@/components/theme-provider';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
@@ -34,46 +35,53 @@ const Settings = () => {
       <div className="space-y-6">
         <h1 className="text-2xl font-semibold text-foreground">Settings</h1>
         
-        <div className="bg-card rounded-lg border border-border p-6 space-y-6">
-          <div>
-            <h2 className="text-lg font-medium text-foreground mb-4">Appearance</h2>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground">Dark Mode</h3>
-                <p className="text-sm text-muted-foreground">Toggle dark mode on or off</p>
+        <Card>
+          <CardContent className="p-6 space-y-6">
+            <div>
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-lg font-medium text-foreground">Appearance</CardTitle>
+              </CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium text-foreground">Dark Mode</h3>
+                  <p className="text-sm text-muted-foreground">Toggle dark mode on or off</p>
+                </div>
+                <Switch 
+                  checked={theme === 'dark'} 
+                  onCheckedChange={handleDarkModeChange}
+                />
               </div>
-              <Switch 
-                checked={theme === 'dark'} 
-                onCheckedChange={handleDarkModeChange}
-              />
             </div>
-          </div>
-          
-          <div>
-            <h2 className="text-lg font-medium text-foreground mb-4">Notifications</h2>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium text-foreground">Enable Notifications</h3>
-                <p className="text-sm text-muted-foreground">Receive updates and reminders</p>
+            
+            <div>
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-lg font-medium text-foreground">Notifications</CardTitle>
+              </CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="font-medium text-foreground">Enable Notifications</h3>
+                  <p className="text-sm text-muted-foreground">Receive updates and reminders</p>
+                </div>
+                <Switch 
+                  checked={notifications}
+                  onCheckedChange={setNotifications}
+                />
               </div>
-              <Switch 
-                checked={notifications}
-                onCheckedChange={setNotifications}
-              />
             </div>
-          </div>
-          
-          <div>
-            <h2 className="text-lg font-medium text-foreground mb-4">Data Management</h2>
-            <Button 
-              variant="destructive" 
-              onClick={handleClearData}
-              className="inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-medium shadow-sm transition-all duration-200 hover:bg-destructive/90 active:scale-95"
-            >
-              Clear All Data
-            </Button>
-          </div>
-        </div>
+            
+            <div>
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-lg font-medium text-foreground">Data Management</CardTitle>
+              </CardHeader>
+              <Button 
+                variant="destructive" 
+                onClick={handleClearData}
+              >
+                Clear All Data
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   );

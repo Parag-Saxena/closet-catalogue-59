@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { Shirt, LogIn, User, Menu, Settings, LogOut } from 'lucide-react';
+import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -13,11 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
-interface User {
-  name: string;
-  email: string;
-}
+import { User } from '@/types';
 
 const Header = () => {
   const location = useLocation();
@@ -47,7 +43,13 @@ const Header = () => {
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
           {isMobile && (
-            <Button variant="ghost" size="icon" onClick={toggleSidebar} className="md:hidden">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              onClick={toggleSidebar} 
+              className="md:hidden"
+              type="button"
+            >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </Button>
@@ -66,29 +68,29 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2 text-sm font-medium">
-                  <User className="h-4 w-4" />
+                  <UserIcon className="h-4 w-4" />
                   <span className="hidden md:inline">{user.name}</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuContent align="end" className="w-56 bg-background">
                 <div className="flex items-center gap-2 p-2">
                   <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
-                    <User className="h-5 w-5" />
+                    <UserIcon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="font-medium">{user.name}</p>
+                    <p className="font-medium text-foreground">{user.name}</p>
                     <p className="text-xs text-muted-foreground">{user.email}</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/account" className="w-full cursor-pointer">
-                    <User className="h-4 w-4 mr-2" />
+                  <Link to="/account" className="w-full cursor-pointer text-foreground">
+                    <UserIcon className="h-4 w-4 mr-2" />
                     Account
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/settings" className="w-full cursor-pointer">
+                  <Link to="/settings" className="w-full cursor-pointer text-foreground">
                     <Settings className="h-4 w-4 mr-2" />
                     Settings
                   </Link>

@@ -55,7 +55,7 @@ const SignIn = () => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      // For demo purposes, we'll simulate a successful login
+      // In a real implementation, this would connect to Google OAuth
       console.log('Signing in with Google...');
       
       // Simulate API delay
@@ -90,27 +90,27 @@ const SignIn = () => {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <div className="flex h-16 items-center border-b px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
-          <Shirt className="h-6 w-6 text-closet-blue" />
-          <span className="font-semibold text-lg text-closet-gray-dark dark:text-white">Closet Keeper</span>
+          <Shirt className="h-6 w-6 text-primary" />
+          <span className="font-semibold text-lg text-foreground">Closet Keeper</span>
         </Link>
       </div>
       <div className="mx-auto grid w-full max-w-md gap-6 px-4 py-12 md:gap-8 md:px-6 lg:py-16">
         <div className="flex flex-col gap-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight dark:text-white">Welcome back</h1>
-          <p className="text-muted-foreground dark:text-gray-300">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
+          <p className="text-muted-foreground">
             Enter your credentials to sign in to your account
           </p>
         </div>
         <form onSubmit={handleSignIn} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email" className="dark:text-gray-200">Email</Label>
+            <Label htmlFor="email" className="text-foreground">Email</Label>
             <div className="relative">
-              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground dark:text-gray-400" />
+              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input 
                 id="email" 
                 type="email" 
                 placeholder="you@example.com" 
-                className="pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                className="pl-10"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -119,25 +119,25 @@ const SignIn = () => {
           </div>
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="dark:text-gray-200">Password</Label>
-              <Link to="#" className="text-sm text-closet-blue underline-offset-4 hover:underline dark:text-blue-400">
+              <Label htmlFor="password" className="text-foreground">Password</Label>
+              <Link to="#" className="text-sm text-primary underline-offset-4 hover:underline">
                 Forgot password?
               </Link>
             </div>
             <div className="relative">
-              <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground dark:text-gray-400" />
+              <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input 
                 id="password" 
                 type={showPassword ? "text" : "password"} 
                 placeholder="••••••••" 
-                className="pl-10 dark:bg-gray-800 dark:text-white dark:border-gray-700"
+                className="pl-10"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
               <button 
                 type="button"
-                className="absolute right-3 top-2.5 text-muted-foreground dark:text-gray-400"
+                className="absolute right-3 top-2.5 text-muted-foreground"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
@@ -151,7 +151,7 @@ const SignIn = () => {
           </div>
           <Button 
             type="submit" 
-            className="w-full bg-closet-blue hover:bg-closet-blue/90 dark:bg-blue-600 dark:hover:bg-blue-700"
+            className="w-full"
             disabled={isLoading}
           >
             {isLoading ? "Signing in..." : "Sign In"}
@@ -159,17 +159,17 @@ const SignIn = () => {
           
           <div className="relative my-4">
             <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full dark:bg-gray-700" />
+              <Separator className="w-full" />
             </div>
             <div className="relative flex justify-center">
-              <span className="bg-background px-2 text-sm text-muted-foreground dark:bg-gray-900 dark:text-gray-400">or continue with</span>
+              <span className="bg-background px-2 text-sm text-muted-foreground">or continue with</span>
             </div>
           </div>
           
           <Button 
             type="button"
             variant="outline" 
-            className="w-full dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700"
+            className="w-full text-foreground"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
           >
@@ -195,9 +195,9 @@ const SignIn = () => {
             Sign in with Google
           </Button>
         </form>
-        <div className="mt-4 text-center text-sm dark:text-gray-300">
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           Don't have an account?{" "}
-          <Link to="/sign-up" className="text-closet-blue underline-offset-4 hover:underline dark:text-blue-400">
+          <Link to="/sign-up" className="text-primary underline-offset-4 hover:underline">
             Sign up
           </Link>
         </div>

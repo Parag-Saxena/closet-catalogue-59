@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -7,14 +8,10 @@ import RecentActivity from '../components/dashboard/RecentActivity';
 import SuggestedOutfits from '../components/dashboard/SuggestedOutfits';
 import WardrobeAnalytics from '../components/dashboard/WardrobeAnalytics';
 import QuickActions from '../components/dashboard/QuickActions';
-import { ClothingItem } from '../components/ClothingCard';
 import { Button } from '@/components/ui/button';
 import { LogIn } from 'lucide-react';
-
-interface User {
-  name: string;
-  email: string;
-}
+import { ClothingItem, User } from '@/types';
+import { getCurrentUser } from '@/services/authService';
 
 const Index = () => {
   const [items, setItems] = useState<ClothingItem[]>([]);
@@ -28,9 +25,9 @@ const Index = () => {
     setItems(storedItems);
     
     // Check if user is logged in
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+    const currentUser = getCurrentUser();
+    if (currentUser) {
+      setUser(currentUser);
     }
     
     setIsLoading(false);
@@ -102,12 +99,12 @@ const Index = () => {
     return (
       <Layout>
         <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-closet-gray-dark">Welcome to Closet Keeper</h1>
-          <p className="text-lg text-closet-gray-medium max-w-md">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to Closet Keeper</h1>
+          <p className="text-lg text-muted-foreground max-w-md">
             Sign in to your account to manage your wardrobe, create outfits, and get style recommendations.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
-            <Button asChild className="bg-closet-blue hover:bg-closet-blue/90">
+            <Button asChild>
               <Link to="/sign-in">
                 <LogIn className="mr-2 h-4 w-4" />
                 Sign In

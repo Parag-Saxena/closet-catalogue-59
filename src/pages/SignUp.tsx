@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Shirt, User, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { saveUser } from '@/services/authService';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -28,8 +29,9 @@ const SignUp = () => {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Store user info in localStorage (just for demo)
-      localStorage.setItem('user', JSON.stringify({ name, email }));
+      // Store user info
+      const user = { name, email };
+      saveUser(user);
       
       toast({
         title: "Success!",
@@ -53,20 +55,20 @@ const SignUp = () => {
     <div className="flex min-h-screen w-full flex-col bg-background">
       <div className="flex h-16 items-center border-b px-4 md:px-6">
         <Link to="/" className="flex items-center gap-2">
-          <Shirt className="h-6 w-6 text-closet-blue" />
-          <span className="font-semibold text-lg text-closet-gray-dark">Closet Keeper</span>
+          <Shirt className="h-6 w-6 text-primary" />
+          <span className="font-semibold text-lg text-foreground">Closet Keeper</span>
         </Link>
       </div>
       <div className="mx-auto grid w-full max-w-md gap-6 px-4 py-12 md:gap-8 md:px-6 lg:py-16">
         <div className="flex flex-col gap-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Create an account</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">Create an account</h1>
           <p className="text-muted-foreground">
             Enter your information to create a Closet Keeper account
           </p>
         </div>
         <form onSubmit={handleSignUp} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name" className="text-foreground">Name</Label>
             <div className="relative">
               <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input 
@@ -81,7 +83,7 @@ const SignUp = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="email" className="text-foreground">Email</Label>
             <div className="relative">
               <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input 
@@ -96,7 +98,7 @@ const SignUp = () => {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password" className="text-foreground">Password</Label>
             <div className="relative">
               <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input 
@@ -128,15 +130,15 @@ const SignUp = () => {
           </div>
           <Button 
             type="submit" 
-            className="w-full bg-closet-blue hover:bg-closet-blue/90"
+            className="w-full"
             disabled={isLoading}
           >
             {isLoading ? "Creating account..." : "Create Account"}
           </Button>
         </form>
-        <div className="mt-4 text-center text-sm">
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link to="/sign-in" className="text-closet-blue underline-offset-4 hover:underline">
+          <Link to="/sign-in" className="text-primary underline-offset-4 hover:underline">
             Sign in
           </Link>
         </div>

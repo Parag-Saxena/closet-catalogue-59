@@ -22,10 +22,17 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 
-export const AppSidebar = () => {
+interface NavItem {
+  title: string;
+  url: string;
+  icon: React.ElementType;
+  isActive: boolean;
+}
+
+const AppSidebar = () => {
   const location = useLocation();
   
-  const navigationItems = [
+  const navigationItems: NavItem[] = [
     {
       title: "Dashboard",
       url: "/",
@@ -70,7 +77,7 @@ export const AppSidebar = () => {
     }
   ];
 
-  const preferencesItems = [
+  const preferencesItems: NavItem[] = [
     {
       title: "Account",
       url: "/account",
