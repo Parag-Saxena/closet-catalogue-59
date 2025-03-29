@@ -289,29 +289,13 @@ const ShoppingSchedule = () => {
                       Priority
                     </Label>
                     <div className="col-span-3">
-                      <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger 
-                          value="low" 
-                          onClick={() => setPriority('low')}
-                          data-state={priority === 'low' ? 'active' : ''}
-                        >
-                          Low
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="medium" 
-                          onClick={() => setPriority('medium')}
-                          data-state={priority === 'medium' ? 'active' : ''}
-                        >
-                          Medium
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="high" 
-                          onClick={() => setPriority('high')}
-                          data-state={priority === 'high' ? 'active' : ''}
-                        >
-                          High
-                        </TabsTrigger>
-                      </TabsList>
+                      <Tabs value={priority} onValueChange={(value) => setPriority(value as 'low' | 'medium' | 'high')}>
+                        <TabsList className="grid w-full grid-cols-3">
+                          <TabsTrigger value="low">Low</TabsTrigger>
+                          <TabsTrigger value="medium">Medium</TabsTrigger>
+                          <TabsTrigger value="high">High</TabsTrigger>
+                        </TabsList>
+                      </Tabs>
                     </div>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
@@ -319,22 +303,12 @@ const ShoppingSchedule = () => {
                       Shopping Type
                     </Label>
                     <div className="col-span-3">
-                      <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger 
-                          value="offline" 
-                          onClick={() => setIsOnline(false)}
-                          data-state={!isOnline ? 'active' : ''}
-                        >
-                          In-Store
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="online" 
-                          onClick={() => setIsOnline(true)}
-                          data-state={isOnline ? 'active' : ''}
-                        >
-                          Online
-                        </TabsTrigger>
-                      </TabsList>
+                      <Tabs value={isOnline ? "online" : "offline"} onValueChange={(value) => setIsOnline(value === "online")}>
+                        <TabsList className="grid w-full grid-cols-2">
+                          <TabsTrigger value="offline">In-Store</TabsTrigger>
+                          <TabsTrigger value="online">Online</TabsTrigger>
+                        </TabsList>
+                      </Tabs>
                     </div>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">

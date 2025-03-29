@@ -179,29 +179,13 @@ const Measurements = () => {
                       Type
                     </Label>
                     <div className="col-span-3">
-                      <TabsList className="grid w-full grid-cols-3">
-                        <TabsTrigger 
-                          value="clothes" 
-                          onClick={() => setActiveTab('clothes')}
-                          data-state={activeTab === 'clothes' ? 'active' : ''}
-                        >
-                          Clothes
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="shoes" 
-                          onClick={() => setActiveTab('shoes')}
-                          data-state={activeTab === 'shoes' ? 'active' : ''}
-                        >
-                          Shoes
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="accessories" 
-                          onClick={() => setActiveTab('accessories')}
-                          data-state={activeTab === 'accessories' ? 'active' : ''}
-                        >
-                          Accessories
-                        </TabsTrigger>
-                      </TabsList>
+                      <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as MeasurementType)}>
+                        <TabsList className="grid w-full grid-cols-3">
+                          <TabsTrigger value="clothes">Clothes</TabsTrigger>
+                          <TabsTrigger value="shoes">Shoes</TabsTrigger>
+                          <TabsTrigger value="accessories">Accessories</TabsTrigger>
+                        </TabsList>
+                      </Tabs>
                     </div>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
