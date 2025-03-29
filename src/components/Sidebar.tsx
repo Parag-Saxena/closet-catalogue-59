@@ -9,8 +9,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
@@ -88,8 +86,8 @@ export const AppSidebar = () => {
   ];
 
   return (
-    <Sidebar>
-      <SidebarContent>
+    <Sidebar className="z-40">
+      <SidebarContent className="mt-4">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>

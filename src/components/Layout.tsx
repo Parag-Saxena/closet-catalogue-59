@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <SidebarProvider defaultOpen={!window.matchMedia("(max-width: 768px)").matches}>
       <div className="flex flex-col min-h-screen w-full bg-background">
         <Header />
-        <div className="flex flex-1 w-full">
+        <div className="flex flex-1 w-full pt-16"> {/* Added pt-16 to create space below the header */}
           {user && <AppSidebar />}
           <main className={`flex-1 px-4 py-6 md:px-6 lg:px-8 w-full ${isDashboard ? 'pt-4 pb-12' : isAddPage ? 'pt-4' : 'pt-6'}`}>
             <div className="animate-fade-in max-w-6xl mx-auto w-full">
