@@ -49,7 +49,7 @@ const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
           />
         </div>
         
-        <Button variant="outline" size="icon" radius="full" asChild className="animate-float">
+        <Button variant="outline" size="icon" radius="full" asChild className="transition-all duration-300 hover:scale-105">
           <Link to="/settings">
             <Settings className="h-4 w-4" />
             <span className="sr-only">Settings</span>
