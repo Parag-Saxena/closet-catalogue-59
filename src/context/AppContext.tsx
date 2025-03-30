@@ -11,6 +11,7 @@ interface AppContextProps {
   outfits: Outfit[];
   setOutfits: React.Dispatch<React.SetStateAction<Outfit[]>>;
   loading: boolean;
+  logout: () => void;
 }
 
 interface AppProviderProps {
@@ -55,6 +56,24 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, [outfits, loading]);
 
+  // Logout function that clears user state and local storage (except theme)
+  const logout = () => {
+    // Preserve theme setting
+    const theme = localStorage.getItem('closet-keeper-theme');
+    
+    // Clear auth data
+    localStorage.removeItem('user');
+    localStorage.removeItem('authToken');
+    
+    // Restore theme setting
+    if (theme) {
+      localStorage.setItem('closet-keeper-theme', theme);
+    }
+    
+    // Update state
+    setUser(null);
+  };
+
   return (
     <AppContext.Provider value={{
       user,
@@ -63,7 +82,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       setClothingItems,
       outfits, 
       setOutfits,
-      loading
+      loading,
+      logout
     }}>
       {children}
     </AppContext.Provider>

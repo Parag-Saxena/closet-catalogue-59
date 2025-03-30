@@ -16,28 +16,28 @@ const WardrobeSummary = ({ totalItems, categories, outfits, favorites }: Wardrob
       title: "Total Items",
       value: totalItems,
       icon: Shirt,
-      color: "bg-blue-50 text-blue-500",
+      color: "bg-blue-50 text-blue-500 dark:bg-blue-950 dark:text-blue-300",
       link: "/wardrobe"
     },
     {
       title: "Categories",
       value: categories,
       icon: GridIcon,
-      color: "bg-purple-50 text-purple-500",
+      color: "bg-purple-50 text-purple-500 dark:bg-purple-950 dark:text-purple-300",
       link: "/categories"
     },
     {
       title: "Outfits",
       value: outfits,
       icon: BookHeart,
-      color: "bg-emerald-50 text-emerald-500",
+      color: "bg-emerald-50 text-emerald-500 dark:bg-emerald-950 dark:text-emerald-300",
       link: "/outfits"
     },
     {
       title: "Favorites",
       value: favorites,
       icon: Star,
-      color: "bg-amber-50 text-amber-500",
+      color: "bg-amber-50 text-amber-500 dark:bg-amber-950 dark:text-amber-300",
       link: "/wardrobe?filter=favorites"
     }
   ];
@@ -46,7 +46,7 @@ const WardrobeSummary = ({ totalItems, categories, outfits, favorites }: Wardrob
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {summaryCards.map((card) => (
         <Link to={card.link} key={card.title} className="block">
-          <Card className="hover:shadow-md transition-shadow">
+          <Card className="hover:shadow-md transition-shadow card-hover">
             <CardHeader className="pb-2">
               <CardTitle className="text-base font-medium text-muted-foreground">{card.title}</CardTitle>
             </CardHeader>

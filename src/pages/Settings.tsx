@@ -6,11 +6,15 @@ import { useTheme } from '@/components/theme-provider';
 import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useApp } from '@/context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
   const [notifications, setNotifications] = useState(true);
   const { toast } = useToast();
+  const { logout } = useApp();
+  const navigate = useNavigate();
   
   const handleClearData = () => {
     // Clear all local storage data except theme
@@ -28,6 +32,15 @@ const Settings = () => {
   
   const handleDarkModeChange = (checked: boolean) => {
     setTheme(checked ? 'dark' : 'light');
+  };
+  
+  const handleLogout = () => {
+    logout();
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully.",
+    });
+    navigate('/sign-in');
   };
   
   return (
@@ -66,6 +79,20 @@ const Settings = () => {
                   checked={notifications}
                   onCheckedChange={setNotifications}
                 />
+              </div>
+            </div>
+            
+            <div>
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-lg font-medium text-foreground">Account</CardTitle>
+              </CardHeader>
+              <div className="space-y-4">
+                <Button 
+                  variant="outline" 
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
               </div>
             </div>
             

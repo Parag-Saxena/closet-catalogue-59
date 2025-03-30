@@ -15,11 +15,11 @@ const apiClient = axios.create({
 // Add request interceptor for auth tokens, etc.
 apiClient.interceptors.request.use(
   (config) => {
-    // You could add authorization headers here
-    // const token = localStorage.getItem('authToken');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    // Add authorization headers if user is logged in
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => {
@@ -41,7 +41,7 @@ apiClient.interceptors.response.use(
       // Handle authentication errors (401, 403)
       if (error.response.status === 401 || error.response.status === 403) {
         // Redirect to login or refresh token
-        // window.location.href = '/sign-in';
+        window.location.href = '/sign-in';
       }
     } else if (error.request) {
       // Request was made but no response received
@@ -59,19 +59,44 @@ apiClient.interceptors.response.use(
 export const api = {
   // Generic API methods
   get: <T>(endpoint: string, params = {}) => 
-    apiClient.get<T>(endpoint, { params }).then(response => response.data),
+    apiClient.get<T>(endpoint, { params })
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error fetching ${endpoint}:`, error);
+        throw error;
+      }),
     
   post: <T>(endpoint: string, data = {}) => 
-    apiClient.post<T>(endpoint, data).then(response => response.data),
+    apiClient.post<T>(endpoint, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error posting to ${endpoint}:`, error);
+        throw error;
+      }),
     
   put: <T>(endpoint: string, data = {}) => 
-    apiClient.put<T>(endpoint, data).then(response => response.data),
+    apiClient.put<T>(endpoint, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error updating ${endpoint}:`, error);
+        throw error;
+      }),
     
   patch: <T>(endpoint: string, data = {}) => 
-    apiClient.patch<T>(endpoint, data).then(response => response.data),
+    apiClient.patch<T>(endpoint, data)
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error patching ${endpoint}:`, error);
+        throw error;
+      }),
     
   delete: <T>(endpoint: string) => 
-    apiClient.delete<T>(endpoint).then(response => response.data),
+    apiClient.delete<T>(endpoint)
+      .then(response => response.data)
+      .catch(error => {
+        console.error(`Error deleting ${endpoint}:`, error);
+        throw error;
+      }),
     
   // Clothing-specific methods
   clothing: {

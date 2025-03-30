@@ -21,6 +21,7 @@ import {
   Ruler,
   ShoppingBag,
 } from 'lucide-react';
+import { useApp } from '@/context/AppContext';
 
 interface NavItem {
   title: string;
@@ -31,6 +32,11 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
+  const { user } = useApp();
+  
+  // If no user is logged in, don't render the sidebar
+  if (!user) return null;
+  
   const navigationItems: NavItem[] = [
     {
       title: "Dashboard",
