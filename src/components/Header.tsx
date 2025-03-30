@@ -1,7 +1,6 @@
 
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -13,36 +12,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User } from '@/types';
+import { useApp } from '@/context/AppContext';
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { toast } = useToast();
-  const [user, setUser] = useState<User | null>(null);
+  const { user, logout } = useApp();
   const { toggleSidebar, isMobile } = useSidebar();
   
-  useEffect(() => {
-    // Check if user is logged in
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-  
   const handleSignOut = () => {
-    localStorage.removeItem('user');
-    setUser(null);
+    logout();
     toast({
       title: "Signed out",
       description: "You have been successfully signed out.",
     });
+    navigate('/sign-in');
   };
   
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-background/90 border-b border-border">
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
-          {isMobile && (
+          {isMobile && user && (
             <Button 
               variant="ghost" 
               size="icon" 
@@ -64,6 +56,8 @@ const Header = () => {
         </div>
         
         <div className="flex items-center gap-2">
+          <ThemeToggle />
+          
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -95,10 +89,6 @@ const Header = () => {
                     Settings
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <div className="p-2">
-                  <ThemeToggle />
-                </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleSignOut}>
                   <LogOut className="h-4 w-4 mr-2" />

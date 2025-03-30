@@ -13,8 +13,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isDashboard = location.pathname === '/';
   const { user } = useApp();
   
+  // Hide sidebar by default on mobile devices or when user is not logged in
+  const isSidebarOpen = user !== null && !window.matchMedia("(max-width: 768px)").matches;
+  
   return (
-    <SidebarProvider defaultOpen={user !== null && !window.matchMedia("(max-width: 768px)").matches}>
+    <SidebarProvider defaultOpen={isSidebarOpen}>
       <div className="flex flex-col min-h-screen w-full bg-background">
         <Header />
         <div className="flex flex-1 w-full pt-16"> {/* Space below the header */}

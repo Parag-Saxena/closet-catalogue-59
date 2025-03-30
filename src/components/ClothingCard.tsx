@@ -39,7 +39,7 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
   };
 
   return (
-    <div className="group card-hover overflow-hidden rounded-2xl bg-card border border-border shadow-sm dark:bg-gray-800">
+    <div className="group card-hover overflow-hidden rounded-xl bg-card border border-border shadow-sm dark:bg-gray-800">
       <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl ? 'bg-muted' : ''}`}>
         {item.imageUrl ? (
           <>
@@ -57,57 +57,57 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
             />
             {!imageLoaded && (
               <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-secondary">
-                <Shirt className="h-16 w-16 text-muted-foreground opacity-30" />
+                <Shirt className="h-12 w-12 text-muted-foreground opacity-30" />
               </div>
             )}
           </>
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-secondary">
-            <Shirt className="h-16 w-16 text-muted-foreground opacity-30" />
+            <Shirt className="h-12 w-12 text-muted-foreground opacity-30" />
           </div>
         )}
-        <div className="absolute top-3 left-3 flex flex-col gap-2">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary dark:bg-primary/30 dark:text-primary-foreground">
+        <div className="absolute top-2 left-2 flex flex-col gap-1.5">
+          <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary dark:bg-primary/30 dark:text-primary-foreground">
             {item.category}
           </span>
           {item.needsWashing && (
-            <span className="inline-flex items-center rounded-full bg-closet-coral/10 px-2.5 py-1 text-xs font-medium text-closet-coral dark:bg-closet-coral/30 dark:text-white">
+            <span className="inline-flex items-center rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:bg-amber-500/30 dark:text-amber-200">
               Needs washing
             </span>
           )}
         </div>
       </div>
-      <div className="p-4">
-        <h3 className="font-medium text-base text-foreground truncate">{item.name}</h3>
-        <div className="mt-1 flex items-center gap-1.5">
+      <div className="p-3">
+        <h3 className="font-medium text-sm text-foreground truncate">{item.name}</h3>
+        <div className="mt-1 flex items-center gap-1.5 text-xs">
           <div
-            className="h-3 w-3 rounded-full"
+            className="h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: item.color }}
             aria-label={`Color: ${item.color}`}
           />
-          <p className="text-xs text-muted-foreground">{item.color}</p>
+          <p className="text-muted-foreground">{item.color}</p>
           {item.size && (
-            <p className="text-xs text-muted-foreground ml-2">Size: {item.size}</p>
+            <p className="text-muted-foreground ml-2">Size: {item.size}</p>
           )}
         </div>
         {(item.notes || item.tags?.length > 0) && (
-          <div className="mt-3 flex items-start gap-1.5">
-            <Tag className="h-3.5 w-3.5 text-muted-foreground shrink-0 mt-0.5" />
-            <p className="text-xs text-muted-foreground line-clamp-2">
+          <div className="mt-2 flex items-start gap-1.5">
+            <Tag className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
+            <p className="text-xs text-muted-foreground line-clamp-1">
               {item.tags?.length > 0 ? item.tags.join(', ') : item.notes}
             </p>
           </div>
         )}
-        <div className="mt-3 flex justify-end">
+        <div className="mt-2 flex justify-end">
           <Button
-            variant={item.needsWashing ? "outline" : "ghost"}
+            variant="ghost"
             size="sm"
-            className="flex items-center gap-1 text-xs"
+            className="flex items-center gap-1 text-xs h-7 px-2"
             onClick={handleLaundryToggle}
             type="button"
           >
-            <WashingMachine className="h-3.5 w-3.5" />
-            {item.needsWashing ? 'Mark as Clean' : 'Mark for Laundry'}
+            <WashingMachine className="h-3 w-3" />
+            {item.needsWashing ? 'Mark Clean' : 'Laundry'}
           </Button>
         </div>
       </div>

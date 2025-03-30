@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import ClothingCard from '../components/ClothingCard';
@@ -56,12 +55,9 @@ const Wardrobe = () => {
   const itemsPerPage = 9; // Number of items to display per page
   const { toast } = useToast();
 
-  // Get unique categories from items
   const categories = ['All', ...new Set(items.map(item => item.category))];
 
   useEffect(() => {
-    // In a real app, we would fetch from an API
-    // For this demo, we'll use localStorage
     const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
     setItems(storedItems);
     setFilteredItems(storedItems);
@@ -69,7 +65,6 @@ const Wardrobe = () => {
   }, []);
 
   useEffect(() => {
-    // Filter items based on search query, category, and laundry status
     let filtered = [...items];
     
     if (searchQuery) {
@@ -90,11 +85,9 @@ const Wardrobe = () => {
     }
     
     setFilteredItems(filtered);
-    // Reset to first page when filters change
     setCurrentPage(1);
   }, [searchQuery, categoryFilter, laundryFilter, items]);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginatedItems = filteredItems.slice(
     (currentPage - 1) * itemsPerPage,
@@ -107,10 +100,8 @@ const Wardrobe = () => {
     );
     setItems(updatedItems);
     
-    // Update localStorage
     localStorage.setItem('closetItems', JSON.stringify(updatedItems));
     
-    // Show confirmation toast
     const item = items.find(item => item.id === id);
     if (item) {
       toast({
@@ -134,7 +125,6 @@ const Wardrobe = () => {
     );
     setItems(updatedItems);
     
-    // Update localStorage
     localStorage.setItem('closetItems', JSON.stringify(updatedItems));
     
     toast({
@@ -150,7 +140,6 @@ const Wardrobe = () => {
     const updatedItems = items.filter(item => item.id !== id);
     setItems(updatedItems);
     
-    // Update localStorage
     localStorage.setItem('closetItems', JSON.stringify(updatedItems));
     
     toast({
@@ -164,6 +153,49 @@ const Wardrobe = () => {
   };
 
   const laundryCount = items.filter(item => item.needsWashing).length;
+
+  const renderActionButtons = (item: ClothingItem) => (
+    <div className="flex gap-1">
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="h-7 w-7"
+        onClick={() => handleEditItem(item.id)}
+      >
+        <Edit className="h-3.5 w-3.5" />
+        <span className="sr-only">Edit {item.name}</span>
+      </Button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="h-7 w-7"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+            <span className="sr-only">Delete {item.name}</span>
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete {item.name} from your wardrobe.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={() => handleDeleteItem(item.id)}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
 
   return (
     <Layout>
@@ -253,46 +285,11 @@ const Wardrobe = () => {
                 <p className="text-muted-foreground">No items found matching your search.</p>
               </div>
             ) : viewMode === 'card' ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mt-6">
                 {paginatedItems.map(item => (
                   <div key={item.id} className="group relative">
-                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <Button 
-                        variant="secondary" 
-                        size="icon" 
-                        className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
-                        onClick={() => handleEditItem(item.id)}
-                      >
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button 
-                            variant="secondary" 
-                            size="icon" 
-                            className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This will permanently delete {item.name} from your wardrobe.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction 
-                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                              onClick={() => handleDeleteItem(item.id)}
-                            >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                    <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {renderActionButtons(item)}
                     </div>
                     <ClothingCard 
                       item={item} 
@@ -347,40 +344,7 @@ const Wardrobe = () => {
                             >
                               {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
                             </Button>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => handleEditItem(item.id)}
-                            >
-                              <Edit className="h-3.5 w-3.5" />
-                            </Button>
-                            <AlertDialog>
-                              <AlertDialogTrigger asChild>
-                                <Button 
-                                  variant="ghost" 
-                                  size="sm"
-                                >
-                                  <Trash2 className="h-3.5 w-3.5" />
-                                </Button>
-                              </AlertDialogTrigger>
-                              <AlertDialogContent>
-                                <AlertDialogHeader>
-                                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                    This will permanently delete {item.name} from your wardrobe.
-                                  </AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction 
-                                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                                    onClick={() => handleDeleteItem(item.id)}
-                                  >
-                                    Delete
-                                  </AlertDialogAction>
-                                </AlertDialogFooter>
-                              </AlertDialogContent>
-                            </AlertDialog>
+                            {renderActionButtons(item)}
                           </div>
                         </TableCell>
                       </TableRow>
@@ -390,7 +354,6 @@ const Wardrobe = () => {
               </div>
             )}
             
-            {/* Pagination */}
             {totalPages > 1 && (
               <Pagination className="my-4">
                 <PaginationContent>
@@ -425,7 +388,6 @@ const Wardrobe = () => {
         )}
       </div>
 
-      {/* Edit Item Dialog */}
       <EditItemDialog 
         item={editingItem}
         isOpen={isEditDialogOpen}
