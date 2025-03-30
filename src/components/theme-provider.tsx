@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -19,11 +20,15 @@ type ThemeProviderProps = {
 type ThemeProviderState = {
   theme: Theme;
   setTheme: (theme: Theme) => void;
+  systemTheme: "dark" | "light";
+  resolvedTheme: "dark" | "light";
 };
 
 const initialState: ThemeProviderState = {
   theme: "system",
   setTheme: () => null,
+  systemTheme: "light",
+  resolvedTheme: "light",
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
@@ -40,27 +45,47 @@ export function ThemeProvider({
     }
     return defaultTheme;
   });
+  
+  const [systemTheme, setSystemTheme] = useState<"dark" | "light">(
+    typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches 
+      ? "dark" 
+      : "light"
+  );
+  
+  // Initialize resolved theme
+  const resolvedTheme = theme === "system" ? systemTheme : theme;
 
   useEffect(() => {
-    const root = window.document.documentElement;
-
-    root.classList.remove("light", "dark");
-
-    if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
-
-      root.classList.add(systemTheme);
-      return;
-    }
-
-    root.classList.add(theme);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    
+    const handleChange = (e: MediaQueryListEvent) => {
+      const newSystemTheme = e.matches ? "dark" : "light";
+      setSystemTheme(newSystemTheme);
+      
+      if (theme === "system") {
+        updateTheme(newSystemTheme);
+      }
+    };
+    
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
+
+  useEffect(() => {
+    updateTheme(resolvedTheme);
+  }, [resolvedTheme]);
+  
+  const updateTheme = (newTheme: "dark" | "light") => {
+    const root = window.document.documentElement;
+    
+    root.classList.remove("light", "dark");
+    root.classList.add(newTheme);
+  };
 
   const value = {
     theme,
+    systemTheme,
+    resolvedTheme,
     setTheme: (theme: Theme) => {
       localStorage.setItem(storageKey, theme);
       setTheme(theme);

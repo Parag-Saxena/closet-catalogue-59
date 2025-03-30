@@ -64,9 +64,12 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				closet: {
-					blue: '#0EA5E9',
+					blue: '#1c3d5a', // Updated to muted navy
+					teal: '#00796b', // Deep teal accent
+					gold: '#ffb400', // Muted gold for accents
+					coral: '#ff6f61', // Coral for highlights
 					gray: {
-						light: '#F6F6F7',
+						light: '#f5f5f5', // Light gray background
 						medium: '#8A898C',
 						dark: '#333333'
 					}
@@ -109,6 +112,10 @@ export default {
 				'slide-out': {
 					'0%': { transform: 'translateY(0)', opacity: '1' },
 					'100%': { transform: 'translateY(20px)', opacity: '0' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-5px)' }
 				}
 			},
 			animation: {
@@ -121,7 +128,15 @@ export default {
 				'slide-in': 'slide-in 0.3s ease-out',
 				'slide-out': 'slide-out 0.3s ease-out',
 				'enter': 'fade-in 0.3s ease-out, scale-in 0.2s ease-out',
-				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out'
+				'exit': 'fade-out 0.3s ease-out, scale-out 0.2s ease-out',
+				'float': 'float 3s ease-in-out infinite'
+			},
+			boxShadow: {
+				'card-hover': '0 10px 20px rgba(0, 0, 0, 0.1)',
+			},
+			backgroundImage: {
+				'gradient-primary': 'linear-gradient(135deg, #1c3d5a, #00796b)',
+				'gradient-accent': 'linear-gradient(135deg, #ff6f61, #ffb400)',
 			}
 		}
 	},

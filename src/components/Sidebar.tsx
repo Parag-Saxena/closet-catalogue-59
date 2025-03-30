@@ -92,8 +92,8 @@ const AppSidebar = () => {
   ];
 
   return (
-    <Sidebar className="z-40">
-      <SidebarContent className="mt-16">
+    <Sidebar className="z-40 mt-16 transition-all duration-300">
+      <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -101,7 +101,7 @@ const AppSidebar = () => {
               {navigationItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                    <Link to={item.url}>
+                    <Link to={item.url} className="transition-all duration-300 hover:translate-x-1">
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
@@ -119,7 +119,7 @@ const AppSidebar = () => {
               {preferencesItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                    <Link to={item.url}>
+                    <Link to={item.url} className="transition-all duration-300 hover:translate-x-1">
                       <item.icon />
                       <span>{item.title}</span>
                     </Link>
