@@ -37,10 +37,15 @@ export const signInWithEmail = async (email: string, password: string): Promise<
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   // Return mock user data
-  return {
+  const user = {
     email,
     name: email.split('@')[0]
   };
+  
+  // Save user to localStorage
+  saveUser(user);
+  
+  return user;
 };
 
 /**
@@ -54,9 +59,14 @@ export const signInWithGoogle = async (): Promise<User> => {
   await new Promise(resolve => setTimeout(resolve, 1000));
   
   // Return mock user data
-  return {
+  const user = {
     email: 'user@example.com',
     name: 'Google User',
     provider: 'google'
   };
+  
+  // Save user to localStorage
+  saveUser(user);
+  
+  return user;
 };

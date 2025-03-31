@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Label } from '@/components/ui/label';
@@ -7,10 +6,13 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { Shirt, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { signInWithEmail, signInWithGoogle } from '@/services/authService';
+import { useApp } from '@/context/AppContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { setUser } = useApp();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -21,18 +23,13 @@ const SignIn = () => {
     setIsLoading(true);
 
     try {
-      // In a real app, this would be an API call
-      // For demo purposes, we'll simulate a successful login
       console.log('Signing in with:', { email, password });
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Use the auth service
+      const userData = await signInWithEmail(email, password);
       
-      // Store user info in localStorage (just for demo)
-      localStorage.setItem('user', JSON.stringify({ 
-        email, 
-        name: email.split('@')[0] 
-      }));
+      // Update app context
+      setUser(userData);
       
       toast({
         title: "Success!",
@@ -55,18 +52,13 @@ const SignIn = () => {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      // In a real implementation, this would connect to Google OAuth
       console.log('Signing in with Google...');
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Use the auth service
+      const userData = await signInWithGoogle();
       
-      // Store mock user info in localStorage
-      localStorage.setItem('user', JSON.stringify({ 
-        email: 'user@example.com', 
-        name: 'Google User',
-        provider: 'google'
-      }));
+      // Update app context
+      setUser(userData);
       
       toast({
         title: "Success!",

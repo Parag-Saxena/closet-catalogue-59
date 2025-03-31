@@ -5,13 +5,18 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ClothingItem } from "../ClothingCard";
 import { cn } from "@/lib/utils";
+import { useApp } from "@/context/AppContext";
 
 interface WelcomeHeaderProps {
   userName?: string;
 }
 
-const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
+const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
   const [laundryCount, setLaundryCount] = useState(0);
+  const { user } = useApp();
+  
+  // Use the name from context if not provided as prop
+  const displayName = userName || (user ? user.name : 'there');
   
   useEffect(() => {
     // Get items that need washing
@@ -24,7 +29,7 @@ const WelcomeHeader = ({ userName = 'there' }: WelcomeHeaderProps) => {
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
       <div className="animate-fade-in">
         <h1 className="text-2xl font-bold tracking-tight bg-clip-text bg-gradient-to-r from-pink-500 via-pink-400 to-indigo-500 text-transparent">
-          Hello, {userName}! <span className="hidden sm:inline">Ready to style your day?</span>
+          Hello, {displayName}! <span className="hidden sm:inline">Ready to style your day?</span>
         </h1>
         <p className="text-muted-foreground mt-1">
           Welcome to your personal closet management dashboard.

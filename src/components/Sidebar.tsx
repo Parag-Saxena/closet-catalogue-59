@@ -34,9 +34,9 @@ const AppSidebar = () => {
   const location = useLocation();
   const { user } = useApp();
   
-  // If no user is logged in, return empty sidebar with hidden class
+  // If no user is logged in, don't render the sidebar
   if (!user) {
-    return <Sidebar className="hidden"></Sidebar>;
+    return null;
   }
   
   const navigationItems: NavItem[] = [
