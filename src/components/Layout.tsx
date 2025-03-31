@@ -11,10 +11,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isAddPage = location.pathname === '/add';
   const isDashboard = location.pathname === '/';
-  const { user } = useApp();
+  const { user, loading } = useApp();
   
   // Default sidebar state - should be open on desktop when user is logged in
-  const defaultSidebarOpen = user !== null && !window.matchMedia("(max-width: 768px)").matches;
+  // We need to make sure to check for user existence properly
+  const defaultSidebarOpen = user && !window.matchMedia("(max-width: 768px)").matches;
   
   return (
     <SidebarProvider defaultOpen={defaultSidebarOpen}>

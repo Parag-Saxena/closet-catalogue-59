@@ -7,7 +7,12 @@ import { User } from '@/types';
 export const getCurrentUser = (): User | null => {
   const storedUser = localStorage.getItem('user');
   if (storedUser) {
-    return JSON.parse(storedUser);
+    try {
+      return JSON.parse(storedUser);
+    } catch (e) {
+      console.error('Error parsing user from localStorage', e);
+      return null;
+    }
   }
   return null;
 };
@@ -16,7 +21,11 @@ export const getCurrentUser = (): User | null => {
  * Saves user data to localStorage
  */
 export const saveUser = (user: User): void => {
-  localStorage.setItem('user', JSON.stringify(user));
+  try {
+    localStorage.setItem('user', JSON.stringify(user));
+  } catch (e) {
+    console.error('Error saving user to localStorage', e);
+  }
 };
 
 /**
@@ -58,10 +67,11 @@ export const signInWithGoogle = async (): Promise<User> => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Return mock user data
+  // Return mock user data with a random name to simulate different Google users
+  const randomSuffix = Math.floor(Math.random() * 1000);
   const user = {
-    email: 'user@example.com',
-    name: 'Google User',
+    email: `user${randomSuffix}@gmail.com`,
+    name: `Google User ${randomSuffix}`,
     provider: 'google'
   };
   
