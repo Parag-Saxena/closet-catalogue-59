@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar
 } from "@/components/ui/sidebar";
 import {
   LayoutDashboard,
@@ -22,6 +23,7 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { useEffect } from 'react';
 
 interface NavItem {
   title: string;
@@ -33,6 +35,17 @@ interface NavItem {
 const AppSidebar = () => {
   const location = useLocation();
   const { user } = useApp();
+  const { setOpen } = useSidebar();
+  
+  // Sync sidebar state with localStorage on component mount and updates
+  useEffect(() => {
+    if (user) {
+      const sidebarState = localStorage.getItem('sidebar-state');
+      if (sidebarState === 'open') {
+        setOpen(true);
+      }
+    }
+  }, [user, setOpen]);
   
   // If no user is logged in, don't render the sidebar
   if (!user) {

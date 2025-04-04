@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SidebarProvider } from "@/components/ui/sidebar";
 import Header from './Header';
@@ -12,10 +12,31 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const isAddPage = location.pathname === '/add';
   const isDashboard = location.pathname === '/';
   const { user, loading } = useApp();
+  const [defaultSidebarOpen, setDefaultSidebarOpen] = useState(false);
   
-  // Default sidebar state - should be open on desktop when user is logged in
-  // We need to make sure to check for user existence properly
-  const defaultSidebarOpen = user && !window.matchMedia("(max-width: 768px)").matches;
+  // Set default sidebar state when user or loading state changes
+  useEffect(() => {
+    if (!loading) {
+      // If user is logged in and on desktop, show sidebar
+      const isMobile = window.matchMedia("(max-width: 768px)").matches;
+      const shouldOpenSidebar = user && !isMobile;
+      
+      // Persist sidebar state to localStorage
+      if (shouldOpenSidebar) {
+        localStorage.setItem('sidebar-state', 'open');
+      }
+      
+      setDefaultSidebarOpen(shouldOpenSidebar);
+    }
+  }, [user, loading]);
+  
+  // Check for stored sidebar state on component mount
+  useEffect(() => {
+    const storedSidebarState = localStorage.getItem('sidebar-state');
+    if (storedSidebarState === 'open' && user) {
+      setDefaultSidebarOpen(true);
+    }
+  }, [user]);
   
   return (
     <SidebarProvider defaultOpen={defaultSidebarOpen}>

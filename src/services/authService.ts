@@ -1,4 +1,3 @@
-
 import { User } from '@/types';
 
 /**
@@ -8,7 +7,14 @@ export const getCurrentUser = (): User | null => {
   const storedUser = localStorage.getItem('user');
   if (storedUser) {
     try {
-      return JSON.parse(storedUser);
+      const parsedUser = JSON.parse(storedUser);
+      
+      // If user exists in localStorage, ensure sidebar visibility
+      if (parsedUser) {
+        localStorage.setItem('sidebar-state', 'open');
+      }
+      
+      return parsedUser;
     } catch (e) {
       console.error('Error parsing user from localStorage', e);
       return null;
@@ -23,6 +29,11 @@ export const getCurrentUser = (): User | null => {
 export const saveUser = (user: User): void => {
   try {
     localStorage.setItem('user', JSON.stringify(user));
+    
+    // When saving user, also set sidebar to be open
+    if (user) {
+      localStorage.setItem('sidebar-state', 'open');
+    }
   } catch (e) {
     console.error('Error saving user to localStorage', e);
   }
@@ -33,6 +44,7 @@ export const saveUser = (user: User): void => {
  */
 export const signOut = (): void => {
   localStorage.removeItem('user');
+  localStorage.removeItem('sidebar-state');
 };
 
 /**
