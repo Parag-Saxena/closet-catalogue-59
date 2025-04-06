@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
+import { Lock, Eye, EyeOff, User } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -195,7 +195,7 @@ const SignIn = () => {
                     <FormItem className="space-y-2">
                       <div className="flex items-center justify-between">
                         <FormLabel>Password</FormLabel>
-                        <Link to="#" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
+                        <Link to="/forgot-password" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                           Forgot password?
                         </Link>
                       </div>
@@ -332,7 +332,7 @@ const SignIn = () => {
                   <FormItem className="space-y-2">
                     <div className="flex items-center justify-between">
                       <FormLabel>Password</FormLabel>
-                      <Link to="#" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
+                      <Link to="/forgot-password" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                         Forgot password?
                       </Link>
                     </div>

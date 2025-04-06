@@ -1,3 +1,4 @@
+
 import { User } from '@/types';
 
 /**
@@ -91,4 +92,68 @@ export const signInWithGoogle = async (): Promise<User> => {
   saveUser(user);
   
   return user;
+};
+
+/**
+ * Simulates sending a forgot password email
+ */
+export const requestPasswordReset = async (email: string): Promise<boolean> => {
+  // In a real app, this would send an email with a reset link
+  // For demo purposes, we'll simulate a successful email send
+  
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  console.log(`Password reset requested for: ${email}`);
+  
+  return true;
+};
+
+/**
+ * Simulates resetting a password with a token
+ */
+export const resetPassword = async (token: string, newPassword: string): Promise<boolean> => {
+  // In a real app, this would validate the token and update the password
+  // For demo purposes, we'll simulate a successful password reset
+  
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  console.log(`Password reset with token: ${token}`);
+  
+  return true;
+};
+
+/**
+ * Simulates verifying an account with a token
+ */
+export const verifyAccount = async (token: string): Promise<boolean> => {
+  // In a real app, this would validate the token and activate the account
+  // For demo purposes, we'll simulate a successful account verification
+  
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1500));
+  
+  console.log(`Account verified with token: ${token}`);
+  
+  return true;
+};
+
+/**
+ * Simulates changing a password for a logged-in user
+ */
+export const changePassword = async (
+  userId: string, 
+  currentPassword: string, 
+  newPassword: string
+): Promise<boolean> => {
+  // In a real app, this would validate the current password and update to the new password
+  // For demo purposes, we'll simulate a successful password change
+  
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  console.log(`Password changed for user: ${userId}`);
+  
+  return true;
 };

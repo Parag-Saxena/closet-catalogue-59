@@ -19,6 +19,9 @@ import AddOutfit from "./pages/AddOutfit";
 import AddStyleGuide from "./pages/AddStyleGuide";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+import ForgotPassword from "./pages/ForgotPassword";
+import ChangePassword from "./pages/ChangePassword";
+import AccountActivation from "./pages/AccountActivation";
 import Measurements from "./pages/Measurements";
 import ShoppingSchedule from "./pages/ShoppingSchedule";
 
@@ -45,6 +48,9 @@ const App = () => (
               <Route path="/settings" element={<Settings />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ChangePassword />} />
+              <Route path="/activate-account" element={<AccountActivation />} />
               <Route path="/measurements" element={<Measurements />} />
               <Route path="/shopping-schedule" element={<ShoppingSchedule />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
