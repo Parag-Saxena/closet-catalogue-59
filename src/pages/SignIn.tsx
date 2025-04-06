@@ -1,32 +1,47 @@
+
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Shirt, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, Shirt } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { signInWithEmail, signInWithGoogle } from '@/services/authService';
 import { useApp } from '@/context/AppContext';
+
+const formSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email address" }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+});
 
 const SignIn = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setUser } = useApp();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setIsLoading(true);
 
     try {
-      console.log('Signing in with:', { email, password });
+      console.log('Signing in with:', data);
       
       // Use the auth service
-      const userData = await signInWithEmail(email, password);
+      const userData = await signInWithEmail(data.email, data.password);
       
       // Update app context
       setUser(userData);
@@ -79,89 +94,26 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-background">
-      <div className="flex h-16 items-center border-b px-4 md:px-6">
-        <Link to="/" className="flex items-center gap-2">
-          <Shirt className="h-6 w-6 text-primary" />
-          <span className="font-semibold text-lg text-foreground">Closet Keeper</span>
-        </Link>
-      </div>
-      <div className="mx-auto grid w-full max-w-md gap-6 px-4 py-12 md:gap-8 md:px-6 lg:py-16">
-        <div className="flex flex-col gap-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
-          <p className="text-muted-foreground">
-            Enter your credentials to sign in to your account
-          </p>
-        </div>
-        <form onSubmit={handleSignIn} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground">Email</Label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="you@example.com" 
-                className="pl-10"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+    <div className="flex min-h-screen w-full">
+      {/* Left side - Login Form */}
+      <div className="flex-1 flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-background">
+        <div className="mx-auto w-full max-w-md">
+          <div className="flex flex-col space-y-4 text-center mb-8">
+            <Link to="/" className="flex items-center gap-2 justify-center">
+              <Shirt className="h-8 w-8 text-primary" />
+              <span className="font-bold text-2xl text-foreground">Closet Keeper</span>
+            </Link>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
+            <p className="text-muted-foreground">
+              Enter your credentials to sign in to your account
+            </p>
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-foreground">Password</Label>
-              <Link to="#" className="text-sm text-primary underline-offset-4 hover:underline">
-                Forgot password?
-              </Link>
-            </div>
-            <div className="relative">
-              <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-              <Input 
-                id="password" 
-                type={showPassword ? "text" : "password"} 
-                placeholder="••••••••" 
-                className="pl-10"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-              <button 
-                type="button"
-                className="absolute right-3 top-2.5 text-muted-foreground"
-                onClick={() => setShowPassword(!showPassword)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? (
-                  <EyeOff className="h-5 w-5" />
-                ) : (
-                  <Eye className="h-5 w-5" />
-                )}
-              </button>
-            </div>
-          </div>
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isLoading}
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </Button>
-          
-          <div className="relative my-4">
-            <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full" />
-            </div>
-            <div className="relative flex justify-center">
-              <span className="bg-background px-2 text-sm text-muted-foreground">or continue with</span>
-            </div>
-          </div>
-          
+
+          {/* Google Sign In Button */}
           <Button 
             type="button"
             variant="outline" 
-            className="w-full text-foreground"
+            className="w-full text-foreground mb-6"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
           >
@@ -186,12 +138,114 @@ const SignIn = () => {
             </svg>
             Sign in with Google
           </Button>
-        </form>
-        <div className="mt-4 text-center text-sm text-muted-foreground">
-          Don't have an account?{" "}
-          <Link to="/sign-up" className="text-primary underline-offset-4 hover:underline">
-            Sign up
-          </Link>
+
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <Separator className="w-full" />
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-background px-2 text-sm text-muted-foreground">or continue with email</span>
+            </div>
+          </div>
+
+          {/* Email/Password Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Email</FormLabel>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                      <FormControl>
+                        <Input 
+                          placeholder="you@example.com" 
+                          className="pl-10"
+                          {...field}
+                        />
+                      </FormControl>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <FormLabel>Password</FormLabel>
+                      <Link to="#" className="text-sm text-primary underline-offset-4 hover:underline">
+                        Forgot password?
+                      </Link>
+                    </div>
+                    <div className="relative">
+                      <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                      <FormControl>
+                        <Input 
+                          type={showPassword ? "text" : "password"} 
+                          placeholder="••••••••" 
+                          className="pl-10"
+                          {...field}
+                        />
+                      </FormControl>
+                      <button 
+                        type="button"
+                        className="absolute right-3 top-2.5 text-muted-foreground"
+                        onClick={() => setShowPassword(!showPassword)}
+                        aria-label={showPassword ? "Hide password" : "Show password"}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button 
+                type="submit" 
+                className="w-full"
+                disabled={isLoading}
+              >
+                {isLoading ? "Signing in..." : "Sign In"}
+              </Button>
+            </form>
+          </Form>
+
+          <div className="mt-6 text-center text-sm text-muted-foreground">
+            Don't have an account?{" "}
+            <Link to="/sign-up" className="text-primary underline-offset-4 hover:underline">
+              Sign up
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Right side - Background Image (desktop only) */}
+      <div className="hidden lg:block lg:w-1/2 bg-gradient-primary">
+        <div className="flex h-full items-center justify-center px-8">
+          <div className="rounded-2xl bg-white/10 p-8 shadow-xl backdrop-blur-sm border border-white/20 max-w-md">
+            <h2 className="text-2xl font-bold text-white mb-4">"Closet Keeper transformed how I organize my wardrobe!"</h2>
+            <p className="text-white/90 mb-6">
+              I used to waste so much time figuring out what to wear. Now, I can plan outfits in seconds and keep track of my favorite pieces effortlessly.
+            </p>
+            <div className="flex items-center">
+              <div className="h-10 w-10 rounded-full bg-white/20"></div>
+              <div className="ml-3">
+                <p className="font-medium text-white">Sarah Johnson</p>
+                <p className="text-white/70 text-sm">Fashion Enthusiast</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
