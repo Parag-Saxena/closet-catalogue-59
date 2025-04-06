@@ -1,10 +1,10 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, Lock, Eye, EyeOff, Shirt, User } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,7 @@ const SignIn = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   
-  useState(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
@@ -36,7 +36,7 @@ const SignIn = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  });
+  }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,7 +53,6 @@ const SignIn = () => {
       console.log('Signing in with:', data);
       
       // Use the auth service with username instead of email
-      // For demo purposes, we'll continue to use the email field in the service
       const userData = await signInWithEmail(data.username, data.password);
       
       // Update app context
@@ -109,14 +108,10 @@ const SignIn = () => {
   // Mobile view layout
   if (isMobile) {
     return (
-      <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-blue-50 to-blue-100">
+      <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800">
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <div className="w-full max-w-md mx-auto space-y-6">
             <div className="space-y-2 mb-4">
-              <Link to="/" className="flex items-center gap-2 justify-center">
-                <Shirt className="h-8 w-8 text-primary" />
-                <span className="font-bold text-2xl text-foreground">Closet Keeper</span>
-              </Link>
               <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
               <p className="text-muted-foreground">Enter your credentials to sign in to your account</p>
             </div>
@@ -200,7 +195,7 @@ const SignIn = () => {
                     <FormItem className="space-y-2">
                       <div className="flex items-center justify-between">
                         <FormLabel>Password</FormLabel>
-                        <Link to="#" className="text-sm text-primary underline-offset-4 hover:underline">
+                        <Link to="#" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                           Forgot password?
                         </Link>
                       </div>
@@ -244,7 +239,7 @@ const SignIn = () => {
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
               Don't have an account?{" "}
-              <Link to="/sign-up" className="text-primary underline-offset-4 hover:underline">
+              <Link to="/sign-up" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                 Sign up
               </Link>
             </div>
@@ -261,10 +256,6 @@ const SignIn = () => {
       <div className="flex-1 flex flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-background">
         <div className="mx-auto w-full max-w-md">
           <div className="flex flex-col space-y-4 text-center mb-8">
-            <Link to="/" className="flex items-center gap-2 justify-center">
-              <Shirt className="h-8 w-8 text-primary" />
-              <span className="font-bold text-2xl text-foreground">Closet Keeper</span>
-            </Link>
             <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back</h1>
             <p className="text-muted-foreground">
               Enter your credentials to sign in to your account
@@ -341,7 +332,7 @@ const SignIn = () => {
                   <FormItem className="space-y-2">
                     <div className="flex items-center justify-between">
                       <FormLabel>Password</FormLabel>
-                      <Link to="#" className="text-sm text-primary underline-offset-4 hover:underline">
+                      <Link to="#" className="text-sm text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                         Forgot password?
                       </Link>
                     </div>
@@ -385,20 +376,21 @@ const SignIn = () => {
 
           <div className="mt-6 text-center text-sm text-muted-foreground">
             Don't have an account?{" "}
-            <Link to="/sign-up" className="text-primary underline-offset-4 hover:underline">
+            <Link to="/sign-up" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
               Sign up
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Right side - Background Image (fixed with proper responsive settings) */}
+      {/* Right side - Background Image with improved styling */}
       <div className="hidden lg:block lg:w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/80 to-indigo-600/80 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/40 to-indigo-600/40 z-10" />
         <img 
           src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80"
           alt="Wardrobe inspiration" 
           className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ boxShadow: "0 0 40px rgba(0,0,0,0.2)" }}
         />
         
         <div className="absolute top-1/4 left-1/4 z-20 max-w-md bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 text-white shadow-xl">

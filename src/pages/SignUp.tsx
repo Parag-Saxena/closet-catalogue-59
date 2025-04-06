@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { Shirt, User, Mail, Lock, Eye, EyeOff, Check, X, ArrowRight } from 'lucide-react';
+import { User, Mail, Lock, Eye, EyeOff, Check, X, ArrowRight } from 'lucide-react';
 import { saveUser, signInWithGoogle } from '@/services/authService';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
@@ -394,7 +394,7 @@ const SignUp = () => {
               </FormControl>
               <div className="space-y-1 leading-none">
                 <FormLabel className="text-sm font-medium leading-none">
-                  I accept the <Link to="#" className="text-primary underline">Terms of Service</Link> and <Link to="#" className="text-primary underline">Privacy Policy</Link>
+                  I accept the <Link to="#" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">Terms of Service</Link> and <Link to="#" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">Privacy Policy</Link>
                 </FormLabel>
                 <FormMessage />
               </div>
@@ -426,14 +426,10 @@ const SignUp = () => {
   // Mobile view uses a sheet component
   if (isMobile) {
     return (
-      <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-blue-50 to-blue-100">
+      <div className="min-h-screen w-full flex flex-col bg-gradient-to-b from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800">
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center relative">
           <div className="w-full max-w-md mx-auto space-y-6">
             <div className="space-y-2">
-              <Link to="/" className="flex items-center gap-2 justify-center">
-                <Shirt className="h-8 w-8 text-primary" />
-                <span className="font-bold text-2xl text-foreground">Closet Keeper</span>
-              </Link>
               <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to Closet Keeper</h1>
               <p className="text-muted-foreground">Your virtual wardrobe organizer</p>
             </div>
@@ -455,7 +451,7 @@ const SignUp = () => {
             
             <div className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link to="/sign-in" className="text-primary underline-offset-4 hover:underline">
+              <Link to="/sign-in" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                 Sign in
               </Link>
             </div>
@@ -486,10 +482,6 @@ const SignUp = () => {
         <div className="flex-1 flex items-center justify-center">
           <div className="w-full max-w-md mx-auto p-8">
             <div className="space-y-4 mb-6 text-center">
-              <Link to="/" className="flex items-center gap-2 justify-center">
-                <Shirt className="h-8 w-8 text-primary" />
-                <span className="font-bold text-2xl text-foreground">Closet Keeper</span>
-              </Link>
               <h1 className="text-3xl font-bold tracking-tight text-foreground">Join Closet Keeper</h1>
               <p className="text-muted-foreground">Create an account to start organizing your wardrobe</p>
             </div>
@@ -498,7 +490,7 @@ const SignUp = () => {
             
             <div className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link to="/sign-in" className="text-primary underline-offset-4 hover:underline">
+              <Link to="/sign-in" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
                 Sign in
               </Link>
             </div>
@@ -506,13 +498,14 @@ const SignUp = () => {
         </div>
       </div>
       
-      {/* Right side - Image area */}
+      {/* Right side - Image area with improved styling */}
       <div className="hidden lg:block lg:w-1/2 xl:w-7/12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/80 to-indigo-600/80 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/40 to-indigo-600/40 z-10" />
         <img 
           src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80"
           alt="Wardrobe inspiration" 
           className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ boxShadow: "0 0 40px rgba(0,0,0,0.2)" }}
         />
         
         <div className="absolute top-1/4 left-1/4 z-20 max-w-md bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 text-white shadow-xl">
