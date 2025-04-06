@@ -35,18 +35,16 @@ interface NavItem {
 const AppSidebar = () => {
   const location = useLocation();
   const { user } = useApp();
-  const { setOpen } = useSidebar();
+  const { setOpen, open } = useSidebar();
   
-  // Sync sidebar state with localStorage on component mount and updates
+  // Sync sidebar state with localStorage on component mount and when state changes
   useEffect(() => {
     if (user) {
-      const sidebarState = localStorage.getItem('sidebar-state');
-      if (sidebarState === 'open') {
-        setOpen(true);
-      }
+      // When state changes, update localStorage
+      localStorage.setItem('sidebar-state', open ? 'open' : 'closed');
     }
-  }, [user, setOpen]);
-  
+  }, [open, user]);
+
   // If no user is logged in, don't render the sidebar
   if (!user) {
     return null;

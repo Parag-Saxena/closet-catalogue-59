@@ -1,6 +1,6 @@
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut } from 'lucide-react';
+import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, PanelLeft, PanelRightClose } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -19,7 +19,7 @@ const Header = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, logout } = useApp();
-  const { toggleSidebar, isMobile } = useSidebar();
+  const { toggleSidebar, isMobile, open } = useSidebar();
   
   const handleSignOut = () => {
     logout();
@@ -34,16 +34,17 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-background/90 border-b border-border shadow-sm">
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
-          {isMobile && user && (
+          {user && (
             <Button 
               variant="ghost" 
               size="icon" 
               onClick={toggleSidebar} 
-              className="md:hidden"
+              className="flex md:flex"
               type="button"
+              title={open ? "Hide sidebar" : "Show sidebar"}
             >
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Toggle menu</span>
+              {open ? <PanelRightClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
+              <span className="sr-only">{open ? "Hide sidebar" : "Show sidebar"}</span>
             </Button>
           )}
           <Link 

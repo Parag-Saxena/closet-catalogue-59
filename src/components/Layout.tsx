@@ -17,26 +17,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   // Set default sidebar state when user or loading state changes
   useEffect(() => {
     if (!loading) {
-      // If user is logged in and on desktop, show sidebar
-      const isMobile = window.matchMedia("(max-width: 768px)").matches;
-      const shouldOpenSidebar = user && !isMobile;
-      
-      // Persist sidebar state to localStorage
-      if (shouldOpenSidebar) {
-        localStorage.setItem('sidebar-state', 'open');
+      // Check stored sidebar state if user is logged in
+      if (user) {
+        const storedSidebarState = localStorage.getItem('sidebar-state');
+        if (storedSidebarState === 'open') {
+          setDefaultSidebarOpen(true);
+        } else {
+          // Default to open for desktop when no stored state exists
+          const isMobile = window.matchMedia("(max-width: 768px)").matches;
+          setDefaultSidebarOpen(!isMobile);
+          
+          // Store the default state
+          if (!isMobile) {
+            localStorage.setItem('sidebar-state', 'open');
+          }
+        }
       }
-      
-      setDefaultSidebarOpen(shouldOpenSidebar);
     }
   }, [user, loading]);
-  
-  // Check for stored sidebar state on component mount
-  useEffect(() => {
-    const storedSidebarState = localStorage.getItem('sidebar-state');
-    if (storedSidebarState === 'open' && user) {
-      setDefaultSidebarOpen(true);
-    }
-  }, [user]);
   
   return (
     <SidebarProvider defaultOpen={defaultSidebarOpen}>
