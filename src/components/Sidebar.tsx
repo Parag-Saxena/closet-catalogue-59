@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -23,7 +22,6 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { useEffect } from 'react';
 
 interface NavItem {
   title: string;
@@ -35,16 +33,7 @@ interface NavItem {
 const AppSidebar = () => {
   const location = useLocation();
   const { user } = useApp();
-  const { setOpen, open } = useSidebar();
   
-  // Sync sidebar state with localStorage on component mount and when state changes
-  useEffect(() => {
-    if (user) {
-      // When state changes, update localStorage
-      localStorage.setItem('sidebar-state', open ? 'open' : 'closed');
-    }
-  }, [open, user]);
-
   // If no user is logged in, don't render the sidebar
   if (!user) {
     return null;
