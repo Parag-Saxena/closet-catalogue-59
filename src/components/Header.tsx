@@ -93,9 +93,12 @@ const Header = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleSignOut}>
+                <DropdownMenuItem 
+                  className="text-destructive focus:text-destructive focus:bg-destructive/10 hover:bg-destructive/10" 
+                  onClick={handleSignOut}
+                >
                   <LogOut className="h-4 w-4 mr-2" />
-                  Sign Out
+                  <span className="text-destructive dark:text-white">Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
