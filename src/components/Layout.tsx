@@ -11,13 +11,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isAddPage = location.pathname === '/add';
   const isDashboard = location.pathname === '/';
-  const { user } = useApp();
-  
-  // Always default the sidebar to open for logged in users
-  const defaultSidebarOpen = user ? true : false;
+  const { user, sidebarOpen } = useApp();
   
   return (
-    <SidebarProvider defaultOpen={defaultSidebarOpen}>
+    <SidebarProvider defaultOpen={sidebarOpen}>
       <div className="flex flex-col min-h-screen w-full bg-background">
         <Header />
         <div className="flex flex-1 w-full pt-16"> {/* Space below the header */}

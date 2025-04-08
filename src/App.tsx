@@ -3,9 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppProvider } from "@/context/AppContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import AddItem from "./pages/AddItem";
 import NotFound from "./pages/NotFound";
@@ -36,24 +37,30 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/add" element={<AddItem />} />
-              <Route path="/wardrobe" element={<Wardrobe />} />
-              <Route path="/categories" element={<Categories />} />
-              <Route path="/outfits" element={<Outfits />} />
-              <Route path="/add-outfit" element={<AddOutfit />} />
-              <Route path="/style" element={<Style />} />
-              <Route path="/add-style" element={<AddStyleGuide />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/settings" element={<Settings />} />
+              {/* Public routes */}
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/reset-password" element={<ChangePassword />} />
-              <Route path="/activate-account" element={<AccountActivation />} />
-              <Route path="/measurements" element={<Measurements />} />
-              <Route path="/shopping-schedule" element={<ShoppingSchedule />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              
+              {/* Landing page shows different content based on auth state */}
+              <Route path="/" element={<Index />} />
+              
+              {/* Protected routes */}
+              <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
+              <Route path="/wardrobe" element={<ProtectedRoute><Wardrobe /></ProtectedRoute>} />
+              <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
+              <Route path="/outfits" element={<ProtectedRoute><Outfits /></ProtectedRoute>} />
+              <Route path="/add-outfit" element={<ProtectedRoute><AddOutfit /></ProtectedRoute>} />
+              <Route path="/style" element={<ProtectedRoute><Style /></ProtectedRoute>} />
+              <Route path="/add-style" element={<ProtectedRoute><AddStyleGuide /></ProtectedRoute>} />
+              <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/reset-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+              <Route path="/activate-account" element={<ProtectedRoute><AccountActivation /></ProtectedRoute>} />
+              <Route path="/measurements" element={<ProtectedRoute><Measurements /></ProtectedRoute>} />
+              <Route path="/shopping-schedule" element={<ProtectedRoute><ShoppingSchedule /></ProtectedRoute>} />
+              
+              {/* Catch-all route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

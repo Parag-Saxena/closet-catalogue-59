@@ -18,8 +18,8 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, logout } = useApp();
-  const { toggleSidebar, isMobile, open } = useSidebar();
+  const { user, logout, toggleSidebar } = useApp();
+  const { isMobile, open } = useSidebar();
   
   const handleSignOut = () => {
     logout();

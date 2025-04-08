@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -22,6 +23,7 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { useEffect } from 'react';
 
 interface NavItem {
   title: string;
@@ -32,7 +34,22 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
-  const { user } = useApp();
+  const { user, sidebarOpen, setSidebarOpen } = useApp();
+  const { open, setOpen } = useSidebar();
+  
+  // Sync sidebar state between context and shadcn sidebar
+  useEffect(() => {
+    if (open !== sidebarOpen) {
+      setOpen(sidebarOpen);
+    }
+  }, [sidebarOpen, open, setOpen]);
+
+  // Update our global state when sidebar state changes
+  useEffect(() => {
+    if (open !== sidebarOpen) {
+      setSidebarOpen(open);
+    }
+  }, [open, sidebarOpen, setSidebarOpen]);
   
   // If no user is logged in, don't render the sidebar
   if (!user) {
