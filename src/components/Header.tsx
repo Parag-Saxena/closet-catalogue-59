@@ -4,7 +4,6 @@ import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, PanelLeft, Pane
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { useSidebar } from './ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,8 +17,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, logout, toggleSidebar } = useApp();
-  const { isMobile, open } = useSidebar();
+  const { user, logout, sidebarOpen, toggleSidebar } = useApp();
   
   const handleSignOut = () => {
     logout();
@@ -41,10 +39,10 @@ const Header = () => {
               onClick={toggleSidebar} 
               className="flex md:flex"
               type="button"
-              title={open ? "Hide sidebar" : "Show sidebar"}
+              title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
             >
-              {open ? <PanelRightClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
-              <span className="sr-only">{open ? "Hide sidebar" : "Show sidebar"}</span>
+              {sidebarOpen ? <PanelRightClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
+              <span className="sr-only">{sidebarOpen ? "Hide sidebar" : "Show sidebar"}</span>
             </Button>
           )}
           <Link 
@@ -94,11 +92,11 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
-                  className="text-destructive focus:text-destructive focus:bg-destructive/10 hover:bg-destructive/10" 
+                  className="cursor-pointer text-white dark:text-white hover:bg-destructive/90 focus:bg-destructive/90" 
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 mr-2" />
-                  <span className="text-destructive dark:text-white">Sign Out</span>
+                  <span>Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

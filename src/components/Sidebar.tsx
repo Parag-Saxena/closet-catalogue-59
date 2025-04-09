@@ -34,22 +34,13 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
-  const { user, sidebarOpen, setSidebarOpen } = useApp();
-  const { open, setOpen } = useSidebar();
+  const { user, setSidebarOpen } = useApp();
+  const { open } = useSidebar();
   
-  // Sync sidebar state between context and shadcn sidebar
-  useEffect(() => {
-    if (open !== sidebarOpen) {
-      setOpen(sidebarOpen);
-    }
-  }, [sidebarOpen, open, setOpen]);
-
   // Update our global state when sidebar state changes
   useEffect(() => {
-    if (open !== sidebarOpen) {
-      setSidebarOpen(open);
-    }
-  }, [open, sidebarOpen, setSidebarOpen]);
+    setSidebarOpen(open);
+  }, [open, setSidebarOpen]);
   
   // If no user is logged in, don't render the sidebar
   if (!user) {
