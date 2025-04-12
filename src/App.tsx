@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppProvider } from "@/context/AppContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import AddItem from "./pages/AddItem";
@@ -33,42 +34,43 @@ const App = () => (
   <ThemeProvider defaultTheme="light" storageKey="closet-keeper-theme">
     <QueryClientProvider client={queryClient}>
       <AppProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              {/* Public landing page route */}
-              <Route path="/home" element={<Home />} />
-              
-              {/* Auth routes */}
-              <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/sign-up" element={<SignUp />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
-              
-              {/* Dashboard home (protected) */}
-              <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-              
-              {/* Protected routes */}
-              <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
-              <Route path="/wardrobe" element={<ProtectedRoute><Wardrobe /></ProtectedRoute>} />
-              <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
-              <Route path="/outfits" element={<ProtectedRoute><Outfits /></ProtectedRoute>} />
-              <Route path="/add-outfit" element={<ProtectedRoute><AddOutfit /></ProtectedRoute>} />
-              <Route path="/style" element={<ProtectedRoute><Style /></ProtectedRoute>} />
-              <Route path="/add-style" element={<ProtectedRoute><AddStyleGuide /></ProtectedRoute>} />
-              <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
-              <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-              <Route path="/reset-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
-              <Route path="/activate-account" element={<ProtectedRoute><AccountActivation /></ProtectedRoute>} />
-              <Route path="/measurements" element={<ProtectedRoute><Measurements /></ProtectedRoute>} />
-              <Route path="/shopping-schedule" element={<ProtectedRoute><ShoppingSchedule /></ProtectedRoute>} />
-              
-              {/* Catch-all route */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <SidebarProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                {/* Public landing page route */}
+                <Route path="/home" element={<Home />} />
+                
+                {/* Auth routes */}
+                <Route path="/sign-in" element={<SignIn />} />
+                <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                
+                {/* Dashboard home (protected) */}
+                <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+                
+                {/* Protected routes */}
+                <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
+                <Route path="/wardrobe" element={<ProtectedRoute><Wardrobe /></ProtectedRoute>} />
+                <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
+                <Route path="/outfits" element={<ProtectedRoute><Outfits /></ProtectedRoute>} />
+                <Route path="/add-outfit" element={<ProtectedRoute><AddOutfit /></ProtectedRoute>} />
+                <Route path="/style" element={<ProtectedRoute><Style /></ProtectedRoute>} />
+                <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
+                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+                <Route path="/reset-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
+                <Route path="/activate-account" element={<ProtectedRoute><AccountActivation /></ProtectedRoute>} />
+                <Route path="/measurements" element={<ProtectedRoute><Measurements /></ProtectedRoute>} />
+                <Route path="/shopping-schedule" element={<ProtectedRoute><ShoppingSchedule /></ProtectedRoute>} />
+                
+                {/* Catch-all route */}
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </SidebarProvider>
       </AppProvider>
     </QueryClientProvider>
   </ThemeProvider>

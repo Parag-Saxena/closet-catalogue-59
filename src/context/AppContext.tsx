@@ -12,9 +12,6 @@ interface AppContextProps {
   setOutfits: React.Dispatch<React.SetStateAction<Outfit[]>>;
   loading: boolean;
   logout: () => void;
-  sidebarOpen: boolean;
-  setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleSidebar: () => void;
 }
 
 interface AppProviderProps {
@@ -28,7 +25,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [clothingItems, setClothingItems] = useState<ClothingItem[]>([]);
   const [outfits, setOutfits] = useState<Outfit[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(true); // Default to open
 
   useEffect(() => {
     // Initialize user from localStorage
@@ -78,11 +74,6 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     setUser(null);
   };
 
-  // Toggle sidebar function
-  const toggleSidebar = () => {
-    setSidebarOpen(prev => !prev);
-  };
-
   return (
     <AppContext.Provider value={{
       user,
@@ -92,10 +83,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       outfits, 
       setOutfits,
       loading,
-      logout,
-      sidebarOpen,
-      setSidebarOpen,
-      toggleSidebar
+      logout
     }}>
       {children}
     </AppContext.Provider>

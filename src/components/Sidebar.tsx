@@ -12,6 +12,7 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
+import { useSidebar } from '@/context/SidebarContext';
 
 interface NavItem {
   title: string;
@@ -23,9 +24,10 @@ interface NavItem {
 const AppSidebar = () => {
   const location = useLocation();
   const { user } = useApp();
+  const { sidebarOpen } = useSidebar();
   
   // If no user is logged in, don't render the sidebar
-  if (!user) {
+  if (!user || !sidebarOpen) {
     return null;
   }
   
@@ -90,7 +92,7 @@ const AppSidebar = () => {
   ];
 
   return (
-    <aside className="w-64 min-h-screen border-r border-border bg-background/95 backdrop-blur-sm pt-4 hidden md:block">
+    <aside className="w-64 min-h-screen border-r border-border bg-background/95 backdrop-blur-sm pt-4 hidden md:block transition-all duration-300">
       <div className="h-full flex flex-col">
         <div className="px-4 py-2">
           <h2 className="text-sm font-medium text-muted-foreground mb-2">Navigation</h2>

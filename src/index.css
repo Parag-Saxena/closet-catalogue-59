@@ -82,7 +82,7 @@
 
 @layer components {
   .btn-gradient {
-    @apply bg-gradient-primary text-white transition-all duration-300 hover:scale-105 hover:shadow-card-hover;
+    @apply bg-gradient-to-r from-thulian_pink-500 to-tiffany_blue-500 text-white transition-all duration-300 hover:scale-105 hover:shadow-card-hover;
   }
   
   .card-hover {
@@ -90,7 +90,7 @@
   }
   
   .card-gradient {
-    @apply bg-gradient-to-br from-white to-secondary/30 backdrop-blur-sm;
+    @apply bg-gradient-to-br from-white to-champagne_pink-200 backdrop-blur-sm;
   }
   
   .animate-float {
@@ -121,14 +121,15 @@
   }
   
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-thulian_pink via-burnt_sienna to-tiffany_blue;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500;
   }
   
   .gradient-bg {
-    @apply bg-gradient-to-r from-thulian_pink via-burnt_sienna to-tiffany_blue;
+    @apply bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500;
   }
 }
 
+/* Animation keyframes */
 @keyframes shimmer {
   0% {
     background-position: -468px 0;
@@ -147,6 +148,7 @@
   }
 }
 
+/* Components */
 .image-container {
   position: relative;
   overflow: hidden;
@@ -165,6 +167,7 @@
   animation: shimmer 1.5s infinite linear;
 }
 
+/* Transitions */
 .item-enter {
   opacity: 0;
   transform: scale(0.9);
@@ -222,70 +225,13 @@
   color: rgba(249, 250, 251, 1);
 }
 
-.dark .text-closet-gray-medium, 
-.dark .text-closet-gray-dark {
-  color: rgba(229, 231, 235, 0.95);
-}
-
 /* Fix form elements in dark mode */
 .dark input::placeholder,
 .dark textarea::placeholder {
   color: rgba(156, 163, 175, 0.8);
 }
 
-.dark .hover\:bg-white:hover {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Fix select dropdowns in dark mode */
-.dark [data-radix-popper-content-wrapper] {
-  background-color: hsl(var(--popover));
-  color: hsl(var(--popover-foreground));
-}
-
-/* Fix z-index issues */
-header {
-  z-index: 50;
-}
-
-.sidebar {
-  z-index: 40;
-}
-
-main {
-  z-index: 30;
-}
-
-/* Fix SelectContent visibility in dark mode */
-[data-radix-select-content] {
-  background-color: hsl(var(--popover));
-  color: hsl(var(--popover-foreground));
-  border-color: hsl(var(--border));
-}
-
-.dark [data-radix-select-content] {
-  background-color: hsl(var(--popover));
-  color: hsl(var(--popover-foreground));
-  border-color: hsl(var(--border));
-}
-
-/* Improve select item hover state in dark mode */
-.dark [data-radix-select-item]:hover {
-  background-color: hsl(var(--accent));
-  color: hsl(var(--accent-foreground));
-}
-
-/* Ensure proper contrast for select labels in dark mode */
-.dark [data-radix-select-item] {
-  color: hsl(var(--popover-foreground));
-}
-
-/* Ensure dropdown content is visible */
-[data-radix-popper-content] {
-  z-index: 60 !important;
-}
-
-/* Button styles */
+/* Buttons */
 .btn {
   @apply transition-all duration-300;
 }
@@ -294,7 +240,7 @@ main {
   @apply transform scale-105 shadow-card-hover;
 }
 
-/* Card hover animation */
+/* Cards */
 .card {
   @apply transition-all duration-300;
 }
@@ -303,48 +249,24 @@ main {
   @apply transform -translate-y-1 shadow-card-hover;
 }
 
-/* SelectContent improvements for dark mode */
-.select-content {
-  background-color: hsl(var(--popover));
-  color: hsl(var(--popover-foreground));
-  @apply border border-border rounded-md shadow-md z-50;
+/* Make backgrounds "pop" in dark mode */
+.dark .bg-primary-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--primary)) 0%, 
+    hsl(var(--accent)) 100%
+  );
 }
 
-/* Fix color input in dark mode */
-.dark input[type="color"] {
-  @apply bg-background border-input;
+/* Fix dropdowns */
+[data-radix-popper-content-wrapper] {
+  z-index: 60 !important;
 }
 
-/* Fix dropdowns in dark mode */
-.dropdown-content {
-  @apply bg-popover text-popover-foreground border border-border rounded-md shadow-md z-50;
+/* Custom button variants */
+.btn-primary-gradient {
+  @apply bg-gradient-to-r from-thulian_pink-500 to-burnt_sienna-500 text-white transition-colors;
 }
 
-/* New styles inspired by Cramly.ai */
-.cramly-card {
-  @apply rounded-2xl shadow-lg border border-border overflow-hidden transition-all duration-300 hover:shadow-xl;
-}
-
-.cramly-container {
-  @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-}
-
-.cramly-section {
-  @apply py-12 md:py-20;
-}
-
-.cramly-heading {
-  @apply text-3xl md:text-4xl font-bold gradient-text;
-}
-
-.cramly-subheading {
-  @apply text-xl text-muted-foreground mb-8;
-}
-
-.cramly-btn {
-  @apply rounded-full font-medium px-6 py-2.5 transition-all duration-300 transform hover:scale-105;
-}
-
-.cramly-btn-primary {
-  @apply gradient-bg text-white shadow-md hover:shadow-lg;
+.btn-secondary-gradient {
+  @apply bg-gradient-to-r from-tiffany_blue-500 to-champagne_pink-400 text-tiffany_blue-900 transition-colors;
 }
