@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
@@ -94,7 +93,7 @@ const Home = () => {
   };
 
   return (
-    <Layout>
+    <Layout excludeSidebar={true}>
       {/* Hero Section */}
       <section className="py-16 md:py-24">
         <div className="container mx-auto px-4 md:px-6">

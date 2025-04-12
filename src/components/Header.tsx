@@ -34,7 +34,7 @@ const Header = () => {
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
           <Link 
-            to="/" 
+            to={user ? "/" : "/home"} 
             className="flex items-center gap-2 transition-opacity hover:opacity-80"
           >
             <Shirt className="h-6 w-6 text-gradient-primary" />

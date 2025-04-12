@@ -38,14 +38,16 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* Public routes */}
+              {/* Public landing page route */}
+              <Route path="/home" element={<Home />} />
+              
+              {/* Auth routes */}
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/home" element={<Home />} />
               
-              {/* Landing page shows different content based on auth state */}
-              <Route path="/" element={<Index />} />
+              {/* Dashboard home (protected) */}
+              <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               
               {/* Protected routes */}
               <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />

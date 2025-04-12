@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { Plus, Folder, Edit, Trash2 } from 'lucide-react';
@@ -12,7 +11,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -101,7 +99,8 @@ const Categories = () => {
     
     toast({
       title: "Category added",
-      description: `${newCategory.trim()} has been added to your categories.`
+      description: `${newCategory.trim()} has been added to your categories.`,
+      variant: "success"
     });
   };
 
@@ -203,7 +202,7 @@ const Categories = () => {
           />
           <Button
             type="submit"
-            variant="gradient"
+            variant="gradient" 
             disabled={!newCategory.trim()}
             className="inline-flex h-10 items-center justify-center rounded-md"
           >
@@ -224,17 +223,16 @@ const Categories = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 animate-slide-in">
             {categories.map((category, index) => (
               <Card 
-                key={category.id} 
-                hoverable
+                key={category.id}
                 className={cn(
-                  "flex items-center justify-between p-4 bg-card transition-all duration-300",
+                  "flex items-center justify-between p-4 bg-card transition-all duration-300 hover:shadow-md",
                   "animate-fade-in"
                 )}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <div className="flex items-center">
-                  <div className="h-10 w-10 rounded-full bg-gradient-primary flex items-center justify-center mr-3">
-                    <Folder className="h-5 w-5 text-primary-foreground" />
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center mr-3">
+                    <Folder className="h-5 w-5 text-white" />
                   </div>
                   <div>
                     <h3 className="font-medium text-foreground">{category.name}</h3>
@@ -246,8 +244,7 @@ const Categories = () => {
                     variant="ghost" 
                     size="icon"
                     onClick={() => handleOpenEditDialog(category)}
-                    radius="full"
-                    className="text-muted-foreground hover:text-foreground"
+                    className="text-muted-foreground hover:text-primary"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
@@ -256,7 +253,6 @@ const Categories = () => {
                     size="icon" 
                     onClick={() => handleDeleteCategory(category.id)}
                     disabled={category.count > 0}
-                    radius="full"
                     className="text-muted-foreground hover:text-destructive"
                   >
                     <Trash2 className="h-4 w-4" />
