@@ -61,7 +61,7 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2 text-sm font-medium">
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-pink-500 via-pink-400 to-indigo-500 flex items-center justify-center text-white">
+                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white">
                     {user.name ? user.name.charAt(0).toUpperCase() : <UserIcon className="h-4 w-4" />}
                   </div>
                   <span className="hidden md:inline">{user.name}</span>
@@ -69,7 +69,7 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-background">
                 <div className="flex items-center gap-2 p-2">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-pink-500 via-pink-400 to-indigo-500 flex items-center justify-center text-white">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white">
                     {user.name ? user.name.charAt(0).toUpperCase() : <UserIcon className="h-5 w-5" />}
                   </div>
                   <div>
@@ -92,7 +92,7 @@ const Header = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem 
-                  className="cursor-pointer text-white dark:text-white hover:bg-destructive/90 focus:bg-destructive/90" 
+                  className="cursor-pointer bg-destructive text-destructive-foreground hover:bg-destructive/90 focus:bg-destructive/90" 
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 mr-2" />
@@ -104,7 +104,7 @@ const Header = () => {
             location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
               <Link
                 to="/sign-in"
-                className="flex items-center gap-1 text-sm font-medium bg-gradient-to-r from-pink-500 to-indigo-500 text-white px-3 py-2 rounded-full"
+                className="flex items-center gap-1 text-sm font-medium bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white px-3 py-2 rounded-full"
               >
                 <LogIn className="h-4 w-4" />
                 <span className="hidden sm:inline">Sign In</span>
