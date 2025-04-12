@@ -25,6 +25,7 @@ import ChangePassword from "./pages/ChangePassword";
 import AccountActivation from "./pages/AccountActivation";
 import Measurements from "./pages/Measurements";
 import ShoppingSchedule from "./pages/ShoppingSchedule";
+import Home from "./pages/Home";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/home" element={<Home />} />
               
               {/* Landing page shows different content based on auth state */}
               <Route path="/" element={<Index />} />
