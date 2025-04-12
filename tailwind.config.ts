@@ -64,15 +64,63 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				closet: {
-					blue: '#1c3d5a', // Updated to muted navy
-					teal: '#00796b', // Deep teal accent
-					gold: '#ffb400', // Muted gold for accents
-					coral: '#ff6f61', // Coral for highlights
+					blue: '#26547c', // Updated from #1c3d5a to yinmn_blue
+					teal: '#06d6a0', // Updated from #00796b to emerald
+					gold: '#ffd166', // Updated from #ffb400 to sunglow
+					coral: '#ef476f', // Updated from #ff6f61 to bright_pink
 					gray: {
-						light: '#f5f5f5', // Light gray background
-						medium: '#8A898C',
-						dark: '#333333'
+						light: '#fcfcfc', // Updated from #f5f5f5 to white
+						medium: '#979797', // Updated from #8A898C to white.300
+						dark: '#323232'  // Updated from #333333 to white.100
 					}
+				},
+				yinmn_blue: {
+					DEFAULT: '#26547c',
+					100: '#081119',
+					200: '#0f2232',
+					300: '#17334b',
+					400: '#1f4464',
+					500: '#26547c',
+					600: '#3778b2',
+					700: '#609bce',
+					800: '#95bcde',
+					900: '#cadeef'
+				},
+				bright_pink: {
+					DEFAULT: '#ef476f',
+					100: '#390511',
+					200: '#720a22',
+					300: '#ac0f34',
+					400: '#e51445',
+					500: '#ef476f',
+					600: '#f26d8c',
+					700: '#f591a9',
+					800: '#f9b6c5',
+					900: '#fcdae2'
+				},
+				sunglow: {
+					DEFAULT: '#ffd166',
+					100: '#473200',
+					200: '#8f6400',
+					300: '#d69600',
+					400: '#ffbc1f',
+					500: '#ffd166',
+					600: '#ffda85',
+					700: '#ffe3a3',
+					800: '#ffedc2',
+					900: '#fff6e0'
+				},
+				emerald: {
+					DEFAULT: '#06d6a0',
+					100: '#012b20',
+					200: '#02563f',
+					300: '#03805f',
+					400: '#04ab7f',
+					500: '#06d6a0',
+					600: '#1cf9be',
+					700: '#55fbce',
+					800: '#8efcdf',
+					900: '#c6feef'
 				}
 			},
 			borderRadius: {
@@ -135,8 +183,8 @@ export default {
 				'card-hover': '0 10px 20px rgba(0, 0, 0, 0.1)',
 			},
 			backgroundImage: {
-				'gradient-primary': 'linear-gradient(135deg, #1c3d5a, #00796b)',
-				'gradient-accent': 'linear-gradient(135deg, #ff6f61, #ffb400)',
+				'gradient-primary': 'linear-gradient(135deg, #26547c, #06d6a0)', // Updated from #1c3d5a, #00796b to yinmn_blue, emerald
+				'gradient-accent': 'linear-gradient(135deg, #ef476f, #ffd166)', // Updated from #ff6f61, #ffb400 to bright_pink, sunglow
 			}
 		}
 	},

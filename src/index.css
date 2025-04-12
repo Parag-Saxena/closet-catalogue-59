@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 262 83.3% 57.8%;
+    --primary: 202 54% 32%; /* Yinmn Blue */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 214 32% 91%;
@@ -22,7 +23,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 262 83.3% 57.8%;
+    --accent: 344 82% 61%; /* Bright Pink */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -30,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 262 83.3% 57.8%;
+    --ring: 202 54% 32%; /* Yinmn Blue */
 
     --radius: 0.75rem;
   }
@@ -45,7 +46,7 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 83.3% 57.8%;
+    --primary: 202 54% 32%; /* Yinmn Blue */
     --primary-foreground: 210 40% 98%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -54,7 +55,7 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 80%;
 
-    --accent: 262 83.3% 57.8%;
+    --accent: 344 82% 61%; /* Bright Pink */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;

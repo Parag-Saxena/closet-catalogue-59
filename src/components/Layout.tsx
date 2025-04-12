@@ -6,14 +6,14 @@ import AppSidebar from './Sidebar';
 import { LayoutProps } from '@/types';
 import { useApp } from '@/context/AppContext';
 
-const Layout: React.FC<LayoutProps> = ({ children, excludeSidebar = false }) => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const isAddPage = location.pathname === '/add';
   const isDashboard = location.pathname === '/';
   const isHomePage = location.pathname === '/home';
   const { user } = useApp();
   
-  const showSidebar = user && !excludeSidebar && !isHomePage;
+  const showSidebar = user && !isHomePage;
   
   return (
     <div className="flex flex-col min-h-screen w-full bg-background">

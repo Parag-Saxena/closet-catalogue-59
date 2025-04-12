@@ -31,9 +31,9 @@ const toastVariants = cva(
         default: "border bg-background text-foreground",
         destructive:
           "destructive group border-destructive bg-destructive text-destructive-foreground",
-        success: "border-green-500 bg-green-500/20 text-green-700 dark:text-green-300",
-        info: "border-indigo-500 bg-indigo-500/20 text-indigo-700 dark:text-indigo-300",
-        warning: "border-amber-500 bg-amber-500/20 text-amber-700 dark:text-amber-300",
+        success: "border-emerald-500 bg-emerald-500/20 text-emerald-700 dark:text-emerald-300", // Updated to emerald
+        info: "border-yinmn_blue-500 bg-yinmn_blue-500/20 text-yinmn_blue-700 dark:text-yinmn_blue-300", // Updated to yinmn_blue
+        warning: "border-sunglow-500 bg-sunglow-500/20 text-sunglow-800 dark:text-sunglow-300", // Updated to sunglow
       },
     },
     defaultVariants: {
@@ -55,6 +55,8 @@ const Toast = React.forwardRef<
         variant === 'default' && "dark:border-border/50 border-border/50 shadow-md",
         className
       )}
+      // Set a default duration for auto-dismiss (7 seconds = 7000ms)
+      duration={7000}
       {...props}
     />
   )
