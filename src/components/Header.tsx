@@ -17,7 +17,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user, logout, sidebarOpen, toggleSidebar } = useApp();
+  const { user, logout } = useApp();
   
   const handleSignOut = () => {
     logout();
@@ -32,19 +32,6 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-background/90 border-b border-border shadow-sm">
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
-          {user && (
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleSidebar} 
-              className="flex md:flex"
-              type="button"
-              title={sidebarOpen ? "Hide sidebar" : "Show sidebar"}
-            >
-              {sidebarOpen ? <PanelRightClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
-              <span className="sr-only">{sidebarOpen ? "Hide sidebar" : "Show sidebar"}</span>
-            </Button>
-          )}
           <Link 
             to="/" 
             className="flex items-center gap-2 transition-opacity hover:opacity-80"

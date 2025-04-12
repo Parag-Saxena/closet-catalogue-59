@@ -1,17 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar
-} from "@/components/ui/sidebar";
-import {
   LayoutDashboard,
   Shirt,
   LayoutList,
@@ -23,7 +12,6 @@ import {
   ShoppingBag,
 } from 'lucide-react';
 import { useApp } from '@/context/AppContext';
-import { useEffect } from 'react';
 
 interface NavItem {
   title: string;
@@ -34,13 +22,7 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
-  const { user, setSidebarOpen } = useApp();
-  const { open } = useSidebar();
-  
-  // Update our global state when sidebar state changes
-  useEffect(() => {
-    setSidebarOpen(open);
-  }, [open, setSidebarOpen]);
+  const { user } = useApp();
   
   // If no user is logged in, don't render the sidebar
   if (!user) {
@@ -108,45 +90,49 @@ const AppSidebar = () => {
   ];
 
   return (
-    <Sidebar className="z-40 mt-16 transition-all duration-300">
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {navigationItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                    <Link to={item.url} className="transition-all duration-300 hover:translate-x-1">
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Preferences</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {preferencesItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} isActive={item.isActive}>
-                    <Link to={item.url} className="transition-all duration-300 hover:translate-x-1">
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <aside className="w-64 min-h-screen border-r border-border bg-background/95 backdrop-blur-sm pt-4 hidden md:block">
+      <div className="h-full flex flex-col">
+        <div className="px-4 py-2">
+          <h2 className="text-sm font-medium text-muted-foreground mb-2">Navigation</h2>
+          <nav className="space-y-1">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.title}
+                to={item.url}
+                className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
+                  item.isActive 
+                    ? 'bg-primary/10 text-primary font-medium' 
+                    : 'text-foreground hover:bg-muted hover:text-primary'
+                }`}
+              >
+                <item.icon className="h-5 w-5 mr-3" />
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        
+        <div className="mt-6 px-4 py-2">
+          <h2 className="text-sm font-medium text-muted-foreground mb-2">Preferences</h2>
+          <nav className="space-y-1">
+            {preferencesItems.map((item) => (
+              <Link
+                key={item.title}
+                to={item.url}
+                className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
+                  item.isActive 
+                    ? 'bg-primary/10 text-primary font-medium' 
+                    : 'text-foreground hover:bg-muted hover:text-primary'
+                }`}
+              >
+                <item.icon className="h-5 w-5 mr-3" />
+                {item.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </aside>
   );
 };
 
