@@ -1,4 +1,3 @@
-
 import { ReactNode } from 'react';
 
 export interface User {
@@ -40,7 +39,8 @@ export interface Outfit {
 }
 
 export interface LayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
+  excludeSidebar?: boolean;
 }
 
 export interface SidebarProviderProps {

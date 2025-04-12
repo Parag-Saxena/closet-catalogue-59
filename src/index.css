@@ -14,16 +14,16 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 202 54% 32%; /* Yinmn Blue */
+    --primary: 335 71% 64%; /* Thulian Pink */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 214 32% 91%;
+    --secondary: 16 31% 85%; /* Champagne Pink */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 344 82% 61%; /* Bright Pink */
+    --accent: 14 69% 58%; /* Burnt Sienna */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +31,7 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 202 54% 32%; /* Yinmn Blue */
+    --ring: 335 71% 64%; /* Thulian Pink */
 
     --radius: 0.75rem;
   }
@@ -46,16 +46,16 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 202 54% 32%; /* Yinmn Blue */
+    --primary: 335 71% 64%; /* Thulian Pink */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
+    --secondary: 16 31% 85%; /* Champagne Pink */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 80%;
 
-    --accent: 344 82% 61%; /* Bright Pink */
+    --accent: 14 69% 58%; /* Burnt Sienna */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -121,11 +121,11 @@
   }
   
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-thulian_pink via-burnt_sienna to-tiffany_blue;
   }
   
   .gradient-bg {
-    @apply bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500;
+    @apply bg-gradient-to-r from-thulian_pink via-burnt_sienna to-tiffany_blue;
   }
 }
 

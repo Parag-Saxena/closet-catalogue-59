@@ -53,74 +53,65 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				sidebar: {
-					DEFAULT: 'hsl(var(--sidebar-background))',
-					foreground: 'hsl(var(--sidebar-foreground))',
-					primary: 'hsl(var(--sidebar-primary))',
-					'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
-					accent: 'hsl(var(--sidebar-accent))',
-					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
-					border: 'hsl(var(--sidebar-border))',
-					ring: 'hsl(var(--sidebar-ring))'
+				thulian_pink: {
+					DEFAULT: '#e56399',
+					100: '#38091d',
+					200: '#70133a',
+					300: '#a71c56',
+					400: '#db2a74',
+					500: '#e56399',
+					600: '#ea81ad',
+					700: '#efa1c1',
+					800: '#f4c0d6',
+					900: '#fae0ea'
 				},
-				closet: {
-					blue: '#26547c', // Updated from #1c3d5a to yinmn_blue
-					teal: '#06d6a0', // Updated from #00796b to emerald
-					gold: '#ffd166', // Updated from #ffb400 to sunglow
-					coral: '#ef476f', // Updated from #ff6f61 to bright_pink
-					gray: {
-						light: '#fcfcfc', // Updated from #f5f5f5 to white
-						medium: '#979797', // Updated from #8A898C to white.300
-						dark: '#323232'  // Updated from #333333 to white.100
-					}
+				champagne_pink: {
+					DEFAULT: '#e5d4ce',
+					100: '#39251e',
+					200: '#724a3c',
+					300: '#a9705b',
+					400: '#c7a294',
+					500: '#e5d4ce',
+					600: '#eadcd7',
+					700: '#efe5e1',
+					800: '#f4edeb',
+					900: '#faf6f5'
 				},
-				yinmn_blue: {
-					DEFAULT: '#26547c',
-					100: '#081119',
-					200: '#0f2232',
-					300: '#17334b',
-					400: '#1f4464',
-					500: '#26547c',
-					600: '#3778b2',
-					700: '#609bce',
-					800: '#95bcde',
-					900: '#cadeef'
+				burnt_sienna: {
+					DEFAULT: '#de6e4b',
+					100: '#321309',
+					200: '#642512',
+					300: '#96381c',
+					400: '#c84b25',
+					500: '#de6e4b',
+					600: '#e48a6e',
+					700: '#eba792',
+					800: '#f2c4b7',
+					900: '#f8e2db'
 				},
-				bright_pink: {
-					DEFAULT: '#ef476f',
-					100: '#390511',
-					200: '#720a22',
-					300: '#ac0f34',
-					400: '#e51445',
-					500: '#ef476f',
-					600: '#f26d8c',
-					700: '#f591a9',
-					800: '#f9b6c5',
-					900: '#fcdae2'
+				tiffany_blue: {
+					DEFAULT: '#7fd1b9',
+					100: '#123128',
+					200: '#246350',
+					300: '#369478',
+					400: '#4ebf9d',
+					500: '#7fd1b9',
+					600: '#99dac7',
+					700: '#b3e3d5',
+					800: '#ccede3',
+					900: '#e6f6f1'
 				},
-				sunglow: {
-					DEFAULT: '#ffd166',
-					100: '#473200',
-					200: '#8f6400',
-					300: '#d69600',
-					400: '#ffbc1f',
-					500: '#ffd166',
-					600: '#ffda85',
-					700: '#ffe3a3',
-					800: '#ffedc2',
-					900: '#fff6e0'
-				},
-				emerald: {
-					DEFAULT: '#06d6a0',
-					100: '#012b20',
-					200: '#02563f',
-					300: '#03805f',
-					400: '#04ab7f',
-					500: '#06d6a0',
-					600: '#1cf9be',
-					700: '#55fbce',
-					800: '#8efcdf',
-					900: '#c6feef'
+				wenge: {
+					DEFAULT: '#7a6563',
+					100: '#181414',
+					200: '#302827',
+					300: '#483c3b',
+					400: '#60504f',
+					500: '#7a6563',
+					600: '#96817f',
+					700: '#b1a19f',
+					800: '#cbc0bf',
+					900: '#e5e0df'
 				}
 			},
 			borderRadius: {
@@ -183,8 +174,8 @@ export default {
 				'card-hover': '0 10px 20px rgba(0, 0, 0, 0.1)',
 			},
 			backgroundImage: {
-				'gradient-primary': 'linear-gradient(135deg, #26547c, #06d6a0)', // Updated from #1c3d5a, #00796b to yinmn_blue, emerald
-				'gradient-accent': 'linear-gradient(135deg, #ef476f, #ffd166)', // Updated from #ff6f61, #ffb400 to bright_pink, sunglow
+				'gradient-primary': 'linear-gradient(135deg, #e56399, #7fd1b9)', // Thulian Pink to Tiffany Blue
+				'gradient-accent': 'linear-gradient(135deg, #de6e4b, #e5d4ce)', // Burnt Sienna to Champagne Pink
 			}
 		}
 	},
