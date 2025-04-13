@@ -1,9 +1,8 @@
-
 import { Button } from "@/components/ui/button";
 import { Search, Settings } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { ClothingItem } from "../ClothingCard";
+import { ClothingItem } from "@/types";
 import { cn } from "@/lib/utils";
 import { useApp } from "@/context/AppContext";
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { 
   Dialog,
@@ -13,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { ClothingItem } from './ClothingCard';
+import { ClothingItem } from "@/types";
 import { useToast } from "@/hooks/use-toast";
 
 interface EditItemDialogProps {

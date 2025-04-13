@@ -39,6 +39,8 @@ export interface Outfit {
   createdAt: Date | string;
   updatedAt: Date | string;
   description?: string;
+  isFavorite?: boolean;
+  scheduled?: Date | string;
 }
 
 export interface LayoutProps {
