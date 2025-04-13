@@ -1,10 +1,11 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
   :root {
+    --font-sans: 'Poppins', sans-serif;
     --background: 0 0% 98%;
     --foreground: 222.2 84% 4.9%;
 
@@ -14,16 +15,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 335 71% 64%; /* Thulian Pink */
+    --primary: 335 71% 64%;
+    /* Thulian Pink */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 16 31% 85%; /* Champagne Pink */
+    --secondary: 16 31% 85%;
+    /* Champagne Pink */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 14 69% 58%; /* Burnt Sienna */
+    --accent: 14 69% 58%;
+    /* Burnt Sienna */
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,7 +35,8 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 335 71% 64%; /* Thulian Pink */
+    --ring: 335 71% 64%;
+    /* Thulian Pink */
 
     --radius: 0.75rem;
   }
@@ -46,16 +51,19 @@
     --popover: 222.2 47.4% 11.2%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 335 71% 64%; /* Thulian Pink */
+    --primary: 335 71% 64%;
+    /* Thulian Pink */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 16 31% 85%; /* Champagne Pink */
+    --secondary: 16 31% 85%;
+    /* Champagne Pink */
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 80%;
 
-    --accent: 14 69% 58%; /* Burnt Sienna */
+    --accent: 14 69% 58%;
+    /* Burnt Sienna */
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -71,6 +79,8 @@
   }
 
   body {
+    font-family: var(--font-sans);
+
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
@@ -84,19 +94,19 @@
   .btn-gradient {
     @apply bg-gradient-to-r from-thulian_pink-500 to-tiffany_blue-500 text-white transition-all duration-300 hover:scale-105 hover:shadow-card-hover;
   }
-  
+
   .card-hover {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
   }
-  
+
   .card-gradient {
     @apply bg-gradient-to-br from-white to-champagne_pink-200 backdrop-blur-sm;
   }
-  
+
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
-  
+
   .glass {
     @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl;
   }
@@ -107,7 +117,7 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -115,15 +125,15 @@
   .glassmorphism {
     @apply backdrop-blur-md bg-white/90 border border-white/20 shadow-md;
   }
-  
+
   .text-balance {
     text-wrap: balance;
   }
-  
+
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500;
   }
-  
+
   .gradient-bg {
     @apply bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500;
   }
@@ -134,17 +144,21 @@
   0% {
     background-position: -468px 0;
   }
+
   100% {
     background-position: 468px 0;
   }
 }
 
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0); 
+
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  50% { 
-    transform: translateY(-5px); 
+
+  50% {
+    transform: translateY(-5px);
   }
 }
 
@@ -251,8 +265,8 @@
 
 /* Make backgrounds "pop" in dark mode */
 .dark .bg-primary-gradient {
-  background: linear-gradient(135deg, 
-    hsl(var(--primary)) 0%, 
+  background: linear-gradient(135deg,
+    hsl(var(--primary)) 0%,
     hsl(var(--accent)) 100%
   );
 }

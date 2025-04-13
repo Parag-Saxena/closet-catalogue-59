@@ -1,9 +1,8 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppProvider } from "@/context/AppContext";
 import { SidebarProvider } from "@/context/SidebarContext";
@@ -42,15 +41,15 @@ const App = () => (
               <Routes>
                 {/* Public landing page route */}
                 <Route path="/home" element={<Home />} />
-                
+
                 {/* Auth routes */}
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                
+
                 {/* Dashboard home (protected) */}
                 <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-                
+
                 {/* Protected routes */}
                 <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
                 <Route path="/wardrobe" element={<ProtectedRoute><Wardrobe /></ProtectedRoute>} />
@@ -64,7 +63,7 @@ const App = () => (
                 <Route path="/activate-account" element={<ProtectedRoute><AccountActivation /></ProtectedRoute>} />
                 <Route path="/measurements" element={<ProtectedRoute><Measurements /></ProtectedRoute>} />
                 <Route path="/shopping-schedule" element={<ProtectedRoute><ShoppingSchedule /></ProtectedRoute>} />
-                
+
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
