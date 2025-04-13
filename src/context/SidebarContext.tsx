@@ -14,10 +14,14 @@ interface SidebarProviderProps {
 const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
 
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
-  // Initialize from localStorage but then manage in context
+  // Initialize state from localStorage but then manage in context
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(() => {
-    const savedState = localStorage.getItem('sidebarState');
-    return savedState ? JSON.parse(savedState) : true;
+    // We need to check if window exists for SSR compatibility
+    if (typeof window !== 'undefined') {
+      const savedState = localStorage.getItem('sidebarState');
+      return savedState ? JSON.parse(savedState) : true;
+    }
+    return true;
   });
 
   // Persist sidebar state to localStorage when it changes

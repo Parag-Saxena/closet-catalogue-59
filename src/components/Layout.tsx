@@ -9,7 +9,7 @@ import { useSidebar } from '@/context/SidebarContext';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './ui/button';
 
-const Layout: React.FC<LayoutProps> = ({ children, excludeSidebar }) => {
+const Layout: React.FC<LayoutProps> = ({ children, excludeSidebar = false }) => {
   const location = useLocation();
   const isAddPage = location.pathname === '/add';
   const isDashboard = location.pathname === '/';
