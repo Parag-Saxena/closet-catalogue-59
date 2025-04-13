@@ -291,7 +291,7 @@ const Measurements = () => {
                           <SelectItem value="EU">EU</SelectItem>
                           <SelectItem value="US">US</SelectItem>
                           <SelectItem value="UK">UK</SelectItem>
-                          <SelectItem value="">-</SelectItem>
+                          <SelectItem value="none">-</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>

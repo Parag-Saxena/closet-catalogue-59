@@ -12,6 +12,7 @@ interface AppContextProps {
   setOutfits: React.Dispatch<React.SetStateAction<Outfit[]>>;
   loading: boolean;
   logout: () => void;
+  login: (user: User) => void;
 }
 
 interface AppProviderProps {
@@ -58,6 +59,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
   }, [outfits, loading]);
 
+  // Login function to set user data
+  const login = (userData: User) => {
+    setUser(userData);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('user', JSON.stringify(userData));
+    }
+  };
+
   // Logout function that clears user state and local storage (except theme)
   const logout = () => {
     if (typeof window !== 'undefined') {
@@ -92,7 +101,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       outfits, 
       setOutfits,
       loading,
-      logout
+      logout,
+      login
     }}>
       {children}
     </AppContext.Provider>
