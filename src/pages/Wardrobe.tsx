@@ -1,9 +1,10 @@
+
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import ClothingCard from '../components/ClothingCard';
 import EmptyState from '../components/EmptyState';
 import EditItemDialog from '../components/EditItemDialog';
-import { ClothingItem } from '../components/ClothingCard';
+import { ClothingItem } from '../types';
 import { Search, Plus, WashingMachine, Edit, Trash2, List, Grid } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";

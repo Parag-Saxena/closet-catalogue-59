@@ -1,6 +1,6 @@
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, PanelLeft, PanelRightClose } from 'lucide-react';
+import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -12,12 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useApp } from '@/context/AppContext';
+import { useSidebar } from '@/context/SidebarContext';
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user, logout } = useApp();
+  const { sidebarOpen, toggleSidebar } = useSidebar();
   
   const handleSignOut = () => {
     logout();
@@ -33,6 +35,18 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-background/90 border-b border-border shadow-sm">
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
+          {user && (
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={toggleSidebar}
+              className="h-8 w-8 mr-2 bg-background hover:bg-accent"
+              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+            >
+              {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+            </Button>
+          )}
+          
           <Link 
             to={user ? "/" : "/home"} 
             className="flex items-center gap-2 transition-opacity hover:opacity-80"
