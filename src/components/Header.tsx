@@ -35,25 +35,27 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md bg-background/90 border-b border-border shadow-sm">
       <div className="container flex items-center justify-between h-16 max-w-full mx-auto px-4">
         <div className="flex items-center gap-2">
-          {user && (
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={toggleSidebar}
-              className="h-8 w-8 mr-2 bg-background hover:bg-accent"
-              aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+          <div className="flex items-center gap-2">
+            <Link 
+              to={user ? "/" : "/home"} 
+              className="flex items-center gap-2 transition-opacity hover:opacity-80"
             >
-              {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
-            </Button>
-          )}
-          
-          <Link 
-            to={user ? "/" : "/home"} 
-            className="flex items-center gap-2 transition-opacity hover:opacity-80"
-          >
-            <Shirt className="h-6 w-6 text-gradient-primary" />
-            <span className="font-semibold text-lg text-foreground bg-clip-text bg-gradient-to-r from-thulian_pink-500 via-thulian_pink-400 to-tiffany_blue-500 text-transparent">Closet Keeper</span>
-          </Link>
+              <Shirt className="h-6 w-6 text-gradient-primary" />
+              <span className="font-semibold text-lg text-foreground bg-clip-text bg-gradient-to-r from-thulian_pink-500 via-thulian_pink-400 to-tiffany_blue-500 text-transparent">Closet Keeper</span>
+            </Link>
+            
+            {user && (
+              <Button 
+                variant="ghost" 
+                size="icon"
+                onClick={toggleSidebar}
+                className="h-8 w-8 ml-2 bg-background hover:bg-accent"
+                aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+              >
+                {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+              </Button>
+            )}
+          </div>
           
           <div className="hidden md:flex items-center space-x-1 ml-6">
             <Link to="/home" className="px-3 py-2 text-sm font-medium text-foreground hover:text-primary rounded-md">

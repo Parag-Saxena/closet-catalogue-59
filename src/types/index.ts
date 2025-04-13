@@ -23,6 +23,8 @@ export interface ClothingItem {
   updatedAt: Date | string;
   isFavorite?: boolean;
   notes?: string;
+  needsWashing?: boolean;
+  imageUrl?: string; // for backward compatibility
 }
 
 export interface Outfit {

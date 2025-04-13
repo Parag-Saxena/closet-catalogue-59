@@ -196,7 +196,7 @@ const Wardrobe = () => {
           <h1 className="text-2xl font-semibold text-foreground">My Wardrobe</h1>
           <Link
             to="/add"
-            className="inline-flex items-center justify-center rounded-full h-10 px-4 py-2 bg-gradient-to-r from-thulian_pink-500 to-tiffany_blue-500 text-white shadow-sm transition-all duration-200 hover:opacity-90 hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center rounded-full h-10 px-4 py-2 bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:scale-105 active:scale-95"
             aria-label="Add new item"
           >
             <Plus className="h-5 w-5 mr-2" />

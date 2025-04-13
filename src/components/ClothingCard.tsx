@@ -3,26 +3,7 @@ import { useState } from 'react';
 import { Tag, Shirt, WashingMachine } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-
-export interface ClothingItem {
-  id: string;
-  name: string;
-  type: string;
-  category: string;
-  color: string;
-  size: string;
-  brand: string;
-  material: string;
-  tags: Array<string>;
-  image: string;
-  lastWorn: Date;
-  createdAt: Date;
-  updatedAt: Date;
-  isFavorite?: boolean;
-  needsWashing?: boolean;
-  imageUrl?: string; // keeping for backward compatibility
-  notes?: string; // keeping for backward compatibility
-}
+import { ClothingItem } from "@/types";
 
 interface ClothingCardProps {
   item: ClothingItem;
