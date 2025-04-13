@@ -39,9 +39,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useApp } from '@/context/AppContext';
 
 const Wardrobe = () => {
-  const [items, setItems] = useState<ClothingItem[]>([]);
+  const { clothingItems, setClothingItems } = useApp();
   const [filteredItems, setFilteredItems] = useState<ClothingItem[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -49,23 +50,19 @@ const Wardrobe = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<ClothingItem | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9; // Number of items to display per page
   const { toast } = useToast();
 
-  const categories = ['All', ...new Set(items.map(item => item.category))];
+  const categories = ['All', ...new Set(clothingItems.map(item => item.category))];
 
   useEffect(() => {
-    const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
-    setItems(storedItems);
-    setFilteredItems(storedItems);
     setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    let filtered = [...items];
+    let filtered = [...clothingItems];
     
     if (searchQuery) {
       filtered = filtered.filter(item => 
@@ -86,7 +83,7 @@ const Wardrobe = () => {
     
     setFilteredItems(filtered);
     setCurrentPage(1);
-  }, [searchQuery, categoryFilter, laundryFilter, items]);
+  }, [searchQuery, categoryFilter, laundryFilter, clothingItems]);
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   const paginatedItems = filteredItems.slice(
@@ -95,14 +92,12 @@ const Wardrobe = () => {
   );
 
   const handleLaundryToggle = (id: string) => {
-    const updatedItems = items.map(item => 
+    const updatedItems = clothingItems.map(item => 
       item.id === id ? { ...item, needsWashing: !item.needsWashing } : item
     );
-    setItems(updatedItems);
+    setClothingItems(updatedItems);
     
-    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
-    
-    const item = items.find(item => item.id === id);
+    const item = clothingItems.find(item => item.id === id);
     if (item) {
       toast({
         title: item.needsWashing ? "Marked as clean" : "Added to laundry",
@@ -112,7 +107,7 @@ const Wardrobe = () => {
   };
 
   const handleEditItem = (id: string) => {
-    const item = items.find(item => item.id === id);
+    const item = clothingItems.find(item => item.id === id);
     if (item) {
       setEditingItem(item);
       setIsEditDialogOpen(true);
@@ -120,12 +115,10 @@ const Wardrobe = () => {
   };
 
   const handleSaveItem = (updatedItem: ClothingItem) => {
-    const updatedItems = items.map(item => 
+    const updatedItems = clothingItems.map(item => 
       item.id === updatedItem.id ? updatedItem : item
     );
-    setItems(updatedItems);
-    
-    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
+    setClothingItems(updatedItems);
     
     toast({
       title: "Item updated",
@@ -134,13 +127,11 @@ const Wardrobe = () => {
   };
 
   const handleDeleteItem = (id: string) => {
-    const itemToDelete = items.find(item => item.id === id);
+    const itemToDelete = clothingItems.find(item => item.id === id);
     if (!itemToDelete) return;
 
-    const updatedItems = items.filter(item => item.id !== id);
-    setItems(updatedItems);
-    
-    localStorage.setItem('closetItems', JSON.stringify(updatedItems));
+    const updatedItems = clothingItems.filter(item => item.id !== id);
+    setClothingItems(updatedItems);
     
     toast({
       title: "Item deleted",
@@ -152,14 +143,14 @@ const Wardrobe = () => {
     setCurrentPage(page);
   };
 
-  const laundryCount = items.filter(item => item.needsWashing).length;
+  const laundryCount = clothingItems.filter(item => item.needsWashing).length;
 
   const renderActionButtons = (item: ClothingItem) => (
     <div className="flex gap-1">
       <Button 
         variant="ghost" 
         size="icon" 
-        className="h-7 w-7"
+        className="h-7 w-7 hover:bg-primary/10 hover:text-primary"
         onClick={() => handleEditItem(item.id)}
       >
         <Edit className="h-3.5 w-3.5" />
@@ -170,7 +161,7 @@ const Wardrobe = () => {
           <Button 
             variant="ghost" 
             size="icon" 
-            className="h-7 w-7"
+            className="h-7 w-7 hover:bg-destructive/10 hover:text-destructive"
           >
             <Trash2 className="h-3.5 w-3.5" />
             <span className="sr-only">Delete {item.name}</span>
@@ -204,7 +195,7 @@ const Wardrobe = () => {
           <h1 className="text-2xl font-semibold text-foreground">My Wardrobe</h1>
           <Link
             to="/add"
-            className="inline-flex items-center justify-center rounded-full h-10 px-4 py-2 bg-closet-blue text-white shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:scale-105 active:scale-95 dark:bg-blue-600"
+            className="inline-flex items-center justify-center rounded-full h-10 px-4 py-2 bg-gradient-to-r from-thulian_pink-500 to-tiffany_blue-500 text-white shadow-sm transition-all duration-200 hover:opacity-90 hover:scale-105 active:scale-95"
             aria-label="Add new item"
           >
             <Plus className="h-5 w-5 mr-2" />
@@ -212,7 +203,7 @@ const Wardrobe = () => {
           </Link>
         </div>
         
-        {items.length === 0 && !isLoading ? (
+        {clothingItems.length === 0 && !isLoading ? (
           <EmptyState />
         ) : (
           <>

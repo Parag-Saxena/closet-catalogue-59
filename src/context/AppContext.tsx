@@ -34,40 +34,49 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     }
 
     // Load clothing items and outfits from localStorage
-    const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
-    const storedOutfits = JSON.parse(localStorage.getItem('outfits') || '[]');
-    
-    setClothingItems(storedItems);
-    setOutfits(storedOutfits);
+    if (typeof window !== 'undefined') {
+      const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
+      const storedOutfits = JSON.parse(localStorage.getItem('outfits') || '[]');
+      
+      setClothingItems(storedItems);
+      setOutfits(storedOutfits);
+    }
     setLoading(false);
   }, []);
 
   // Save clothing items to localStorage when they change
   useEffect(() => {
-    if (!loading) {
+    if (!loading && typeof window !== 'undefined') {
       localStorage.setItem('closetItems', JSON.stringify(clothingItems));
     }
   }, [clothingItems, loading]);
 
   // Save outfits to localStorage when they change
   useEffect(() => {
-    if (!loading) {
+    if (!loading && typeof window !== 'undefined') {
       localStorage.setItem('outfits', JSON.stringify(outfits));
     }
   }, [outfits, loading]);
 
   // Logout function that clears user state and local storage (except theme)
   const logout = () => {
-    // Preserve theme setting
-    const theme = localStorage.getItem('closet-keeper-theme');
-    
-    // Clear auth data
-    localStorage.removeItem('user');
-    localStorage.removeItem('authToken');
-    
-    // Restore theme setting
-    if (theme) {
-      localStorage.setItem('closet-keeper-theme', theme);
+    if (typeof window !== 'undefined') {
+      // Preserve theme setting
+      const theme = localStorage.getItem('closet-keeper-theme');
+      const sidebarState = localStorage.getItem('sidebarState');
+      
+      // Clear auth data
+      localStorage.removeItem('user');
+      localStorage.removeItem('authToken');
+      
+      // Restore theme and sidebar settings
+      if (theme) {
+        localStorage.setItem('closet-keeper-theme', theme);
+      }
+      
+      if (sidebarState) {
+        localStorage.setItem('sidebarState', sidebarState);
+      }
     }
     
     // Update state

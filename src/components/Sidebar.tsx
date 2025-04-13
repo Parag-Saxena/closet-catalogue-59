@@ -27,7 +27,7 @@ const AppSidebar = () => {
   const { sidebarOpen } = useSidebar();
   
   // If no user is logged in, don't render the sidebar
-  if (!user || !sidebarOpen) {
+  if (!user) {
     return null;
   }
   

@@ -26,7 +26,9 @@ export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) =>
 
   // Persist sidebar state to localStorage when it changes
   useEffect(() => {
-    localStorage.setItem('sidebarState', JSON.stringify(sidebarOpen));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('sidebarState', JSON.stringify(sidebarOpen));
+    }
   }, [sidebarOpen]);
 
   const toggleSidebar = () => {
