@@ -40,8 +40,8 @@ const Header = () => {
               to={user ? "/" : "/home"} 
               className="flex items-center gap-2 transition-opacity hover:opacity-80"
             >
-              <Shirt className="h-6 w-6 text-gradient-primary" />
-              <span className="font-semibold text-lg text-foreground bg-clip-text bg-gradient-to-r from-thulian_pink-500 via-thulian_pink-400 to-tiffany_blue-500 text-transparent">Closet Keeper</span>
+              <Shirt className="h-6 w-6 text-primary" />
+              <span className="font-semibold text-lg text-foreground">Closet Keeper</span>
             </Link>
             
             {user && (
@@ -49,7 +49,7 @@ const Header = () => {
                 variant="ghost" 
                 size="icon"
                 onClick={toggleSidebar}
-                className="h-8 w-8 ml-2 bg-background hover:bg-accent"
+                className="h-8 w-8 ml-2 hover:bg-accent"
                 aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
               >
                 {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
@@ -76,7 +76,7 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center gap-2 text-sm font-medium">
-                  <div className="h-8 w-8 rounded-full bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500 flex items-center justify-center text-white">
+                  <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-white">
                     {user.name ? user.name.charAt(0).toUpperCase() : <UserIcon className="h-4 w-4" />}
                   </div>
                   <span className="hidden md:inline">{user.name}</span>
@@ -84,7 +84,7 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-background">
                 <div className="flex items-center gap-2 p-2">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-r from-thulian_pink-500 via-burnt_sienna-500 to-tiffany_blue-500 flex items-center justify-center text-white">
+                  <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center text-white">
                     {user.name ? user.name.charAt(0).toUpperCase() : <UserIcon className="h-5 w-5" />}
                   </div>
                   <div>
@@ -119,7 +119,7 @@ const Header = () => {
             location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && (
               <Link
                 to="/sign-in"
-                className="flex items-center gap-1 text-sm font-medium bg-gradient-to-r from-thulian_pink-500 to-tiffany_blue-500 text-white px-3 py-2 rounded-full"
+                className="flex items-center gap-1 text-sm font-medium bg-primary text-white px-3 py-2 rounded-full"
               >
                 <LogIn className="h-4 w-4" />
                 <span className="hidden sm:inline">Sign In</span>

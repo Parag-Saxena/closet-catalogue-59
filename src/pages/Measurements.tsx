@@ -24,6 +24,13 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Ruler, Plus, Edit, Trash2 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type MeasurementType = 'clothes' | 'shoes' | 'accessories';
 
@@ -35,6 +42,34 @@ interface Measurement {
   unit: string;
   notes?: string;
 }
+
+// Measurement suggestions based on type
+const measurementSuggestions = {
+  clothes: [
+    { label: 'Chest', unit: 'cm' },
+    { label: 'Waist', unit: 'cm' },
+    { label: 'Hip', unit: 'cm' },
+    { label: 'Shoulder Width', unit: 'cm' },
+    { label: 'Sleeve Length', unit: 'cm' },
+    { label: 'Inseam', unit: 'cm' },
+    { label: 'Neck', unit: 'cm' },
+    { label: 'Thigh', unit: 'cm' },
+  ],
+  shoes: [
+    { label: 'Foot Length', unit: 'cm' },
+    { label: 'US Size', unit: 'US' },
+    { label: 'EU Size', unit: 'EU' },
+    { label: 'UK Size', unit: 'UK' },
+    { label: 'Foot Width', unit: 'cm' },
+  ],
+  accessories: [
+    { label: 'Hat Size', unit: 'cm' },
+    { label: 'Glove Size', unit: '' },
+    { label: 'Wrist Size', unit: 'cm' },
+    { label: 'Belt Length', unit: 'cm' },
+    { label: 'Ring Size', unit: '' },
+  ]
+};
 
 const Measurements = () => {
   const [measurements, setMeasurements] = useState<Measurement[]>([]);
@@ -48,6 +83,7 @@ const Measurements = () => {
   const [value, setValue] = useState('');
   const [unit, setUnit] = useState('cm');
   const [notes, setNotes] = useState('');
+  const [selectedSuggestion, setSelectedSuggestion] = useState('');
 
   useEffect(() => {
     // Load measurements from localStorage
@@ -65,6 +101,7 @@ const Measurements = () => {
     setValue('');
     setUnit('cm');
     setNotes('');
+    setSelectedSuggestion('');
     setEditingMeasurement(null);
   };
 
@@ -84,6 +121,17 @@ const Measurements = () => {
   const handleCloseDialog = () => {
     resetForm();
     setIsDialogOpen(false);
+  };
+
+  const handleSuggestionChange = (value: string) => {
+    setSelectedSuggestion(value);
+    const suggestion = measurementSuggestions[activeTab].find(s => s.label === value);
+    if (suggestion) {
+      setName(suggestion.label);
+      if (suggestion.unit) {
+        setUnit(suggestion.unit);
+      }
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -188,6 +236,27 @@ const Measurements = () => {
                       </Tabs>
                     </div>
                   </div>
+                  
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="suggestion" className="text-right">
+                      Common measurements
+                    </Label>
+                    <div className="col-span-3">
+                      <Select value={selectedSuggestion} onValueChange={handleSuggestionChange}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select or type your own" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {measurementSuggestions[activeTab].map((suggestion) => (
+                            <SelectItem key={suggestion.label} value={suggestion.label}>
+                              {suggestion.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  
                   <div className="grid grid-cols-4 items-center gap-4">
                     <Label htmlFor="name" className="text-right">
                       Name
@@ -212,17 +281,19 @@ const Measurements = () => {
                         placeholder="e.g., 32, 42, 9.5"
                         className="flex-1"
                       />
-                      <select
-                        value={unit}
-                        onChange={(e) => setUnit(e.target.value)}
-                        className="h-10 w-20 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                      >
-                        <option value="cm">cm</option>
-                        <option value="in">in</option>
-                        <option value="EU">EU</option>
-                        <option value="US">US</option>
-                        <option value="UK">UK</option>
-                      </select>
+                      <Select value={unit} onValueChange={setUnit}>
+                        <SelectTrigger className="w-20">
+                          <SelectValue placeholder="Unit" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="cm">cm</SelectItem>
+                          <SelectItem value="in">in</SelectItem>
+                          <SelectItem value="EU">EU</SelectItem>
+                          <SelectItem value="US">US</SelectItem>
+                          <SelectItem value="UK">UK</SelectItem>
+                          <SelectItem value="">-</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   <div className="grid grid-cols-4 items-center gap-4">
@@ -276,7 +347,7 @@ const Measurements = () => {
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {filteredMeasurements.map((measurement) => (
-                      <Card key={measurement.id}>
+                      <Card key={measurement.id} className="overflow-hidden">
                         <CardHeader className="pb-2">
                           <CardTitle className="text-lg">{measurement.name}</CardTitle>
                           <CardDescription>
@@ -293,14 +364,14 @@ const Measurements = () => {
                         </CardContent>
                         <CardFooter className="pt-0 flex justify-end gap-2">
                           <Button 
-                            variant="outline" 
+                            variant="ghost" 
                             size="icon"
                             onClick={() => handleOpenDialog(measurement)}
                           >
                             <Edit className="h-4 w-4" />
                           </Button>
                           <Button 
-                            variant="outline" 
+                            variant="ghost" 
                             size="icon"
                             onClick={() => handleDelete(measurement.id)}
                           >

@@ -52,66 +52,6 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
-				},
-				thulian_pink: {
-					DEFAULT: '#e56399',
-					100: '#38091d',
-					200: '#70133a',
-					300: '#a71c56',
-					400: '#db2a74',
-					500: '#e56399',
-					600: '#ea81ad',
-					700: '#efa1c1',
-					800: '#f4c0d6',
-					900: '#fae0ea'
-				},
-				champagne_pink: {
-					DEFAULT: '#e5d4ce',
-					100: '#39251e',
-					200: '#724a3c',
-					300: '#a9705b',
-					400: '#c7a294',
-					500: '#e5d4ce',
-					600: '#eadcd7',
-					700: '#efe5e1',
-					800: '#f4edeb',
-					900: '#faf6f5'
-				},
-				burnt_sienna: {
-					DEFAULT: '#de6e4b',
-					100: '#321309',
-					200: '#642512',
-					300: '#96381c',
-					400: '#c84b25',
-					500: '#de6e4b',
-					600: '#e48a6e',
-					700: '#eba792',
-					800: '#f2c4b7',
-					900: '#f8e2db'
-				},
-				tiffany_blue: {
-					DEFAULT: '#7fd1b9',
-					100: '#123128',
-					200: '#246350',
-					300: '#369478',
-					400: '#4ebf9d',
-					500: '#7fd1b9',
-					600: '#99dac7',
-					700: '#b3e3d5',
-					800: '#ccede3',
-					900: '#e6f6f1'
-				},
-				wenge: {
-					DEFAULT: '#7a6563',
-					100: '#181414',
-					200: '#302827',
-					300: '#483c3b',
-					400: '#60504f',
-					500: '#7a6563',
-					600: '#96817f',
-					700: '#b1a19f',
-					800: '#cbc0bf',
-					900: '#e5e0df'
 				}
 			},
 			borderRadius: {
@@ -171,11 +111,13 @@ export default {
 				'float': 'float 3s ease-in-out infinite'
 			},
 			boxShadow: {
-				'card-hover': '0 10px 20px rgba(0, 0, 0, 0.1)',
+				'card-hover': '0 4px 12px rgba(0, 0, 0, 0.1)',
 			},
 			backgroundImage: {
-				'gradient-primary': 'linear-gradient(135deg, #e56399, #7fd1b9)', // Thulian Pink to Tiffany Blue
-				'gradient-accent': 'linear-gradient(135deg, #de6e4b, #e5d4ce)', // Burnt Sienna to Champagne Pink
+				'gradient-primary': 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)/0.8))',
+			},
+			fontFamily: {
+				sans: ['SF Pro Display', 'system-ui', 'sans-serif']
 			}
 		}
 	},
