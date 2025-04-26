@@ -111,10 +111,7 @@ export default {
 				'float': 'float 3s ease-in-out infinite'
 			},
 			boxShadow: {
-				'card-hover': '0 4px 12px rgba(0, 0, 0, 0.1)',
-			},
-			backgroundImage: {
-				'gradient-primary': 'linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)/0.8))',
+				'card-hover': '0 4px 12px rgba(0, 0, 0, 0.08)',
 			},
 			fontFamily: {
 				sans: ['SF Pro Display', 'system-ui', 'sans-serif']

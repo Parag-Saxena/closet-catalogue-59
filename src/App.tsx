@@ -1,3 +1,5 @@
+
+import { Suspense, lazy } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,39 +7,70 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppProvider } from "@/context/AppContext";
-import { SidebarProvider } from "@/context/SidebarContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Index from "./pages/Index";
-import AddItem from "./pages/AddItem";
-import NotFound from "./pages/NotFound";
-import Wardrobe from "./pages/Wardrobe";
-import Categories from "./pages/Categories";
-import Outfits from "./pages/Outfits";
-import Style from "./pages/Style";
-import Account from "./pages/Account";
-import Settings from "./pages/Settings";
-import AddOutfit from "./pages/AddOutfit";
-import AddStyleGuide from "./pages/AddStyleGuide";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import ForgotPassword from "./pages/ForgotPassword";
-import ChangePassword from "./pages/ChangePassword";
-import AccountActivation from "./pages/AccountActivation";
-import Measurements from "./pages/Measurements";
-import ShoppingSchedule from "./pages/ShoppingSchedule";
-import Home from "./pages/Home";
 
-const queryClient = new QueryClient();
+// Loading component
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load routes for better performance
+const Index = lazy(() => import("./pages/Index"));
+const AddItem = lazy(() => import("./pages/AddItem"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Wardrobe = lazy(() => import("./pages/Wardrobe"));
+const Categories = lazy(() => import("./pages/Categories"));
+const Outfits = lazy(() => import("./pages/Outfits"));
+const Style = lazy(() => import("./pages/Style"));
+const Account = lazy(() => import("./pages/Account"));
+const Settings = lazy(() => import("./pages/Settings"));
+const AddOutfit = lazy(() => import("./pages/AddOutfit"));
+const AddStyleGuide = lazy(() => import("./pages/AddStyleGuide"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword"));
+const ChangePassword = lazy(() => import("./pages/ChangePassword"));
+const AccountActivation = lazy(() => import("./pages/AccountActivation"));
+const Measurements = lazy(() => import("./pages/Measurements"));
+const ShoppingSchedule = lazy(() => import("./pages/ShoppingSchedule"));
+const Home = lazy(() => import("./pages/Home"));
+
+// Loading fallback component
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center min-h-screen">
+    <div className="w-full max-w-md p-8 space-y-4">
+      <Skeleton className="h-12 w-3/4 mx-auto" />
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-5/6" />
+        <Skeleton className="h-4 w-4/6" />
+      </div>
+      <Skeleton className="h-64 w-full rounded-md" />
+      <div className="flex justify-end space-x-2">
+        <Skeleton className="h-10 w-24" />
+        <Skeleton className="h-10 w-32" />
+      </div>
+    </div>
+  </div>
+);
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+    },
+  },
+});
 
 const App = () => (
   <ThemeProvider defaultTheme="light" storageKey="closet-keeper-theme">
     <QueryClientProvider client={queryClient}>
       <AppProvider>
-        <SidebarProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Suspense fallback={<LoadingFallback />}>
               <Routes>
                 {/* Public landing page route */}
                 <Route path="/home" element={<Home />} />
@@ -67,9 +100,9 @@ const App = () => (
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </BrowserRouter>
-          </TooltipProvider>
-        </SidebarProvider>
+            </Suspense>
+          </BrowserRouter>
+        </TooltipProvider>
       </AppProvider>
     </QueryClientProvider>
   </ThemeProvider>
