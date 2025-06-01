@@ -81,7 +81,7 @@ const App = () => (
 
                 {/* Dashboard routes */}
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}>
-                  <Route index element={<Navigate to="/dashboard/wardrobe" replace />} />
+                  <Route index element={<Navigate to="/dashboard/wardrobe\" replace />} />
                   <Route path="wardrobe" element={<Wardrobe />} />
                   <Route path="add" element={<AddItem />} />
                   <Route path="categories" element={<Categories />} />
@@ -95,7 +95,7 @@ const App = () => (
                 </Route>
 
                 {/* Root redirect */}
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                <Route path="/" element={<Navigate to="/dashboard\" replace />} />
 
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
