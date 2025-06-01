@@ -1,143 +1,147 @@
-
-import React from 'react';
-import Layout from '@/components/Layout';
-import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Shirt, Sparkles, Tag, Clock, Shield, PenTool, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useInView } from 'react-intersection-observer';
+import { ArrowRight, Check, Shirt, BookHeart, Star } from 'lucide-react';
 
 const Home = () => {
+  const [heroRef, heroInView] = useInView({ triggerOnce: true });
+  const [featuresRef, featuresInView] = useInView({ triggerOnce: true, threshold: 0.2 });
+  const [ctaRef, ctaInView] = useInView({ triggerOnce: true });
+
+  const features = [
+    {
+      icon: Shirt,
+      title: "Smart Wardrobe Management",
+      description: "Organize and track your clothing items with ease"
+    },
+    {
+      icon: BookHeart,
+      title: "Outfit Planning",
+      description: "Create and save your favorite outfit combinations"
+    },
+    {
+      icon: Star,
+      title: "Style Recommendations",
+      description: "Get personalized style suggestions based on your preferences"
+    }
+  ];
+
   return (
-    <Layout excludeSidebar>
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="py-20 md:py-28">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
-          <div className="max-w-3xl mx-auto mb-10">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
-              Organize your wardrobe <span className="text-primary">effortlessly</span>
+      <div 
+        ref={heroRef}
+        className={`relative overflow-hidden bg-gradient-to-b from-primary/5 to-background pt-32 pb-24 ${
+          heroInView ? 'animate-fadeIn' : 'opacity-0'
+        }`}
+      >
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+              Your Smart Wardrobe Assistant
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Closet Keeper helps you manage your clothes, create outfits, and make smarter fashion choices.
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8">
+              Organize your closet, plan outfits, and elevate your style game
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link to="/sign-up">
-                <Button size="lg" className="bg-primary text-white">
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-              <Link to="/sign-in">
-                <Button size="lg" variant="outline">
-                  Sign In
-                </Button>
-              </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="text-lg" asChild>
+                <Link to="/sign-up">
+                  Get Started <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg" asChild>
+                <Link to="/sign-in">Sign In</Link>
+              </Button>
             </div>
           </div>
-          
-          <div className="mt-16 mb-8 rounded-xl overflow-hidden shadow-xl max-w-5xl mx-auto">
-            <img 
-              src="/placeholder.svg" 
-              alt="Closet Keeper App Interface" 
-              className="w-full h-auto rounded-xl shadow-lg"
-            />
-          </div>
         </div>
-      </section>
+        
+        {/* Decorative background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+          <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/3 right-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        </div>
+      </div>
 
       {/* Features Section */}
-      <section className="py-16 bg-secondary/50">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <div 
+        ref={featuresRef}
+        className={`py-24 bg-gradient-to-b from-background to-primary/5 ${
+          featuresInView ? 'animate-fadeIn' : 'opacity-0'
+        }`}
+      >
+        <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-            Key Features
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <FeatureCard
-              icon={Shirt}
-              title="Item Management"
-              description="Easily add, edit, and organize all your clothing items in one place."
-            />
-            <FeatureCard
-              icon={Sparkles}
-              title="Style Recommendations"
-              description="Get personalized outfit suggestions based on your wardrobe."
-            />
-            <FeatureCard
-              icon={Tag}
-              title="Smart Organization"
-              description="Categorize your items by type, color, season, and more."
-            />
-            <FeatureCard
-              icon={Clock}
-              title="Outfit Planning"
-              description="Plan your outfits ahead of time for any occasion."
-            />
-            <FeatureCard
-              icon={Shield}
-              title="Private & Secure"
-              description="Your wardrobe data is encrypted and never shared with third parties."
-            />
-            <FeatureCard
-              icon={PenTool}
-              title="Custom Style Guide"
-              description="Create your own style guide to reflect your personal fashion preferences."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-            What Users Say
+            Everything you need to manage your wardrobe
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <TestimonialCard
-              quote="Closet Keeper has completely transformed how I manage my wardrobe. I can finally see everything I own!"
-              author="Sarah J."
-            />
-            <TestimonialCard
-              quote="The outfit planner is a game-changer. I save so much time in the morning now."
-              author="Michael T."
-            />
-            <TestimonialCard
-              quote="I've reduced my impulse shopping significantly since I can see what I already own."
-              author="Emma L."
-            />
+            {features.map((feature, index) => (
+              <div 
+                key={index}
+                className="relative group p-6 bg-card rounded-2xl border shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <feature.icon className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
+                  <p className="text-muted-foreground">{feature.description}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
-      <section className="py-20 bg-primary text-white">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center">
+      <div 
+        ref={ctaRef}
+        className={`py-24 bg-primary text-primary-foreground ${
+          ctaInView ? 'animate-fadeIn' : 'opacity-0'
+        }`}
+      >
+        <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Transform Your Wardrobe Experience?
+            Ready to transform your wardrobe?
           </h2>
-          <p className="text-xl max-w-3xl mx-auto mb-10 opacity-90">
-            Join thousands of users who have simplified their clothing management with Closet Keeper.
+          <p className="text-xl mb-8 text-primary-foreground/90">
+            Join thousands of users who have simplified their clothing management
           </p>
-          <Link to="/sign-up">
-            <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-white/90">
-              Get Started for Free
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <Button 
+            size="lg" 
+            variant="secondary" 
+            className="text-lg bg-white text-primary hover:bg-white/90"
+            asChild
+          >
+            <Link to="/sign-up">
+              Get Started Free <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
+          </Button>
         </div>
-      </section>
-      
+      </div>
+
       {/* Footer */}
-      <footer className="py-12 bg-background text-foreground border-t">
-        <div className="container mx-auto px-4 md:px-6 lg:px-8">
+      <footer className="bg-background border-t py-12">
+        <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center mb-6 md:mb-0">
               <Shirt className="h-6 w-6 mr-2 text-primary" />
               <span className="font-bold text-lg">Closet Keeper</span>
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-primary transition-colors">Privacy</a>
-              <a href="#" className="hover:text-primary transition-colors">Terms</a>
-              <a href="#" className="hover:text-primary transition-colors">Contact</a>
-              <a href="#" className="hover:text-primary transition-colors">About</a>
+              <Link to="#" className="text-muted-foreground hover:text-primary transition-colors">
+                Privacy
+              </Link>
+              <Link to="#" className="text-muted-foreground hover:text-primary transition-colors">
+                Terms
+              </Link>
+              <Link to="#" className="text-muted-foreground hover:text-primary transition-colors">
+                Contact
+              </Link>
+              <Link to="#" className="text-muted-foreground hover:text-primary transition-colors">
+                About
+              </Link>
             </div>
           </div>
           <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
@@ -145,26 +149,8 @@ const Home = () => {
           </div>
         </div>
       </footer>
-    </Layout>
+    </div>
   );
 };
-
-const FeatureCard = ({ icon: Icon, title, description }) => (
-  <div className="p-6 rounded-xl bg-card shadow-sm border transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-    <div className="inline-flex items-center justify-center p-3 mb-4 bg-primary/10 text-primary rounded-full">
-      <Icon className="h-6 w-6" />
-    </div>
-    <h3 className="text-xl font-semibold mb-3">{title}</h3>
-    <p className="text-muted-foreground">{description}</p>
-  </div>
-);
-
-const TestimonialCard = ({ quote, author }) => (
-  <div className="p-6 rounded-xl bg-card border shadow-sm">
-    <div className="text-4xl text-primary opacity-30">"</div>
-    <p className="mt-4 mb-4 text-foreground">{quote}</p>
-    <p className="font-semibold text-right">— {author}</p>
-  </div>
-);
 
 export default Home;
