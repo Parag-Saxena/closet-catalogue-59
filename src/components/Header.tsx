@@ -41,7 +41,7 @@ const Header = () => {
           
           {isHomePage ? (
             <div className="flex items-center gap-2">
-              <Button variant="ghost\" asChild>
+              <Button variant="ghost" asChild>
                 <Link to="/sign-in">Sign In</Link>
               </Button>
               <Button asChild>
