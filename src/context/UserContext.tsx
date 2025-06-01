@@ -15,7 +15,7 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-const UserContext = createContext<UserContextProps | undefined>(undefined);
+export const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);

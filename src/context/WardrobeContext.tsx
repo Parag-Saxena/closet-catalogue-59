@@ -18,7 +18,7 @@ interface WardrobeProviderProps {
   children: ReactNode;
 }
 
-const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
+export const WardrobeContext = createContext<WardrobeContextProps | undefined>(undefined);
 
 export const WardrobeProvider: React.FC<WardrobeProviderProps> = ({ children }) => {
   const [clothingItems, setClothingItems] = useState<ClothingItem[]>([]);

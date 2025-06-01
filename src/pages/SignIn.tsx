@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from "@/components/ui/input";
@@ -7,10 +6,10 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import Layout from '@/components/Layout';
 import { useApp } from '@/context/AppContext';
-import { LogIn, KeyRound, Mail } from 'lucide-react';
+import { LogIn, KeyRound, User } from 'lucide-react';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -19,35 +18,35 @@ const SignIn = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!email || !password) {
+
+    if (!username || !password) {
       toast({
         title: "Error",
-        description: "Please enter both email and password",
+        description: "Please enter both username and password",
         variant: "destructive",
       });
       return;
     }
-    
+
     setIsLoading(true);
-    
+
     try {
       // For demo purposes, we'll simulate a successful login
       // In a real app, this would call an API
       await new Promise(resolve => setTimeout(resolve, 1000)); // simulate network request
-      
+
       // Simply use demo data for now
       login({
-        name: "Demo User",
-        email: email
+        name: username,
+        email: `${username}@example.com`
       });
-      
+
       toast({
         title: "Success",
         description: "Welcome back!",
         variant: "success",
       });
-      
+
       navigate('/');
     } catch (error) {
       toast({
@@ -72,26 +71,26 @@ const SignIn = () => {
                 Sign in to continue to your wardrobe
               </p>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="username">Username</Label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
+                      <User className="h-4 w-4 text-muted-foreground" />
                     </div>
                     <Input
-                      id="email"
-                      type="email"
-                      placeholder="name@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      id="username"
+                      type="text"
+                      placeholder="Enter your username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       className="pl-10"
                     />
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password">Password</Label>
@@ -114,7 +113,7 @@ const SignIn = () => {
                   </div>
                 </div>
               </div>
-              
+
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -132,7 +131,7 @@ const SignIn = () => {
                 )}
               </Button>
             </form>
-            
+
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{" "}
@@ -143,12 +142,12 @@ const SignIn = () => {
             </div>
           </div>
         </div>
-        
+
         {/* Right side - Image */}
         <div className="hidden md:block md:w-1/2 h-[calc(100vh-4rem)] bg-secondary">
-          <img 
-            src="/placeholder.svg" 
-            alt="Wardrobe illustration" 
+          <img
+            src="/placeholder.svg"
+            alt="Wardrobe illustration"
             className="w-full h-full object-cover"
           />
         </div>

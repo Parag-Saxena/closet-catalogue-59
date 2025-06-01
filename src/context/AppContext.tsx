@@ -1,9 +1,10 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { UserProvider } from './UserContext';
-import { WardrobeProvider } from './WardrobeContext';
-import { ThemeProvider } from './ThemeProvider';
+import { UserContext, UserProvider } from './UserContext';
+import { WardrobeContext, WardrobeProvider } from './WardrobeContext';
 import { SidebarProvider } from './SidebarContext';
+import { ThemeProvider } from '@/components/theme-provider';
+
 
 interface AppProviderProps {
   children: ReactNode;
@@ -28,17 +29,14 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
 export const useApp = () => {
   const user = useContext(UserContext);
   const wardrobe = useContext(WardrobeContext);
-  
+
   if (!user || !wardrobe) {
     throw new Error('useApp must be used within an AppProvider');
   }
-  
+
   return {
     ...user,
     ...wardrobe
   };
 };
 
-// Import the actual contexts at the end to avoid circular dependencies
-import { UserContext } from './UserContext';
-import { WardrobeContext } from './WardrobeContext';
