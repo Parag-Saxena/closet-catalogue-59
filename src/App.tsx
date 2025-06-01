@@ -1,5 +1,4 @@
-
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -81,21 +80,112 @@ const App = () => (
                 <Route path="/forgot-password" element={<ForgotPassword />} />
 
                 {/* Dashboard home (protected) */}
-                <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+                <Route
+                  path="/"
+                  element={
+                    <ProtectedRoute>
+                      <Index />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* Protected routes */}
-                <Route path="/add" element={<ProtectedRoute><AddItem /></ProtectedRoute>} />
-                <Route path="/wardrobe" element={<ProtectedRoute><Wardrobe /></ProtectedRoute>} />
-                <Route path="/categories" element={<ProtectedRoute><Categories /></ProtectedRoute>} />
-                <Route path="/outfits" element={<ProtectedRoute><Outfits /></ProtectedRoute>} />
-                <Route path="/add-outfit" element={<ProtectedRoute><AddOutfit /></ProtectedRoute>} />
-                <Route path="/style" element={<ProtectedRoute><Style /></ProtectedRoute>} />
-                <Route path="/account" element={<ProtectedRoute><Account /></ProtectedRoute>} />
-                <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-                <Route path="/reset-password" element={<ProtectedRoute><ChangePassword /></ProtectedRoute>} />
-                <Route path="/activate-account" element={<ProtectedRoute><AccountActivation /></ProtectedRoute>} />
-                <Route path="/measurements" element={<ProtectedRoute><Measurements /></ProtectedRoute>} />
-                <Route path="/shopping-schedule" element={<ProtectedRoute><ShoppingSchedule /></ProtectedRoute>} />
+                <Route
+                  path="/add"
+                  element={
+                    <ProtectedRoute>
+                      <AddItem />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/wardrobe"
+                  element={
+                    <ProtectedRoute>
+                      <Wardrobe />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/categories"
+                  element={
+                    <ProtectedRoute>
+                      <Categories />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/outfits"
+                  element={
+                    <ProtectedRoute>
+                      <Outfits />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/add-outfit"
+                  element={
+                    <ProtectedRoute>
+                      <AddOutfit />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/style"
+                  element={
+                    <ProtectedRoute>
+                      <Style />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/account"
+                  element={
+                    <ProtectedRoute>
+                      <Account />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/settings"
+                  element={
+                    <ProtectedRoute>
+                      <Settings />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/reset-password"
+                  element={
+                    <ProtectedRoute>
+                      <ChangePassword />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/activate-account"
+                  element={
+                    <ProtectedRoute>
+                      <AccountActivation />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/measurements"
+                  element={
+                    <ProtectedRoute>
+                      <Measurements />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/shopping-schedule"
+                  element={
+                    <ProtectedRoute>
+                      <ShoppingSchedule />
+                    </ProtectedRoute>
+                  }
+                />
 
                 {/* Catch-all route */}
                 <Route path="*" element={<NotFound />} />
