@@ -25,6 +25,13 @@ export interface ClothingItem {
   notes?: string;
   needsWashing?: boolean;
   imageUrl?: string; // for backward compatibility
+  // Extended properties for different item types
+  fabric?: string; // for apparel
+  fit?: string; // for apparel
+  season?: string; // for apparel
+  shoeSize?: string; // for footwear
+  heelHeight?: string; // for footwear
+  footwearStyle?: string; // for footwear
 }
 
 export interface Outfit {

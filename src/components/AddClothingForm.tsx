@@ -91,6 +91,8 @@ const AddClothingForm = () => {
     setIsSubmitting(true);
     
     try {
+      const currentDate = new Date().toISOString();
+      
       const newItem = {
         name: formData.name,
         type: formData.type,
@@ -102,6 +104,9 @@ const AddClothingForm = () => {
         tags: formData.tags.split(',').map(tag => tag.trim()),
         image: image || '/placeholder.svg',
         notes: formData.notes,
+        lastWorn: '',
+        createdAt: currentDate,
+        updatedAt: currentDate,
         // Add conditional fields based on item type
         ...(selectedItemType === 'apparel' && {
           fabric: formData.fabric,
