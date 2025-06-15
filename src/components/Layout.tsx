@@ -21,24 +21,28 @@ const Layout: React.FC<LayoutProps> = ({
   const showSidebar = user && !isHomePage && !excludeSidebar;
 
   return (
-    <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background to-background/95 overflow-hidden">
+    <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background/95 to-background overflow-hidden">
       <Header />
       
       <div className="flex flex-1 h-full overflow-hidden">
-        {/* Desktop Sidebar */}
+        {/* Desktop Sidebar with Glassmorphism */}
         {showSidebar && (
           <div className={cn(
             "hidden lg:block transition-all duration-300 ease-in-out h-full",
             sidebarOpen ? "w-64" : "w-0"
           )}>
-            {sidebarOpen && <AppSidebar />}
+            {sidebarOpen && (
+              <div className="stylestack-glass-strong h-full border-r border-glass-border">
+                <AppSidebar />
+              </div>
+            )}
           </div>
         )}
 
         {/* Main Content */}
         <main className={cn(
           "flex-1 h-full overflow-y-auto",
-          "px-4 py-4 lg:px-6 lg:py-6",
+          "p-4 lg:p-6",
           showSidebar && sidebarOpen ? "lg:ml-0" : "",
           // Mobile bottom navigation spacing
           user && !isHomePage ? "pb-20 lg:pb-6" : ""
@@ -53,14 +57,20 @@ const Layout: React.FC<LayoutProps> = ({
           <div className="fixed inset-0 z-40 lg:hidden">
             <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
             <div className="absolute left-0 top-16 bottom-0 w-80 max-w-[85vw]">
-              <AppSidebar />
+              <div className="stylestack-glass-strong h-full">
+                <AppSidebar />
+              </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Mobile Navigation */}
-      {user && !isHomePage && <MobileNavigation />}
+      {/* Mobile Navigation with Glassmorphism */}
+      {user && !isHomePage && (
+        <div className="stylestack-glass-strong border-t border-glass-border lg:hidden">
+          <MobileNavigation />
+        </div>
+      )}
     </div>
   );
 };

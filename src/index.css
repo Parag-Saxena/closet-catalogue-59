@@ -1,87 +1,83 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --font-sans: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+    --font-sans: 'Montserrat', system-ui, sans-serif;
     
-    /* Light mode colors - Modern morphism palette */
-    --background: 240 10% 98%;
-    --foreground: 240 10% 10%;
+    /* StyleStack Color Palette */
+    --background: 0 0% 96%; /* #F5F5F5 off-white */
+    --foreground: 0 0% 20%; /* #333333 deep charcoal */
     
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 10%;
+    --card-foreground: 0 0% 20%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 10%;
+    --popover-foreground: 0 0% 20%;
     
-    /* Primary - Modern blue with morphism feel */
-    --primary: 217 91% 60%;
+    /* Dusty Rose Accent */
+    --primary: 342 24% 70%; /* #D9AAB7 dusty rose */
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 240 5% 96%;
-    --secondary-foreground: 240 6% 10%;
+    --secondary: 0 0% 94%;
+    --secondary-foreground: 0 0% 20%;
     
-    --muted: 240 5% 96%;
-    --muted-foreground: 240 4% 46%;
+    --muted: 0 0% 94%;
+    --muted-foreground: 0 0% 45%;
     
-    --accent: 217 91% 60%;
+    --accent: 342 24% 70%;
     --accent-foreground: 0 0% 100%;
     
-    /* Destructive - Soft red for morphism */
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 240 6% 90%;
-    --input: 240 6% 90%;
-    --ring: 217 91% 60%;
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 342 24% 70%;
     
-    --radius: 1rem;
+    --radius: 1.2rem;
     
-    /* Morphism shadows */
-    --shadow-light: rgba(255, 255, 255, 0.9);
-    --shadow-dark: rgba(0, 0, 0, 0.1);
-    --glass-bg: rgba(255, 255, 255, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.18);
+    /* Glassmorphism variables */
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.25);
+    --glass-shadow: 0 8px 32px rgba(51, 51, 51, 0.1);
   }
   
   .dark {
-    /* Dark mode colors - Modern dark morphism */
-    --background: 222 84% 5%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 12%;
+    --foreground: 0 0% 95%;
     
-    --card: 222 84% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 95%;
     
-    --popover: 222 84% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 95%;
     
-    --primary: 217 91% 70%;
-    --primary-foreground: 222 84% 5%;
+    --primary: 342 24% 70%;
+    --primary-foreground: 0 0% 20%;
     
-    --secondary: 217 32% 12%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 18%;
+    --secondary-foreground: 0 0% 95%;
     
-    --muted: 217 32% 12%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
     
-    --accent: 217 91% 70%;
-    --accent-foreground: 222 84% 5%;
+    --accent: 342 24% 70%;
+    --accent-foreground: 0 0% 20%;
     
-    --destructive: 0 84% 65%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 95%;
     
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 217 91% 70%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 342 24% 70%;
     
-    /* Dark morphism shadows */
-    --shadow-light: rgba(255, 255, 255, 0.1);
-    --shadow-dark: rgba(0, 0, 0, 0.3);
-    --glass-bg: rgba(17, 25, 40, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.05);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
   * {
@@ -101,139 +97,143 @@
 }
 
 @layer components {
-  /* Morphism Card Components */
-  .morphism-card {
+  /* StyleStack Glassmorphism Cards */
+  .stylestack-glass {
     background: var(--glass-bg);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid var(--glass-border);
-    box-shadow: 
-      0 8px 32px rgba(31, 38, 135, 0.37),
-      inset 0 1px 0 var(--shadow-light);
+    box-shadow: var(--glass-shadow);
     @apply rounded-2xl;
   }
 
-  .morphism-button {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 
-      0 4px 16px rgba(31, 38, 135, 0.2),
-      inset 0 1px 0 var(--shadow-light);
-    @apply rounded-xl transition-all duration-300 hover:scale-105;
-  }
-
-  .morphism-input {
-    background: var(--glass-bg);
+  .stylestack-glass-subtle {
+    background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: 1px solid var(--glass-border);
-    box-shadow: inset 0 2px 4px var(--shadow-dark);
+    box-shadow: 0 4px 16px rgba(51, 51, 51, 0.05);
     @apply rounded-xl;
   }
 
-  .morphism-sidebar {
-    background: var(--glass-bg);
+  .stylestack-glass-strong {
+    background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-right: 1px solid var(--glass-border);
-    box-shadow: 
-      0 8px 32px rgba(31, 38, 135, 0.37),
-      inset 0 1px 0 var(--shadow-light);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    @apply rounded-2xl;
   }
 
-  /* Modern Grid System */
-  .grid-responsive {
-    @apply grid gap-4 md:gap-6;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Bento Grid Layout */
+  .bento-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .grid-responsive-sm {
-    @apply grid gap-3 md:gap-4;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  @media (min-width: 640px) {
+    .bento-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
   }
 
-  /* Mobile-first Typography */
-  .heading-xl {
-    @apply text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight;
+  @media (min-width: 768px) {
+    .bento-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
   }
 
-  .heading-lg {
-    @apply text-xl sm:text-2xl md:text-3xl font-semibold tracking-tight;
+  @media (min-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+    }
   }
 
-  .heading-md {
-    @apply text-lg sm:text-xl md:text-2xl font-semibold;
+  /* StyleStack Typography */
+  .stylestack-heading-xl {
+    @apply text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight;
+    font-family: 'Montserrat', sans-serif;
   }
 
-  .heading-sm {
-    @apply text-base sm:text-lg font-medium;
+  .stylestack-heading-lg {
+    @apply text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight;
+    font-family: 'Montserrat', sans-serif;
   }
 
-  .body-lg {
-    @apply text-base sm:text-lg;
+  .stylestack-heading-md {
+    @apply text-xl sm:text-2xl md:text-3xl font-medium;
+    font-family: 'Montserrat', sans-serif;
   }
 
-  .body-md {
-    @apply text-sm sm:text-base;
+  .stylestack-heading-sm {
+    @apply text-lg sm:text-xl font-medium;
+    font-family: 'Montserrat', sans-serif;
   }
 
-  .body-sm {
-    @apply text-xs sm:text-sm;
+  .stylestack-body {
+    @apply text-sm sm:text-base leading-relaxed;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
   }
 
-  /* Enhanced Animations */
-  .animate-morphism-float {
-    animation: morphism-float 6s ease-in-out infinite;
+  .stylestack-caption {
+    @apply text-xs sm:text-sm text-muted-foreground;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
   }
 
-  .animate-morphism-glow {
-    animation: morphism-glow 3s ease-in-out infinite alternate;
+  /* Interactive Elements */
+  .stylestack-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg;
   }
 
-  /* Interactive States */
-  .interactive-morphism {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
+  .stylestack-button {
+    @apply stylestack-glass px-6 py-3 rounded-xl font-medium transition-all duration-200;
+    @apply hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50;
   }
 
-  /* Responsive Container */
-  .container-responsive {
-    @apply mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
+  /* Clothing Item Cards */
+  .clothing-card {
+    @apply stylestack-glass-subtle stylestack-hover overflow-hidden;
+    aspect-ratio: 3/4;
   }
 
-  /* Mobile Navigation */
-  .mobile-nav {
-    @apply fixed bottom-0 left-0 right-0 z-50 md:hidden;
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--glass-border);
+  .clothing-card-image {
+    @apply w-full h-2/3 object-cover bg-muted/30;
+  }
+
+  .clothing-card-content {
+    @apply p-3 h-1/3 flex flex-col justify-between;
+  }
+
+  /* Status indicators */
+  .status-clean {
+    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300;
+  }
+
+  .status-laundry {
+    @apply bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300;
+  }
+
+  .status-favorite {
+    @apply bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-300;
   }
 }
 
 @layer utilities {
-  /* Enhanced Scrollbars */
-  .scrollbar-morphism::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+  /* Responsive spacing */
+  .space-stylestack {
+    @apply space-y-4 sm:space-y-6 md:space-y-8;
   }
 
-  .scrollbar-morphism::-webkit-scrollbar-track {
-    background: var(--glass-bg);
-    border-radius: 3px;
+  .padding-stylestack {
+    @apply p-4 sm:p-6 md:p-8;
   }
 
-  .scrollbar-morphism::-webkit-scrollbar-thumb {
-    background: var(--glass-border);
-    border-radius: 3px;
-  }
-
-  .scrollbar-morphism::-webkit-scrollbar-thumb:hover {
-    background: var(--primary);
-  }
-
-  /* Glass Effects */
+  /* Glass effect utilities */
   .glass-light {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
@@ -251,75 +251,31 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
-
-  /* Responsive Spacing */
-  .space-responsive {
-    @apply space-y-4 sm:space-y-6 md:space-y-8;
-  }
-
-  .p-responsive {
-    @apply p-4 sm:p-6 md:p-8;
-  }
-
-  .m-responsive {
-    @apply m-4 sm:m-6 md:m-8;
-  }
 }
 
-/* Morphism Keyframes */
-@keyframes morphism-float {
+/* StyleStack specific animations */
+@keyframes stylestack-float {
   0%, 100% {
     transform: translateY(0) scale(1);
   }
-  33% {
-    transform: translateY(-10px) scale(1.02);
-  }
-  66% {
-    transform: translateY(5px) scale(0.98);
+  50% {
+    transform: translateY(-8px) scale(1.01);
   }
 }
 
-@keyframes morphism-glow {
+@keyframes stylestack-glow {
   0% {
-    box-shadow: 
-      0 8px 32px rgba(31, 38, 135, 0.37),
-      inset 0 1px 0 var(--shadow-light);
+    box-shadow: var(--glass-shadow);
   }
   100% {
-    box-shadow: 
-      0 12px 48px rgba(31, 38, 135, 0.5),
-      inset 0 1px 0 var(--shadow-light),
-      0 0 20px rgba(59, 130, 246, 0.3);
+    box-shadow: var(--glass-shadow), 0 0 30px rgba(217, 170, 183, 0.3);
   }
 }
 
-/* Responsive breakpoints helpers */
-@media (max-width: 640px) {
-  .container-responsive {
-    @apply px-3;
-  }
+.animate-stylestack-float {
+  animation: stylestack-float 4s ease-in-out infinite;
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .grid-responsive {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* Mobile-first improvements */
-.touch-target {
-  @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
-}
-
-.safe-area {
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-top: env(safe-area-inset-top);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+.animate-stylestack-glow {
+  animation: stylestack-glow 2s ease-in-out infinite alternate;
 }

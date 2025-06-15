@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Tag, Shirt, WashingMachine } from 'lucide-react';
+import { Tag, Shirt, WashingMachine, Heart } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ClothingItem } from "@/types";
@@ -20,16 +20,14 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
   };
 
   return (
-    <div className="group card-hover overflow-hidden rounded-xl bg-card border border-border shadow-sm dark:bg-gray-800">
-      <div className={`relative aspect-square w-full ${!imageLoaded && !item.imageUrl ? 'bg-muted' : ''}`}>
+    <div className="clothing-card group">
+      <div className={`clothing-card-image relative ${!imageLoaded && !item.imageUrl ? 'bg-muted/30' : ''}`}>
         {item.imageUrl ? (
           <>
             <img
               src={item.image || item.imageUrl}
               alt={item.name}
-              className={cn(
-                "h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
-              )}
+              className="clothing-card-image transition-transform duration-300 group-hover:scale-110"
               onLoad={() => setImageLoaded(true)}
               onError={(e) => {
                 setImageLoaded(false);
@@ -37,60 +35,72 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
               }}
             />
             {!imageLoaded && (
-              <div className="absolute inset-0 flex h-full w-full items-center justify-center bg-secondary">
-                <Shirt className="h-12 w-12 text-muted-foreground opacity-30" />
+              <div className="absolute inset-0 flex items-center justify-center bg-muted/30">
+                <Shirt className="h-12 w-12 text-muted-foreground/30" />
               </div>
             )}
           </>
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-secondary">
-            <Shirt className="h-12 w-12 text-muted-foreground opacity-30" />
+          <div className="flex h-full w-full items-center justify-center bg-muted/30">
+            <Shirt className="h-12 w-12 text-muted-foreground/30" />
           </div>
         )}
-        <div className="absolute top-2 left-2 flex flex-col gap-1.5">
-          <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary dark:bg-primary/30 dark:text-primary-foreground">
+        
+        {/* Status Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2">
+          <span className="stylestack-glass-subtle px-3 py-1 rounded-full stylestack-caption font-medium text-primary">
             {item.category}
           </span>
+          {item.isFavorite && (
+            <span className="stylestack-glass-subtle px-3 py-1 rounded-full flex items-center gap-1">
+              <Heart className="w-3 h-3 text-rose-500 fill-current" />
+              <span className="stylestack-caption font-medium text-rose-600">Favorite</span>
+            </span>
+          )}
           {item.needsWashing && (
-            <span className="inline-flex items-center rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:bg-amber-500/30 dark:text-amber-200">
-              Needs washing
+            <span className="stylestack-glass-subtle px-3 py-1 rounded-full flex items-center gap-1">
+              <WashingMachine className="w-3 h-3 text-amber-600" />
+              <span className="stylestack-caption font-medium text-amber-600">Laundry</span>
             </span>
           )}
         </div>
       </div>
-      <div className="p-3">
-        <h3 className="font-medium text-sm text-foreground truncate">{item.name}</h3>
-        <div className="mt-1 flex items-center gap-1.5 text-xs">
-          <div
-            className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: item.color }}
-            aria-label={`Color: ${item.color}`}
-          />
-          <p className="text-muted-foreground">{item.color}</p>
-          {item.size && (
-            <p className="text-muted-foreground ml-2">Size: {item.size}</p>
+      
+      <div className="clothing-card-content">
+        <div className="space-y-2">
+          <h3 className="stylestack-body font-medium text-foreground truncate">{item.name}</h3>
+          <div className="flex items-center gap-2">
+            <div
+              className="w-3 h-3 rounded-full border border-white/20 shadow-sm"
+              style={{ backgroundColor: item.color }}
+              aria-label={`Color: ${item.color}`}
+            />
+            <p className="stylestack-caption">{item.color}</p>
+            {item.size && (
+              <p className="stylestack-caption ml-auto">Size {item.size}</p>
+            )}
+          </div>
+          
+          {item.tags?.length > 0 && (
+            <div className="flex items-center gap-1">
+              <Tag className="w-3 h-3 text-muted-foreground" />
+              <p className="stylestack-caption truncate">
+                {item.tags.join(', ')}
+              </p>
+            </div>
           )}
         </div>
-        {(item.notes || item.tags?.length > 0) && (
-          <div className="mt-2 flex items-start gap-1.5">
-            <Tag className="h-3 w-3 text-muted-foreground shrink-0 mt-0.5" />
-            <p className="text-xs text-muted-foreground line-clamp-1">
-              {item.tags?.length > 0 ? item.tags.join(', ') : item.notes}
-            </p>
-          </div>
-        )}
-        <div className="mt-2 flex justify-end">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-1 text-xs h-7 px-2"
-            onClick={handleLaundryToggle}
-            type="button"
-          >
-            <WashingMachine className="h-3 w-3" />
-            {item.needsWashing ? 'Mark Clean' : 'Laundry'}
-          </Button>
-        </div>
+        
+        <Button
+          variant="ghost"
+          size="sm"
+          className="stylestack-glass-subtle border-0 h-8 px-3 text-xs font-medium w-full mt-2"
+          onClick={handleLaundryToggle}
+          type="button"
+        >
+          <WashingMachine className="w-3 h-3 mr-1" />
+          {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
+        </Button>
       </div>
     </div>
   );
