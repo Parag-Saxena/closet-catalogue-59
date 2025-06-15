@@ -24,7 +24,8 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background/95 to-background overflow-hidden">
       <Header />
       
-      <div className="flex flex-1 h-full overflow-hidden">
+      {/* Main container with proper top spacing for fixed header */}
+      <div className="flex flex-1 h-full overflow-hidden pt-16">
         {/* Desktop Sidebar with Glassmorphism */}
         {showSidebar && (
           <div className={cn(
@@ -67,7 +68,7 @@ const Layout: React.FC<LayoutProps> = ({
 
       {/* Mobile Navigation with Glassmorphism */}
       {user && !isHomePage && (
-        <div className="stylestack-glass-strong border-t border-glass-border lg:hidden">
+        <div className="fixed bottom-0 left-0 right-0 stylestack-glass-strong border-t border-glass-border lg:hidden">
           <MobileNavigation />
         </div>
       )}
