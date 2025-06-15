@@ -21,14 +21,14 @@ const Layout: React.FC<LayoutProps> = ({
   const showSidebar = user && !isHomePage && !excludeSidebar;
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-background via-background to-background/95 overflow-x-hidden">
+    <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background to-background/95 overflow-hidden">
       <Header />
       
-      <div className="flex flex-1 w-full pt-16 safe-area">
+      <div className="flex flex-1 h-full overflow-hidden">
         {/* Desktop Sidebar */}
         {showSidebar && (
           <div className={cn(
-            "hidden lg:block transition-all duration-300 ease-in-out",
+            "hidden lg:block transition-all duration-300 ease-in-out h-full",
             sidebarOpen ? "w-64" : "w-0"
           )}>
             {sidebarOpen && <AppSidebar />}
@@ -37,13 +37,13 @@ const Layout: React.FC<LayoutProps> = ({
 
         {/* Main Content */}
         <main className={cn(
-          "flex-1 w-full transition-all duration-300 ease-in-out",
+          "flex-1 h-full overflow-y-auto",
           "container-responsive py-6 lg:py-8",
           showSidebar && sidebarOpen ? "lg:ml-0" : "",
           // Mobile bottom navigation spacing
           user && !isHomePage ? "pb-20 lg:pb-8" : ""
         )}>
-          <div className="animate-fade-in max-w-full">
+          <div className="animate-fade-in max-w-full h-full">
             {children}
           </div>
         </main>
