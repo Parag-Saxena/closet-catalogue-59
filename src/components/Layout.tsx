@@ -1,44 +1,66 @@
+
 import React from "react";
 import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import AppSidebar from "./Sidebar";
+import MobileNavigation from "./layout/MobileNavigation";
 import { LayoutProps } from "@/types";
-import { useApp } from "@/context/AppContext";
+import { useUser } from "@/context/UserContext";
 import { useSidebar } from "@/context/SidebarContext";
+import { cn } from "@/lib/utils";
 
 const Layout: React.FC<LayoutProps> = ({
   children,
   excludeSidebar = false,
 }) => {
   const location = useLocation();
-  const isAddPage = location.pathname === "/add";
-  const isDashboard = location.pathname === "/";
   const isHomePage = location.pathname === "/home";
-  const { user } = useApp();
+  const { user } = useUser();
   const { sidebarOpen } = useSidebar();
 
   const showSidebar = user && !isHomePage && !excludeSidebar;
 
   return (
-    <div className="flex flex-col min-h-screen w-full bg-background overflow-x-hidden">
+    <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-background via-background to-background/95 overflow-x-hidden">
       <Header />
-      <div className="flex flex-1 w-full pt-16">
-        {" "}
-        {/* Space below the header */}
-        {showSidebar && sidebarOpen && (
-          <div className="fixed left-0 top-16 h-[calc(100vh-4rem)] z-40 lg:static lg:h-auto">
-            <AppSidebar />
+      
+      <div className="flex flex-1 w-full pt-16 safe-area">
+        {/* Desktop Sidebar */}
+        {showSidebar && (
+          <div className={cn(
+            "hidden lg:block transition-all duration-300 ease-in-out",
+            sidebarOpen ? "w-64" : "w-0"
+          )}>
+            {sidebarOpen && <AppSidebar />}
           </div>
         )}
-        <main
-          className={`flex-1 px-4 py-6 md:px-6 lg:px-8 w-full transition-all duration-300
-          ${isDashboard ? "pt-4 pb-12" : isAddPage ? "pt-4" : "pt-6"}`}
-        >
-          <div className="animate-fade-in max-w-6xl mx-auto w-full">
+
+        {/* Main Content */}
+        <main className={cn(
+          "flex-1 w-full transition-all duration-300 ease-in-out",
+          "container-responsive py-6 lg:py-8",
+          showSidebar && sidebarOpen ? "lg:ml-0" : "",
+          // Mobile bottom navigation spacing
+          user && !isHomePage ? "pb-20 lg:pb-8" : ""
+        )}>
+          <div className="animate-fade-in max-w-full">
             {children}
           </div>
         </main>
+
+        {/* Mobile Overlay for Sidebar */}
+        {showSidebar && sidebarOpen && (
+          <div className="fixed inset-0 z-40 lg:hidden">
+            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
+            <div className="absolute left-0 top-16 bottom-0 w-80 max-w-[85vw]">
+              <AppSidebar />
+            </div>
+          </div>
+        )}
       </div>
+
+      {/* Mobile Navigation */}
+      {user && !isHomePage && <MobileNavigation />}
     </div>
   );
 };

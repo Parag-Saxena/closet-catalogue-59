@@ -11,8 +11,9 @@ import {
   Ruler,
   ShoppingBag,
 } from 'lucide-react';
-import { useApp } from '@/context/AppContext';
+import { useUser } from '@/context/UserContext';
 import { useSidebar } from '@/context/SidebarContext';
+import { cn } from '@/lib/utils';
 
 interface NavItem {
   title: string;
@@ -23,10 +24,9 @@ interface NavItem {
 
 const AppSidebar = () => {
   const location = useLocation();
-  const { user } = useApp();
-  const { sidebarOpen } = useSidebar();
+  const { user } = useUser();
+  const { sidebarOpen, toggleSidebar } = useSidebar();
   
-  // If no user is logged in, don't render the sidebar
   if (!user) {
     return null;
   }
@@ -92,46 +92,84 @@ const AppSidebar = () => {
   ];
 
   return (
-    <aside className="w-64 min-h-screen border-r border-border bg-background/95 backdrop-blur-sm pt-4 hidden md:block transition-all duration-300">
-      <div className="h-full flex flex-col">
-        <div className="px-4 py-2">
-          <h2 className="text-sm font-medium text-muted-foreground mb-2">Navigation</h2>
-          <nav className="space-y-1">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.title}
-                to={item.url}
-                className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
-                  item.isActive 
-                    ? 'bg-primary/10 text-primary font-medium' 
-                    : 'text-foreground hover:bg-muted hover:text-primary'
-                }`}
-              >
-                <item.icon className="h-5 w-5 mr-3" />
-                {item.title}
-              </Link>
-            ))}
-          </nav>
+    <aside className={cn(
+      "morphism-sidebar h-full transition-all duration-300 ease-in-out",
+      "w-64 lg:w-64 scrollbar-morphism overflow-y-auto",
+      "fixed lg:static top-16 lg:top-0 bottom-0 left-0 z-40 lg:z-auto"
+    )}>
+      <div className="h-full flex flex-col p-responsive">
+        {/* Navigation Section */}
+        <div className="space-y-1">
+          <div className="px-3 py-2">
+            <h2 className="heading-sm text-muted-foreground mb-3">Navigation</h2>
+            <nav className="space-y-1">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.title}
+                    to={item.url}
+                    onClick={() => {
+                      // Close sidebar on mobile when item is clicked
+                      if (window.innerWidth < 1024) {
+                        toggleSidebar();
+                      }
+                    }}
+                    className={cn(
+                      "flex items-center px-4 py-3 rounded-xl text-sm font-medium",
+                      "transition-all duration-200 interactive-morphism touch-target",
+                      item.isActive 
+                        ? 'morphism-button text-primary shadow-lg scale-105' 
+                        : 'text-foreground hover:bg-accent/50 hover:text-primary'
+                    )}
+                  >
+                    <Icon className={cn(
+                      "w-5 h-5 mr-3 transition-all duration-200",
+                      item.isActive ? "scale-110" : ""
+                    )} />
+                    <span className="body-md">{item.title}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         </div>
         
-        <div className="mt-6 px-4 py-2">
-          <h2 className="text-sm font-medium text-muted-foreground mb-2">Preferences</h2>
-          <nav className="space-y-1">
-            {preferencesItems.map((item) => (
-              <Link
-                key={item.title}
-                to={item.url}
-                className={`flex items-center px-3 py-2 rounded-md text-sm transition-colors ${
-                  item.isActive 
-                    ? 'bg-primary/10 text-primary font-medium' 
-                    : 'text-foreground hover:bg-muted hover:text-primary'
-                }`}
-              >
-                <item.icon className="h-5 w-5 mr-3" />
-                {item.title}
-              </Link>
-            ))}
-          </nav>
+        {/* Preferences Section */}
+        <div className="mt-8 space-y-1">
+          <div className="px-3 py-2">
+            <h2 className="heading-sm text-muted-foreground mb-3">Preferences</h2>
+            <nav className="space-y-1">
+              {preferencesItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.title}
+                    to={item.url}
+                    onClick={() => {
+                      // Close sidebar on mobile when item is clicked
+                      if (window.innerWidth < 1024) {
+                        toggleSidebar();
+                      }
+                    }}
+                    className={cn(
+                      "flex items-center px-4 py-3 rounded-xl text-sm font-medium",
+                      "transition-all duration-200 interactive-morphism touch-target",
+                      item.isActive 
+                        ? 'morphism-button text-primary shadow-lg scale-105' 
+                        : 'text-foreground hover:bg-accent/50 hover:text-primary'
+                    )}
+                  >
+                    <Icon className={cn(
+                      "w-5 h-5 mr-3 transition-all duration-200",
+                      item.isActive ? "scale-110" : ""
+                    )} />
+                    <span className="body-md">{item.title}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+          </div>
         </div>
       </div>
     </aside>
