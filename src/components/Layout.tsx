@@ -24,7 +24,7 @@ const Layout: React.FC<LayoutProps> = ({
     <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background to-background/95 overflow-hidden">
       <Header />
       
-      <div className="flex flex-1 h-full overflow-hidden">
+      <div className="flex flex-1 h-full overflow-hidden pt-16">
         {/* Desktop Sidebar */}
         {showSidebar && (
           <div className={cn(
