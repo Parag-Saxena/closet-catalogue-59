@@ -42,16 +42,16 @@ const QuickActions = () => {
         <CardTitle className="text-lg">Quick Actions</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
           {actions.map((action) => (
-            <Card key={action.title} className="overflow-hidden border-none shadow-sm">
-              <CardContent className="p-4">
-                <div className={`${action.color} mb-3`}>
-                  <action.icon className="h-6 w-6" />
+            <Card key={action.title} className="overflow-hidden border-none shadow-sm hover:shadow-md transition-all duration-200">
+              <CardContent className="p-3 sm:p-4">
+                <div className={`${action.color} mb-2 sm:mb-3`}>
+                  <action.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
-                <h3 className="font-medium mb-1">{action.title}</h3>
-                <p className="text-xs text-muted-foreground mb-3">{action.description}</p>
-                <Button asChild size="sm" className="w-full">
+                <h3 className="font-medium mb-1 text-sm sm:text-base leading-tight">{action.title}</h3>
+                <p className="text-xs text-muted-foreground mb-2 sm:mb-3 line-clamp-2">{action.description}</p>
+                <Button asChild size="sm" className="w-full h-8 sm:h-9 text-xs sm:text-sm">
                   <Link to={action.link}>Get Started</Link>
                 </Button>
               </CardContent>
