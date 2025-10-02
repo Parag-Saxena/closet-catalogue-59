@@ -52,6 +52,24 @@ export default {
 				card: {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
+				},
+				success: {
+					DEFAULT: 'hsl(var(--success))',
+					foreground: 'hsl(var(--success-foreground))',
+					light: 'hsl(var(--success-light))',
+					text: 'hsl(var(--success-text))'
+				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))',
+					light: 'hsl(var(--warning-light))',
+					text: 'hsl(var(--warning-text))'
+				},
+				danger: {
+					DEFAULT: 'hsl(var(--danger))',
+					foreground: 'hsl(var(--danger-foreground))',
+					light: 'hsl(var(--danger-light))',
+					text: 'hsl(var(--danger-text))'
 				}
 			},
 			borderRadius: {
@@ -114,7 +132,11 @@ export default {
 				'card-hover': '0 4px 12px rgba(0, 0, 0, 0.08)',
 			},
 			fontFamily: {
-				sans: ['SF Pro Display', 'system-ui', 'sans-serif']
+				sans: ['Inter', 'system-ui', 'sans-serif']
+			},
+			boxShadow: {
+				'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+				'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
 			}
 		}
 	},

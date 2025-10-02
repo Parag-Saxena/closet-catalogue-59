@@ -1,83 +1,88 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --font-sans: 'Montserrat', system-ui, sans-serif;
+    --font-sans: 'Inter', system-ui, sans-serif;
     
-    /* StyleStack Color Palette */
-    --background: 0 0% 96%; /* #F5F5F5 off-white */
-    --foreground: 0 0% 20%; /* #333333 deep charcoal */
+    /* Modern Teal Accent Color Palette */
+    --background: 210 20% 98%; /* Soft off-white slate-50 */
+    --foreground: 215 28% 17%; /* Slate-800 for primary text */
     
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 20%;
+    --card: 0 0% 100%; /* Clean white for cards */
+    --card-foreground: 215 28% 17%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 20%;
+    --popover-foreground: 215 28% 17%;
     
-    /* Dusty Rose Accent */
-    --primary: 342 24% 70%; /* #D9AAB7 dusty rose */
+    /* Teal Primary Accent */
+    --primary: 178 60% 42%; /* Teal-600 */
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 0 0% 94%;
-    --secondary-foreground: 0 0% 20%;
+    --secondary: 210 40% 96%; /* Slate-100 */
+    --secondary-foreground: 215 28% 17%;
     
-    --muted: 0 0% 94%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 210 40% 96%; /* Slate-100 */
+    --muted-foreground: 215 20% 45%; /* Slate-500 */
     
-    --accent: 342 24% 70%;
+    --accent: 178 60% 42%; /* Teal accent */
     --accent-foreground: 0 0% 100%;
     
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 0 0% 89%;
-    --input: 0 0% 89%;
-    --ring: 342 24% 70%;
+    --border: 214 32% 91%; /* Slate-200 */
+    --input: 214 32% 91%;
+    --ring: 178 60% 42%;
     
-    --radius: 1.2rem;
+    --radius: 0.5rem;
     
-    /* Glassmorphism variables */
-    --glass-bg: rgba(255, 255, 255, 0.15);
-    --glass-border: rgba(255, 255, 255, 0.25);
-    --glass-shadow: 0 8px 32px rgba(51, 51, 51, 0.1);
+    /* Success, Warning, Danger tokens */
+    --success: 142 76% 36%; /* Green-600 */
+    --success-foreground: 0 0% 100%;
+    --success-light: 142 76% 94%; /* Green-100 */
+    --success-text: 142 72% 29%; /* Green-700 */
+    
+    --warning: 38 92% 50%; /* Amber-500 */
+    --warning-foreground: 0 0% 100%;
+    --warning-light: 48 96% 89%; /* Amber-100 */
+    --warning-text: 26 90% 37%; /* Amber-700 */
+    
+    --danger: 0 84% 60%; /* Red-500 */
+    --danger-foreground: 0 0% 100%;
+    --danger-light: 0 93% 94%; /* Red-100 */
+    --danger-text: 0 74% 42%; /* Red-700 */
   }
   
   .dark {
-    --background: 0 0% 12%;
-    --foreground: 0 0% 95%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
     
-    --card: 0 0% 15%;
-    --card-foreground: 0 0% 95%;
+    --card: 222 47% 14%;
+    --card-foreground: 210 40% 98%;
     
-    --popover: 0 0% 15%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 222 47% 14%;
+    --popover-foreground: 210 40% 98%;
     
-    --primary: 342 24% 70%;
-    --primary-foreground: 0 0% 20%;
+    --primary: 178 60% 50%;
+    --primary-foreground: 222 47% 11%;
     
-    --secondary: 0 0% 18%;
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
     
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
     
-    --accent: 342 24% 70%;
-    --accent-foreground: 0 0% 20%;
+    --accent: 178 60% 50%;
+    --accent-foreground: 222 47% 11%;
     
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
     
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 342 24% 70%;
-    
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --border: 217 33% 24%;
+    --input: 217 33% 24%;
+    --ring: 178 60% 50%;
   }
 
   * {
@@ -87,195 +92,199 @@
   body {
     font-family: var(--font-sans);
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
     line-height: 1.6;
   }
 
   html {
     @apply scroll-smooth;
   }
+  
+  /* Typography base styles */
+  h1 {
+    @apply text-3xl font-bold text-slate-800 dark:text-slate-100;
+  }
+  
+  h2 {
+    @apply text-xl font-semibold text-slate-800 dark:text-slate-100;
+  }
+  
+  h3 {
+    @apply text-lg font-semibold text-slate-800 dark:text-slate-100;
+  }
 }
 
 @layer components {
-  /* StyleStack Glassmorphism Cards */
-  .stylestack-glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    @apply rounded-2xl;
+  /* Modern Card Components */
+  .card-modern {
+    @apply bg-white dark:bg-card rounded-lg border border-slate-200 dark:border-border shadow-md transition-shadow duration-200;
   }
-
+  
+  .card-modern:hover {
+    @apply shadow-lg;
+  }
+  
+  .card-interactive {
+    @apply card-modern hover:scale-[1.02] transition-all duration-200 cursor-pointer;
+  }
+  
+  /* Glassmorphism effects (subtle, for overlays) */
   .stylestack-glass-subtle {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 4px 16px rgba(51, 51, 51, 0.05);
-    @apply rounded-xl;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    @apply rounded-lg shadow-md;
   }
 
   .stylestack-glass-strong {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
-    box-shadow: var(--glass-shadow);
-    @apply rounded-2xl;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    @apply rounded-lg shadow-lg;
   }
 
-  /* Bento Grid Layout */
+  /* Responsive Wardrobe Grid Layout */
+  .wardrobe-grid {
+    @apply grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  
+  /* Bento Grid for Dashboard */
   .bento-grid {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
+    @apply grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
   }
 
-  @media (min-width: 640px) {
-    .bento-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
+  /* Typography System */
+  .heading-page {
+    @apply text-3xl font-bold text-slate-800 dark:text-slate-100;
   }
 
-  @media (min-width: 768px) {
-    .bento-grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .heading-section {
+    @apply text-xl font-semibold text-slate-800 dark:text-slate-100;
   }
 
-  @media (min-width: 1024px) {
-    .bento-grid {
-      grid-template-columns: repeat(5, 1fr);
-      gap: 2rem;
-    }
+  .heading-card {
+    @apply text-lg font-semibold text-slate-800 dark:text-slate-100;
   }
 
-  /* StyleStack Typography */
-  .stylestack-heading-xl {
-    @apply text-3xl sm:text-4xl md:text-5xl font-semibold tracking-tight;
-    font-family: 'Montserrat', sans-serif;
+  .body-text {
+    @apply text-base text-slate-800 dark:text-slate-200;
   }
 
-  .stylestack-heading-lg {
-    @apply text-2xl sm:text-3xl md:text-4xl font-medium tracking-tight;
-    font-family: 'Montserrat', sans-serif;
+  .label-text {
+    @apply text-sm font-medium text-slate-700 dark:text-slate-300;
   }
 
-  .stylestack-heading-md {
-    @apply text-xl sm:text-2xl md:text-3xl font-medium;
-    font-family: 'Montserrat', sans-serif;
+  .subtle-text {
+    @apply text-sm text-slate-500 dark:text-slate-400;
+  }
+  
+  .caption-text {
+    @apply text-xs text-slate-500 dark:text-slate-400;
   }
 
-  .stylestack-heading-sm {
-    @apply text-lg sm:text-xl font-medium;
-    font-family: 'Montserrat', sans-serif;
+  /* Form Input Styles */
+  .input-modern {
+    @apply flex h-10 w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm;
+    @apply focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0 focus:bg-white;
+    @apply transition-all duration-200 placeholder:text-slate-400;
   }
-
-  .stylestack-body {
-    @apply text-sm sm:text-base leading-relaxed;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
+  
+  .textarea-modern {
+    @apply flex min-h-[80px] w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm;
+    @apply focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0 focus:bg-white;
+    @apply transition-all duration-200 placeholder:text-slate-400;
   }
-
-  .stylestack-caption {
-    @apply text-xs sm:text-sm text-muted-foreground;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
+  
+  /* Button Variants */
+  .btn-primary {
+    @apply bg-teal-600 text-white font-semibold px-6 py-2.5 rounded-lg;
+    @apply hover:bg-teal-700 hover:shadow-md active:scale-95;
+    @apply transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2;
   }
-
-  /* Interactive Elements */
-  .stylestack-hover {
-    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-lg;
+  
+  .btn-secondary {
+    @apply bg-transparent border border-slate-300 text-slate-700 font-medium px-6 py-2.5 rounded-lg;
+    @apply hover:bg-slate-50 hover:border-slate-400 active:scale-95;
+    @apply transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-300 focus:ring-offset-2;
   }
-
-  .stylestack-button {
-    @apply stylestack-glass px-6 py-3 rounded-xl font-medium transition-all duration-200;
-    @apply hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary/50;
+  
+  .btn-ghost {
+    @apply bg-transparent text-slate-700 font-medium px-4 py-2 rounded-lg;
+    @apply hover:bg-slate-100 active:scale-95;
+    @apply transition-all duration-200;
   }
 
   /* Clothing Item Cards */
   .clothing-card {
-    @apply stylestack-glass-subtle stylestack-hover overflow-hidden;
+    @apply card-modern overflow-hidden;
     aspect-ratio: 3/4;
   }
 
   .clothing-card-image {
-    @apply w-full h-2/3 object-cover bg-muted/30;
+    @apply w-full h-2/3 object-cover bg-slate-100;
   }
 
   .clothing-card-content {
-    @apply p-3 h-1/3 flex flex-col justify-between;
+    @apply p-4 h-1/3 flex flex-col justify-between bg-white;
   }
 
-  /* Status indicators */
+  /* Status Badges */
+  .badge-success {
+    @apply bg-green-100 text-green-700 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-700 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+
+  .badge-danger {
+    @apply bg-red-100 text-red-700 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+  
+  .badge-info {
+    @apply bg-teal-100 text-teal-700 text-xs font-medium px-2.5 py-1 rounded-full;
+  }
+  
+  /* Status indicators (legacy support) */
   .status-clean {
-    @apply bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-300;
+    @apply badge-success;
   }
 
   .status-laundry {
-    @apply bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-300;
+    @apply badge-warning;
   }
 
   .status-favorite {
-    @apply bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-300;
+    @apply bg-pink-100 text-pink-700 text-xs font-medium px-2.5 py-1 rounded-full;
   }
 }
 
 @layer utilities {
-  /* Responsive spacing */
-  .space-stylestack {
-    @apply space-y-4 sm:space-y-6 md:space-y-8;
+  /* Spacing utilities with consistent 4-point grid */
+  .space-section {
+    @apply space-y-6;
+  }
+  
+  .space-content {
+    @apply space-y-4;
   }
 
-  .padding-stylestack {
-    @apply p-4 sm:p-6 md:p-8;
+  .padding-container {
+    @apply p-6;
+  }
+  
+  .padding-card {
+    @apply p-4;
   }
 
-  /* Glass effect utilities */
-  .glass-light {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  /* Focus ring utilities */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2;
   }
-
-  .glass-medium {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+  
+  /* Transition utilities */
+  .transition-smooth {
+    @apply transition-all duration-200 ease-in-out;
   }
-
-  .glass-heavy {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-}
-
-/* StyleStack specific animations */
-@keyframes stylestack-float {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-  }
-  50% {
-    transform: translateY(-8px) scale(1.01);
-  }
-}
-
-@keyframes stylestack-glow {
-  0% {
-    box-shadow: var(--glass-shadow);
-  }
-  100% {
-    box-shadow: var(--glass-shadow), 0 0 30px rgba(217, 170, 183, 0.3);
-  }
-}
-
-.animate-stylestack-float {
-  animation: stylestack-float 4s ease-in-out infinite;
-}
-
-.animate-stylestack-glow {
-  animation: stylestack-glow 2s ease-in-out infinite alternate;
 }
