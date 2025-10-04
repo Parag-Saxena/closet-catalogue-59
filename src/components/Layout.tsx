@@ -42,13 +42,13 @@ const Layout: React.FC<LayoutProps> = ({
 
         {/* Main Content */}
         <main className={cn(
-          "flex-1 h-full overflow-y-auto",
+          "flex-1 overflow-y-auto",
           "p-4 lg:p-6",
           showSidebar && sidebarOpen ? "lg:ml-0" : "",
-          // Mobile bottom navigation spacing
+          // Mobile bottom navigation spacing - extra space at bottom
           user && !isHomePage ? "pb-24 lg:pb-12" : "pb-8"
         )}>
-          <div className="animate-fade-in max-w-full h-full mb-8">
+          <div className="animate-fade-in max-w-full min-h-full">
             {children}
           </div>
         </main>
