@@ -139,6 +139,14 @@ const App = () => (
                   }
                 />
                 <Route
+                  path="/add-style"
+                  element={
+                    <ProtectedRoute>
+                      <AddStyleGuide />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/account"
                   element={
                     <ProtectedRoute>
