@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { ClothingItem } from "@/types";
 import { useToast } from "@/hooks/use-toast";
+import { useClothingForm } from "@/context/ClothingFormContext";
 
 interface EditItemDialogProps {
   item: ClothingItem | null;
@@ -30,16 +31,9 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
   const [notes, setNotes] = useState('');
   const [needsWashing, setNeedsWashing] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [categories, setCategories] = useState<string[]>([]);
-  
-  const { toast } = useToast();
 
-  useEffect(() => {
-    // Load categories
-    const storedCategories = JSON.parse(localStorage.getItem('categories') || '[]');
-    const categoryNames = storedCategories.map((cat: any) => cat.name);
-    setCategories(categoryNames);
-  }, []);
+  const { toast } = useToast();
+  const { categories } = useClothingForm();
 
   useEffect(() => {
     if (item) {
@@ -55,7 +49,7 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name.trim() || !category.trim()) {
       toast({
         title: "Missing fields",
@@ -64,9 +58,9 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
       });
       return;
     }
-    
+
     if (!item) return;
-    
+
     const updatedItem: ClothingItem = {
       ...item,
       name: name.trim(),
@@ -77,7 +71,7 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
       needsWashing,
       isFavorite
     };
-    
+
     onSave(updatedItem);
     onClose();
   };
@@ -93,19 +87,19 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
             Update the details of your clothing item.
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input 
-              id="name" 
-              value={name} 
-              onChange={(e) => setName(e.target.value)} 
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Blue T-Shirt"
               required
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <select
@@ -115,65 +109,67 @@ const EditItemDialog = ({ item, isOpen, onClose, onSave }: EditItemDialogProps) 
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               required
             >
+              <option value="">Select Category</option>
               {categories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
+                <option key={cat.value} value={cat.value}>{cat.label}</option>
               ))}
             </select>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="color">Color</Label>
-              <Input 
-                id="color" 
-                value={color} 
-                onChange={(e) => setColor(e.target.value)} 
+              <Input
+                id="color"
+                type='color'
+                value={color}
+                onChange={(e) => setColor(e.target.value)}
                 placeholder="Blue"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="brand">Brand</Label>
-              <Input 
-                id="brand" 
-                value={brand} 
-                onChange={(e) => setBrand(e.target.value)} 
+              <Input
+                id="brand"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
                 placeholder="Nike"
               />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="notes">Notes</Label>
-            <Textarea 
-              id="notes" 
-              value={notes} 
-              onChange={(e) => setNotes(e.target.value)} 
+            <Textarea
+              id="notes"
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
               placeholder="Additional notes about this item..."
               rows={3}
             />
           </div>
-          
+
           <div className="flex items-center justify-between space-x-2">
             <div className="flex items-center space-x-2">
-              <Switch 
-                id="needsWashing" 
-                checked={needsWashing} 
-                onCheckedChange={setNeedsWashing} 
+              <Switch
+                id="needsWashing"
+                checked={needsWashing}
+                onCheckedChange={setNeedsWashing}
               />
               <Label htmlFor="needsWashing">Needs washing</Label>
             </div>
-            
+
             <div className="flex items-center space-x-2">
-              <Switch 
-                id="isFavorite" 
-                checked={isFavorite} 
-                onCheckedChange={setIsFavorite} 
+              <Switch
+                id="isFavorite"
+                checked={isFavorite}
+                onCheckedChange={setIsFavorite}
               />
               <Label htmlFor="isFavorite">Mark as favorite</Label>
             </div>
           </div>
-          
+
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
               Cancel

@@ -22,7 +22,7 @@ const AddClothingForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { setClothingItems, refreshClothing } = useWardrobe();
-  
+
   const [formData, setFormData] = useState({
     name: '',
     type: '',
@@ -42,11 +42,11 @@ const AddClothingForm = () => {
     heelHeight: '',
     footwearStyle: '',
   });
-  
+
   const [image, setImage] = useState<string>('');
   const [selectedItemType, setSelectedItemType] = useState<ItemType>('apparel');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Handle file upload
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,11 +58,11 @@ const AddClothingForm = () => {
       reader.readAsDataURL(file);
     }
   };
-  
+
   const handleInputChange = (name: string, value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
-  
+
   const handleTypeChange = (type: string) => {
     // Set item type for conditional rendering
     if (type === 'Shoes' || type === 'Boots' || type === 'Sandals') {
@@ -72,13 +72,13 @@ const AddClothingForm = () => {
     } else {
       setSelectedItemType('apparel');
     }
-    
+
     setFormData(prev => ({ ...prev, type }));
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.type || !formData.category) {
       toast({
         title: "Error",
@@ -87,12 +87,12 @@ const AddClothingForm = () => {
       });
       return;
     }
-    
+
     setIsSubmitting(true);
-    
+
     try {
       const currentDate = new Date().toISOString();
-      
+
       const newItem = {
         name: formData.name,
         type: formData.type,
@@ -119,18 +119,18 @@ const AddClothingForm = () => {
           footwearStyle: formData.footwearStyle,
         }),
       };
-      
+
       await clothingService.createClothingItem(newItem);
-      
+
       // Refresh the clothing items
       await refreshClothing();
-      
+
       toast({
         title: "Success",
         description: "New item added to your wardrobe!",
         variant: "success"
       });
-      
+
       navigate('/wardrobe');
     } catch (error) {
       console.error('Error adding item:', error);
@@ -143,76 +143,97 @@ const AddClothingForm = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          {/* Left column: Basic fields */}
-          <BasicInfoFields
-            name={formData.name}
-            brand={formData.brand}
-            material={formData.material}
-            onNameChange={(value) => handleInputChange('name', value)}
-            onBrandChange={(value) => handleInputChange('brand', value)}
-            onMaterialChange={(value) => handleInputChange('material', value)}
-            type={formData.type}
-            category={formData.category}
-            onTypeChange={handleTypeChange}
-            onCategoryChange={(value) => handleInputChange('category', value)}
-          />
-          
-          <ColorPicker
-            color={formData.color}
-            onChange={(value) => handleInputChange('color', value)}
-          />
+    <form onSubmit={handleSubmit} className="space-y-8 animate-fade-in">
+      {/* Basic Information Section */}
+      <div className="space-y-6">
+        <div className="border-b pb-2">
+          <h2 className="text-xl font-semibold text-foreground">Basic Information</h2>
+          <p className="text-sm text-muted-foreground">Required information for your clothing item</p>
         </div>
-        
-        <div className="space-y-4">
-          {/* Right column: Conditional fields based on item type */}
-          {selectedItemType === 'apparel' && (
-            <ApparelFields
-              size={formData.size}
-              fabric={formData.fabric}
-              fit={formData.fit}
-              season={formData.season}
-              onSizeChange={(value) => handleInputChange('size', value)}
-              onFabricChange={(value) => handleInputChange('fabric', value)}
-              onFitChange={(value) => handleInputChange('fit', value)}
-              onSeasonChange={(value) => handleInputChange('season', value)}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <BasicInfoFields
+              name={formData.name}
+              brand={formData.brand}
+              material={formData.material}
+              onNameChange={(value) => handleInputChange('name', value)}
+              onBrandChange={(value) => handleInputChange('brand', value)}
+              onMaterialChange={(value) => handleInputChange('material', value)}
+              type={formData.type}
+              category={formData.category}
+              onTypeChange={handleTypeChange}
+              onCategoryChange={(value) => handleInputChange('category', value)}
             />
-          )}
-          
-          {selectedItemType === 'footwear' && (
-            <FootwearFields
-              shoeSize={formData.shoeSize}
-              heelHeight={formData.heelHeight}
-              footwearStyle={formData.footwearStyle}
-              onShoeSizeChange={(value) => handleInputChange('shoeSize', value)}
-              onHeelHeightChange={(value) => handleInputChange('heelHeight', value)}
-              onFootwearStyleChange={(value) => handleInputChange('footwearStyle', value)}
+          </div>
+
+          <div className="space-y-4">
+            <ColorPicker
+              color={formData.color}
+              onChange={(value) => handleInputChange('color', value)}
             />
-          )}
-          
-          {selectedItemType === 'accessory' && (
-            <AccessoryFields
-              size={formData.size}
-              onSizeChange={(value) => handleInputChange('size', value)}
-            />
-          )}
-          
-          <AdditionalFields
-            tags={formData.tags}
-            notes={formData.notes}
-            onTagsChange={(value) => handleInputChange('tags', value)}
-            onNotesChange={(value) => handleInputChange('notes', value)}
-            image={image}
-            onImageChange={handleImageChange}
-          />
+          </div>
         </div>
       </div>
-      
-      <div className="flex justify-end gap-2 pt-4">
+
+      {/* Additional Information Section */}
+      <div className="space-y-6">
+        <div className="border-b pb-2">
+          <h2 className="text-xl font-semibold text-foreground">Additional Information</h2>
+          <p className="text-sm text-muted-foreground">Optional details to help organize and describe your item</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            {/* Conditional fields based on item type */}
+            {selectedItemType === 'apparel' && (
+              <ApparelFields
+                size={formData.size}
+                fabric={formData.fabric}
+                fit={formData.fit}
+                season={formData.season}
+                onSizeChange={(value) => handleInputChange('size', value)}
+                onFabricChange={(value) => handleInputChange('fabric', value)}
+                onFitChange={(value) => handleInputChange('fit', value)}
+                onSeasonChange={(value) => handleInputChange('season', value)}
+              />
+            )}
+
+            {selectedItemType === 'footwear' && (
+              <FootwearFields
+                shoeSize={formData.shoeSize}
+                heelHeight={formData.heelHeight}
+                footwearStyle={formData.footwearStyle}
+                onShoeSizeChange={(value) => handleInputChange('shoeSize', value)}
+                onHeelHeightChange={(value) => handleInputChange('heelHeight', value)}
+                onFootwearStyleChange={(value) => handleInputChange('footwearStyle', value)}
+              />
+            )}
+
+            {selectedItemType === 'accessory' && (
+              <AccessoryFields
+                size={formData.size}
+                onSizeChange={(value) => handleInputChange('size', value)}
+              />
+            )}
+          </div>
+
+          <div className="space-y-4">
+            <AdditionalFields
+              tags={formData.tags}
+              notes={formData.notes}
+              onTagsChange={(value) => handleInputChange('tags', value)}
+              onNotesChange={(value) => handleInputChange('notes', value)}
+              image={image}
+              onImageChange={handleImageChange}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-2 pt-4 border-t">
         <Button
           type="button"
           variant="outline"

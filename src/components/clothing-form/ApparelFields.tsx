@@ -2,6 +2,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { useClothingForm } from '@/context/ClothingFormContext';
 
 interface ApparelFieldsProps {
   size: string;
@@ -24,6 +25,8 @@ const ApparelFields: React.FC<ApparelFieldsProps> = ({
   onFitChange,
   onSeasonChange
 }) => {
+  const { fits, seasons } = useClothingForm();
+
   return (
     <>
       <div>
@@ -37,7 +40,7 @@ const ApparelFields: React.FC<ApparelFieldsProps> = ({
           className="mt-1"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="fabric">Fabric</Label>
         <Input
@@ -49,7 +52,7 @@ const ApparelFields: React.FC<ApparelFieldsProps> = ({
           className="mt-1"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="fit">Fit</Label>
         <select
@@ -60,13 +63,14 @@ const ApparelFields: React.FC<ApparelFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Fit</option>
-          <option value="Slim">Slim</option>
-          <option value="Regular">Regular</option>
-          <option value="Loose">Loose</option>
-          <option value="Oversized">Oversized</option>
+          {fits.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
-      
+
       <div>
         <Label htmlFor="season">Season</Label>
         <select
@@ -77,11 +81,11 @@ const ApparelFields: React.FC<ApparelFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Season</option>
-          <option value="Spring">Spring</option>
-          <option value="Summer">Summer</option>
-          <option value="Fall">Fall</option>
-          <option value="Winter">Winter</option>
-          <option value="All Seasons">All Seasons</option>
+          {seasons.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
     </>

@@ -15,9 +15,9 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
   const [laundryCount, setLaundryCount] = useState(0);
   const [favoriteCount, setFavoriteCount] = useState(0);
   const { user } = useUser();
-  
+
   const displayName = userName || (user ? user.name : 'there');
-  
+
   useEffect(() => {
     const storedItems = JSON.parse(localStorage.getItem('closetItems') || '[]') as ClothingItem[];
     const laundryItems = storedItems.filter(item => item.needsWashing);
@@ -25,11 +25,11 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
     setLaundryCount(laundryItems.length);
     setFavoriteCount(favoriteItems.length);
   }, []);
-  
+
   return (
     <div className="space-stylestack">
       {/* Welcome Section */}
-      <div className="stylestack-glass-strong padding-stylestack">
+      <div className="stylestack-glass padding-stylestack">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-3">
             <div className="flex items-center gap-3">
@@ -45,11 +45,11 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
                 </p>
               </div>
             </div>
-            
+
             {/* Status Indicators */}
             <div className="flex flex-wrap gap-3">
               {laundryCount > 0 && (
-                <div className="stylestack-glass-subtle px-4 py-2 rounded-full flex items-center gap-2">
+                <div className="stylestack-glass px-4 py-2 rounded-full flex items-center gap-2">
                   <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse" />
                   <span className="stylestack-caption font-medium">
                     {laundryCount} item{laundryCount !== 1 ? 's' : ''} need washing
@@ -57,7 +57,7 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
                 </div>
               )}
               {favoriteCount > 0 && (
-                <div className="stylestack-glass-subtle px-4 py-2 rounded-full flex items-center gap-2">
+                <div className="stylestack-glass px-4 py-2 rounded-full flex items-center gap-2">
                   <Heart className="w-3 h-3 text-primary fill-current" />
                   <span className="stylestack-caption font-medium">
                     {favoriteCount} favorite{favoriteCount !== 1 ? 's' : ''}
@@ -66,7 +66,7 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
               )}
             </div>
           </div>
-          
+
           {/* Quick Actions */}
           <div className="flex flex-col sm:flex-row gap-4 min-w-fit">
             <div className="relative">
@@ -75,18 +75,18 @@ const WelcomeHeader = ({ userName }: WelcomeHeaderProps) => {
                 type="text"
                 placeholder="Search your wardrobe..."
                 className={cn(
-                  "stylestack-glass-subtle h-12 w-full sm:w-72",
+                  "stylestack-glass h-12 w-full sm:w-72",
                   "pl-12 pr-4 stylestack-body border-0",
                   "focus:ring-2 focus:ring-primary/50 transition-all duration-300",
                   "placeholder:text-muted-foreground"
                 )}
               />
             </div>
-            
-            <Button 
-              variant="outline" 
-              size="icon" 
-              asChild 
+
+            <Button
+              variant="outline"
+              size="icon"
+              asChild
               className="stylestack-glass h-12 w-12 border-0"
             >
               <Link to="/settings">

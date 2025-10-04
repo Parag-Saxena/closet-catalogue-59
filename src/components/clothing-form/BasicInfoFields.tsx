@@ -3,6 +3,7 @@ import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { FormField } from '../ui/form';
+import { useClothingForm } from '@/context/ClothingFormContext';
 
 interface BasicInfoFieldsProps {
   name: string;
@@ -29,11 +30,13 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
   onTypeChange,
   onCategoryChange
 }) => {
+  const { types, categories } = useClothingForm();
+
   return (
     <div className="space-y-4">
       <div>
         <Label htmlFor="name">Item Name*</Label>
-        <Input 
+        <Input
           id="name"
           name="name"
           value={name}
@@ -43,7 +46,7 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           className="mt-1"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="type">Type*</Label>
         <select
@@ -55,32 +58,18 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Type</option>
-          <optgroup label="Apparel">
-            <option value="Shirt">Shirt</option>
-            <option value="T-Shirt">T-Shirt</option>
-            <option value="Pants">Pants</option>
-            <option value="Jeans">Jeans</option>
-            <option value="Dress">Dress</option>
-            <option value="Skirt">Skirt</option>
-            <option value="Jacket">Jacket</option>
-            <option value="Sweater">Sweater</option>
-            <option value="Coat">Coat</option>
-          </optgroup>
-          <optgroup label="Footwear">
-            <option value="Shoes">Shoes</option>
-            <option value="Boots">Boots</option>
-            <option value="Sandals">Sandals</option>
-          </optgroup>
-          <optgroup label="Accessories">
-            <option value="Bag">Bag</option>
-            <option value="Hat">Hat</option>
-            <option value="Jewelry">Jewelry</option>
-            <option value="Scarf">Scarf</option>
-            <option value="Belt">Belt</option>
-          </optgroup>
+          {types.map((group) => (
+            <optgroup key={group.label} label={group.label}>
+              {group.options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </optgroup>
+          ))}
         </select>
       </div>
-      
+
       <div>
         <Label htmlFor="category">Category*</Label>
         <select
@@ -92,16 +81,14 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Category</option>
-          <option value="Casual">Casual</option>
-          <option value="Formal">Formal</option>
-          <option value="Business">Business</option>
-          <option value="Athletic">Athletic</option>
-          <option value="Loungewear">Loungewear</option>
-          <option value="Outerwear">Outerwear</option>
-          <option value="Sleepwear">Sleepwear</option>
+          {categories.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
-      
+
       <div>
         <Label htmlFor="brand">Brand</Label>
         <Input
@@ -113,7 +100,7 @@ const BasicInfoFields: React.FC<BasicInfoFieldsProps> = ({
           className="mt-1"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="material">Material</Label>
         <Input

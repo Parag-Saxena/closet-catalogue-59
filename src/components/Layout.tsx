@@ -21,9 +21,9 @@ const Layout: React.FC<LayoutProps> = ({
   const showSidebar = user && !isHomePage && !excludeSidebar;
 
   return (
-    <div className="flex flex-col h-screen w-full bg-gradient-to-br from-background via-background/95 to-background overflow-hidden">
+    <div className="flex flex-col h-screen w-full bg-background overflow-hidden">
       <Header />
-      
+
       {/* Main container with proper top spacing for fixed header */}
       <div className="flex flex-1 h-full overflow-hidden pt-16">
         {/* Desktop Sidebar with Glassmorphism */}
@@ -33,7 +33,7 @@ const Layout: React.FC<LayoutProps> = ({
             sidebarOpen ? "w-64" : "w-0"
           )}>
             {sidebarOpen && (
-              <div className="stylestack-glass-strong h-full border-r border-glass-border">
+              <div className="morphism-sidebar h-full border-r border-glass-border">
                 <AppSidebar />
               </div>
             )}
@@ -56,10 +56,12 @@ const Layout: React.FC<LayoutProps> = ({
         {/* Mobile Overlay for Sidebar */}
         {showSidebar && sidebarOpen && (
           <div className="fixed inset-0 z-40 lg:hidden">
-            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" />
-            <div className="absolute left-0 top-16 bottom-0 w-80 max-w-[85vw]">
-              <div className="stylestack-glass-strong h-full">
-                <AppSidebar />
+            <div className="absolute inset-0 bg-black/20 backdrop-blur-sm" onClick={() => useSidebar().toggleSidebar()} />
+            <div className="absolute left-0 top-16 bottom-0 w-full max-w-sm">
+              <div className="morphism-sidebar h-full overflow-hidden">
+                <div className="h-full overflow-y-auto">
+                  <AppSidebar />
+                </div>
               </div>
             </div>
           </div>
@@ -68,7 +70,7 @@ const Layout: React.FC<LayoutProps> = ({
 
       {/* Mobile Navigation with Glassmorphism */}
       {user && !isHomePage && (
-        <div className="fixed bottom-0 left-0 right-0 stylestack-glass-strong border-t border-glass-border lg:hidden">
+        <div className="fixed bottom-0 left-0 right-0 morphism-sidebar border-t border-glass-border lg:hidden">
           <MobileNavigation />
         </div>
       )}

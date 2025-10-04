@@ -4,6 +4,7 @@ import { UserContext, UserProvider } from './UserContext';
 import { WardrobeContext, WardrobeProvider } from './WardrobeContext';
 import { SidebarProvider } from './SidebarContext';
 import { ThemeProvider } from '@/components/theme-provider';
+import { ClothingFormProvider } from './ClothingFormContext';
 
 
 interface AppProviderProps {
@@ -17,7 +18,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
       <UserProvider>
         <WardrobeProvider>
           <SidebarProvider>
-            {children}
+            <ClothingFormProvider>
+              {children}
+            </ClothingFormProvider>
           </SidebarProvider>
         </WardrobeProvider>
       </UserProvider>

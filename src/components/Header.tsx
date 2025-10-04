@@ -1,6 +1,6 @@
 
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, X } from 'lucide-react';
+import { Shirt, LogIn, User as UserIcon, Menu, Settings, LogOut, X, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -21,7 +21,7 @@ const Header = () => {
   const { toast } = useToast();
   const { user, logout } = useUser();
   const { sidebarOpen, toggleSidebar } = useSidebar();
-  
+
   const handleSignOut = () => {
     logout();
     toast({
@@ -30,46 +30,44 @@ const Header = () => {
     });
     navigate('/sign-in');
   };
-  
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full stylestack-glass-strong border-0 border-b border-glass-border">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full stylestack-glass border-0 border-b border-glass-border">
       <div className="flex items-center justify-between h-16 px-4 lg:px-6">
         <div className="flex items-center gap-3">
           {/* Logo and Brand */}
-          <Link 
-            to={user ? "/" : "/home"} 
+          <Link
+            to={user ? "/" : "/home"}
             className="flex items-center gap-3 transition-all duration-200 hover:scale-105"
           >
-            <div className="stylestack-glass p-2">
-              <Shirt className="h-6 w-6 text-primary" />
-            </div>
+            <Shirt className="h-6 w-6 text-primary" />
             <span className="stylestack-heading-sm text-foreground hidden sm:block">StyleStack</span>
           </Link>
-          
+
           {/* Desktop Sidebar Toggle */}
           {user && (
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               onClick={toggleSidebar}
               className={cn(
-                "stylestack-glass h-10 w-10 hidden lg:flex border-0",
+                "bg-secondary/20 shadow-md h-10 w-10 hidden lg:flex border-0",
                 "hover:scale-105 active:scale-95"
               )}
               aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
             >
-              {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+              {sidebarOpen ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
             </Button>
           )}
 
           {/* Mobile Sidebar Toggle */}
           {user && (
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               onClick={toggleSidebar}
               className={cn(
-                "stylestack-glass h-10 w-10 lg:hidden border-0",
+                "bg-secondary/20 shadow-md h-10 w-10 lg:hidden border-0",
                 "hover:scale-105 active:scale-95"
               )}
               aria-label="Toggle navigation"
@@ -77,24 +75,24 @@ const Header = () => {
               <Menu size={18} />
             </Button>
           )}
-          
+
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex items-center space-x-1 ml-6">
-            <Link 
-              to="/home" 
+            <Link
+              to="/home"
               className={cn(
                 "px-4 py-2 stylestack-body font-medium rounded-lg transition-all duration-200",
-                "hover:bg-accent/50 hover:text-primary stylestack-hover"
+                "hover:bg-accent/50 hover:text-foreground stylestack-hover"
               )}
             >
               Home
             </Link>
             {user && (
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className={cn(
                   "px-4 py-2 stylestack-body font-medium rounded-lg transition-all duration-200",
-                  "hover:bg-accent/50 hover:text-primary stylestack-hover"
+                  "hover:bg-accent/50 hover:text-foreground stylestack-hover"
                 )}
               >
                 Dashboard
@@ -102,16 +100,16 @@ const Header = () => {
             )}
           </nav>
         </div>
-        
+
         {/* Right Side Actions */}
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          
+
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className={cn(
                     "stylestack-glass flex items-center gap-3 h-10 px-3 border-0",
                     "hover:scale-105 active:scale-95"
@@ -125,8 +123,8 @@ const Header = () => {
                   </span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
+              <DropdownMenuContent
+                align="end"
                 className="w-56 stylestack-glass border-glass-border p-2"
               >
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-accent/20">
@@ -140,8 +138,8 @@ const Header = () => {
                 </div>
                 <DropdownMenuSeparator className="my-2" />
                 <DropdownMenuItem asChild>
-                  <Link 
-                    to="/account" 
+                  <Link
+                    to="/account"
                     className="w-full cursor-pointer text-foreground rounded-lg px-3 py-2 hover:bg-accent/50"
                   >
                     <UserIcon className="h-4 w-4 mr-3" />
@@ -149,8 +147,8 @@ const Header = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link 
-                    to="/settings" 
+                  <Link
+                    to="/settings"
                     className="w-full cursor-pointer text-foreground rounded-lg px-3 py-2 hover:bg-accent/50"
                   >
                     <Settings className="h-4 w-4 mr-3" />
@@ -158,8 +156,8 @@ const Header = () => {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator className="my-2" />
-                <DropdownMenuItem 
-                  className="cursor-pointer text-destructive hover:bg-destructive/10 focus:bg-destructive/10 rounded-lg px-3 py-2" 
+                <DropdownMenuItem
+                  className="cursor-pointer text-destructive hover:bg-destructive/10 focus:bg-destructive/10 rounded-lg px-3 py-2"
                   onClick={handleSignOut}
                 >
                   <LogOut className="h-4 w-4 mr-3" />

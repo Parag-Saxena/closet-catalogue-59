@@ -2,6 +2,7 @@
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { useClothingForm } from '@/context/ClothingFormContext';
 
 interface FootwearFieldsProps {
   shoeSize: string;
@@ -20,6 +21,8 @@ const FootwearFields: React.FC<FootwearFieldsProps> = ({
   onHeelHeightChange,
   onFootwearStyleChange
 }) => {
+  const { heelHeights, footwearStyles } = useClothingForm();
+
   return (
     <>
       <div>
@@ -33,7 +36,7 @@ const FootwearFields: React.FC<FootwearFieldsProps> = ({
           className="mt-1"
         />
       </div>
-      
+
       <div>
         <Label htmlFor="heelHeight">Heel Height</Label>
         <select
@@ -44,13 +47,14 @@ const FootwearFields: React.FC<FootwearFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Heel Height</option>
-          <option value="Flat">Flat</option>
-          <option value="Low">Low (0.5-1.5")</option>
-          <option value="Medium">Medium (2-3")</option>
-          <option value="High">High (3.5"+)</option>
+          {heelHeights.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
-      
+
       <div>
         <Label htmlFor="footwearStyle">Style</Label>
         <select
@@ -61,11 +65,11 @@ const FootwearFields: React.FC<FootwearFieldsProps> = ({
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm mt-1"
         >
           <option value="">Select Style</option>
-          <option value="Casual">Casual</option>
-          <option value="Athletic">Athletic</option>
-          <option value="Dress">Dress</option>
-          <option value="Boot">Boot</option>
-          <option value="Sandal">Sandal</option>
+          {footwearStyles.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
     </>
