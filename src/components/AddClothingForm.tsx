@@ -21,6 +21,7 @@ const AddClothingForm = () => {
     type: '',
     category: '',
     brand: '',
+    size: '',
     color: '#000000',
     occasion: 'casual' as 'casual' | 'formal',
     environment: 'indoors' as 'indoors' | 'outdoors',
@@ -66,6 +67,7 @@ const AddClothingForm = () => {
         type: formData.type,
         category: formData.category,
         brand: formData.brand,
+        size: formData.size,
         color: formData.color,
         occasion: formData.occasion,
         image: image || '/placeholder.svg',
@@ -104,11 +106,11 @@ const AddClothingForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8 animate-fade-in">
-      {/* Basic Information Section */}
+      {/* Main Details Section */}
       <div className="space-y-6 stylestack-glass p-6 rounded-lg">
         <div className="border-b pb-2">
-          <h2 className="text-xl font-semibold text-foreground">Item Details</h2>
-          <p className="text-sm text-muted-foreground">Enter the essential information</p>
+          <h2 className="text-xl font-semibold text-foreground">Main Details</h2>
+          <p className="text-sm text-muted-foreground">Essential information about your item</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -152,26 +154,6 @@ const AddClothingForm = () => {
             </Select>
           </div>
 
-          {/* Category */}
-          <div className="space-y-2">
-            <Label htmlFor="category" className="text-foreground">
-              Category <span className="text-destructive">*</span>
-            </Label>
-            <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Tops">Tops</SelectItem>
-                <SelectItem value="Bottoms">Bottoms</SelectItem>
-                <SelectItem value="Outerwear">Outerwear</SelectItem>
-                <SelectItem value="Dresses">Dresses</SelectItem>
-                <SelectItem value="Footwear">Footwear</SelectItem>
-                <SelectItem value="Accessories">Accessories</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
           {/* Brand */}
           <div className="space-y-2">
             <Label htmlFor="brand" className="text-foreground">
@@ -182,6 +164,20 @@ const AddClothingForm = () => {
               value={formData.brand}
               onChange={(e) => handleInputChange('brand', e.target.value)}
               placeholder="e.g., Nike, Zara, H&M"
+              required
+            />
+          </div>
+
+          {/* Size */}
+          <div className="space-y-2">
+            <Label htmlFor="size" className="text-foreground">
+              Size <span className="text-destructive">*</span>
+            </Label>
+            <Input
+              id="size"
+              value={formData.size}
+              onChange={(e) => handleInputChange('size', e.target.value)}
+              placeholder="e.g., S, M, L, XL, 32, 42"
               required
             />
           </div>
@@ -229,6 +225,36 @@ const AddClothingForm = () => {
                 <Label htmlFor="formal" className="cursor-pointer font-normal">Formal</Label>
               </div>
             </RadioGroup>
+          </div>
+        </div>
+      </div>
+
+      {/* Other Details Section */}
+      <div className="space-y-6 stylestack-glass p-6 rounded-lg">
+        <div className="border-b pb-2">
+          <h2 className="text-xl font-semibold text-foreground">Other Details</h2>
+          <p className="text-sm text-muted-foreground">Additional information</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Category */}
+          <div className="space-y-2">
+            <Label htmlFor="category" className="text-foreground">
+              Category <span className="text-destructive">*</span>
+            </Label>
+            <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Tops">Tops</SelectItem>
+                <SelectItem value="Bottoms">Bottoms</SelectItem>
+                <SelectItem value="Outerwear">Outerwear</SelectItem>
+                <SelectItem value="Dresses">Dresses</SelectItem>
+                <SelectItem value="Footwear">Footwear</SelectItem>
+                <SelectItem value="Accessories">Accessories</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Environment - Only for T-Shirts */}
