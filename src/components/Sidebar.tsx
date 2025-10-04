@@ -97,7 +97,7 @@ const AppSidebar = () => {
       "w-64 lg:w-64 scrollbar-morphism overflow-y-auto",
       "fixed w-full lg:static lg:top-0 bottom-0 left-0 z-40 lg:z-auto"
     )}>
-      <div className="h-full flex flex-col p-responsive">
+      <div className="h-full flex flex-col p-responsive pt-6">
         {/* Navigation Section */}
         <div className="space-y-1">
           <div className="px-3 py-2">

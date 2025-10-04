@@ -46,9 +46,9 @@ const Layout: React.FC<LayoutProps> = ({
           "p-4 lg:p-6",
           showSidebar && sidebarOpen ? "lg:ml-0" : "",
           // Mobile bottom navigation spacing
-          user && !isHomePage ? "pb-20 lg:pb-6" : ""
+          user && !isHomePage ? "pb-24 lg:pb-12" : "pb-8"
         )}>
-          <div className="animate-fade-in max-w-full h-full">
+          <div className="animate-fade-in max-w-full h-full mb-8">
             {children}
           </div>
         </main>
