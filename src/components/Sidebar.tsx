@@ -31,13 +31,9 @@ const AppSidebar = () => {
     return null;
   }
 
-  const isRouteActive = (url: string) => {
-    // Exact match for root path
-    if (url === "/") {
-      return location.pathname === "/";
-    }
-    // For other routes, match if current path starts with the route URL
-    return location.pathname === url || location.pathname.startsWith(url + "/");
+  // Check if route is active and supports wildcard matching like /wardrobe/* using regex
+  const isActive = (path: string) => {
+    return location.pathname === path || location.pathname.startsWith(path + '/');
   };
 
   const navigationItems: NavItem[] = [
@@ -45,60 +41,60 @@ const AppSidebar = () => {
       title: "Dashboard",
       url: "/",
       icon: LayoutDashboard,
-      isActive: isRouteActive("/")
+      isActive: isActive("/")
     },
     {
       title: "My Wardrobe",
       url: "/wardrobe",
       icon: Shirt,
-      isActive: isRouteActive("/wardrobe")
+      isActive: isActive("/wardrobe")
     },
     {
       title: "Categories",
       url: "/categories",
       icon: LayoutList,
-      isActive: isRouteActive("/categories")
+      isActive: isActive("/categories")
     },
     {
       title: "My Outfits",
       url: "/outfits",
       icon: BookHeart,
-      isActive: isRouteActive("/outfits")
+      isActive: isActive("/outfits")
     },
     {
       title: "My Measurements",
       url: "/measurements",
       icon: Ruler,
-      isActive: isRouteActive("/measurements")
+      isActive: isActive("/measurements")
     },
     {
       title: "Shopping Schedule",
       url: "/shopping-schedule",
       icon: ShoppingBag,
-      isActive: isRouteActive("/shopping-schedule")
+      isActive: isActive("/shopping-schedule")
     },
     {
       title: "My Style",
-      url: "/style",
+      url: "/styles",
       icon: BookOpenText,
-      isActive: isRouteActive("/style")
+      isActive: isActive("/styles")
     }
-  ];
+    ];
 
-  const preferencesItems: NavItem[] = [
+    const preferencesItems: NavItem[] = [
     {
       title: "Account",
       url: "/account",
       icon: User,
-      isActive: isRouteActive("/account")
+      isActive: isActive("/account")
     },
     {
       title: "Settings",
       url: "/settings",
       icon: Settings,
-      isActive: isRouteActive("/settings")
+      isActive: isActive("/settings")
     }
-  ];
+    ];
 
   return (
     <aside className={cn(
@@ -106,7 +102,7 @@ const AppSidebar = () => {
       "w-64 lg:w-64 scrollbar-morphism overflow-y-auto",
       "fixed w-full lg:static lg:top-0 bottom-0 left-0 z-40 lg:z-auto"
     )}>
-      <div className="h-full flex flex-col p-responsive pt-6">
+      <div className="h-full flex flex-col p-responsive pt-2">
         {/* Navigation Section */}
         <div className="space-y-1">
           <div className="px-3 py-2">

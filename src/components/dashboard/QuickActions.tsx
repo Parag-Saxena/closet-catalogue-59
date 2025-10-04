@@ -11,7 +11,7 @@ const QuickActions = () => {
       description: "Add a new clothing item to your wardrobe",
       icon: Shirt,
       color: "text-blue-500",
-      link: "/add"
+      link: "/wardrobe/add"
     },
     {
       title: "Curate Outfit",
@@ -32,7 +32,7 @@ const QuickActions = () => {
       description: "Get personalized style advice",
       icon: Sparkles,
       color: "text-amber-500",
-      link: "/style"
+      link: "/styles"
     }
   ];
 

@@ -1,6 +1,6 @@
 
 import { Link, useLocation } from 'react-router-dom';
-import { 
+import {
   LayoutDashboard,
   Shirt,
   BookHeart,
@@ -11,15 +11,6 @@ import { cn } from '@/lib/utils';
 
 const MobileNavigation = () => {
   const location = useLocation();
-
-  const isRouteActive = (url: string) => {
-    // Exact match for root path
-    if (url === "/") {
-      return location.pathname === "/";
-    }
-    // For other routes, match if current path starts with the route URL
-    return location.pathname === url || location.pathname.startsWith(url + "/");
-  };
 
   const navItems = [
     {
@@ -34,7 +25,7 @@ const MobileNavigation = () => {
     },
     {
       title: "Add",
-      url: "/add",
+      url: "/wardrobe/add",
       icon: Plus,
     },
     {
@@ -54,8 +45,8 @@ const MobileNavigation = () => {
       <div className="flex items-center justify-around py-2 px-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = isRouteActive(item.url);
-          
+          const isActive = location.pathname === item.url || location.pathname.startsWith(item.url + '/');
+
           return (
             <Link
               key={item.title}
@@ -64,16 +55,16 @@ const MobileNavigation = () => {
                 "flex flex-col items-center justify-center touch-target",
                 "px-2 py-1 rounded-xl transition-all duration-200",
                 "text-xs font-medium",
-                isActive 
-                  ? "text-primary bg-primary/10 scale-105" 
+                isActive
+                  ? "text-primary bg-primary/10 scale-105"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
               )}
             >
-              <Icon 
+              <Icon
                 className={cn(
                   "w-5 h-5 mb-1 transition-all duration-200",
                   isActive ? "scale-110" : ""
-                )} 
+                )}
               />
               <span className={cn(
                 "transition-all duration-200",

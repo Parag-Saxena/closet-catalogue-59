@@ -45,12 +45,12 @@ const Account = () => {
   const [importUrl, setImportUrl] = useState('');
   const [isImporting, setIsImporting] = useState(false);
   const [recentImports, setRecentImports] = useState<ImportedOutfit[]>([]);
-  
+
   // Form for profile editing
   const form = useForm({
     defaultValues: profile
   });
-  
+
   useEffect(() => {
     // Load user profile from localStorage
     const savedUser = localStorage.getItem('user');
@@ -59,30 +59,30 @@ const Account = () => {
       setProfile(userData);
       form.reset(userData);
     }
-    
+
     // Load recent imports
     const savedImports = localStorage.getItem('importedOutfits');
     if (savedImports) {
       setRecentImports(JSON.parse(savedImports));
     }
   }, []);
-  
+
   const handleProfileSubmit = (data: UserProfile) => {
     // In a real app, we would call an API
     // For this demo, we'll save to localStorage
     localStorage.setItem('user', JSON.stringify(data));
     setProfile(data);
     setIsEditing(false);
-    
+
     toast({
       title: "Profile Updated",
       description: "Your profile has been successfully updated.",
     });
   };
-  
+
   const handleImportSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!importUrl.trim()) {
       toast({
         title: "Error",
@@ -91,14 +91,14 @@ const Account = () => {
       });
       return;
     }
-    
+
     setIsImporting(true);
-    
+
     // Simulate an import process
     setTimeout(() => {
       // In a real app, we would call an API to scrape the website
       // For this demo, we'll create a mock imported outfit
-      
+
       const mockOutfit: ImportedOutfit = {
         id: Date.now().toString(),
         name: "Summer Collection " + new Date().toLocaleDateString(),
@@ -120,12 +120,12 @@ const Account = () => {
           }
         ]
       };
-      
+
       // Save to localStorage
       const updatedImports = [mockOutfit, ...recentImports].slice(0, 5);
       localStorage.setItem('importedOutfits', JSON.stringify(updatedImports));
       setRecentImports(updatedImports);
-      
+
       // Add to wardrobe if purchased
       const closetItems = JSON.parse(localStorage.getItem('closetItems') || '[]');
       const newItems = mockOutfit.items.map(item => ({
@@ -141,9 +141,9 @@ const Account = () => {
         needsWashing: false,
         source: importUrl
       }));
-      
+
       localStorage.setItem('closetItems', JSON.stringify([...closetItems, ...newItems]));
-      
+
       // Add to outfits
       const outfits = JSON.parse(localStorage.getItem('outfits') || '[]');
       const newOutfit = {
@@ -155,19 +155,19 @@ const Account = () => {
         created: new Date().toISOString(),
         source: importUrl
       };
-      
+
       localStorage.setItem('outfits', JSON.stringify([...outfits, newOutfit]));
-      
+
       setImportUrl('');
       setIsImporting(false);
-      
+
       toast({
         title: "Import Successful",
         description: `Successfully imported "${mockOutfit.name}" with ${mockOutfit.items.length} items`,
       });
     }, 1500);
   };
-  
+
   const saveItem = (outfit: ImportedOutfit) => {
     // Logic to save an item to wardrobe and/or outfit collection
     toast({
@@ -175,18 +175,18 @@ const Account = () => {
       description: `"${outfit.name}" has been added to your wardrobe.`,
     });
   };
-  
+
   return (
     <Layout>
       <div className="space-y-6">
         <h1 className="text-2xl font-semibold text-foreground">Account</h1>
-        
+
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="import">Import Outfits</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="profile" className="space-y-6">
             <Card>
               <CardHeader>
@@ -194,8 +194,8 @@ const Account = () => {
                   <div className="flex items-center gap-4">
                     <Avatar className="h-16 w-16">
                       <AvatarImage src={profile.avatar} alt={profile.name} />
-                      <AvatarFallback className="bg-closet-blue/10">
-                        <User className="h-8 w-8 text-closet-blue" />
+                      <AvatarFallback className="bg-primary/10">
+                        <User className="h-8 w-8 text-primary" />
                       </AvatarFallback>
                     </Avatar>
                     <div>
@@ -203,16 +203,16 @@ const Account = () => {
                       <CardDescription>{profile.email}</CardDescription>
                     </div>
                   </div>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     onClick={() => setIsEditing(!isEditing)}
                   >
                     {isEditing ? "Cancel" : "Edit Profile"}
                   </Button>
                 </div>
               </CardHeader>
-              
+
               <CardContent>
                 {isEditing ? (
                   <Form {...form}>
@@ -230,7 +230,7 @@ const Account = () => {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={form.control}
                         name="email"
@@ -244,7 +244,7 @@ const Account = () => {
                           </FormItem>
                         )}
                       />
-                      
+
                       <FormField
                         control={form.control}
                         name="bio"
@@ -252,9 +252,9 @@ const Account = () => {
                           <FormItem>
                             <FormLabel>Bio</FormLabel>
                             <FormControl>
-                              <Textarea 
-                                {...field} 
-                                placeholder="Tell us about your style" 
+                              <Textarea
+                                {...field}
+                                placeholder="Tell us about your style"
                                 className="min-h-[100px]"
                               />
                             </FormControl>
@@ -262,7 +262,7 @@ const Account = () => {
                           </FormItem>
                         )}
                       />
-                      
+
                       <div className="flex justify-end">
                         <Button type="submit">Save Changes</Button>
                       </div>
@@ -274,7 +274,7 @@ const Account = () => {
                       <h3 className="font-medium text-foreground">Bio</h3>
                       <p className="text-muted-foreground">{profile.bio || "No bio provided"}</p>
                     </div>
-                    
+
                     <div>
                       <h3 className="font-medium text-foreground">Storage</h3>
                       <p className="text-muted-foreground">Using local storage to save your data</p>
@@ -284,7 +284,7 @@ const Account = () => {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="import" className="space-y-6">
             <Card>
               <CardHeader>
@@ -317,10 +317,10 @@ const Account = () => {
                     </p>
                   </div>
                 </form>
-                
+
                 <div className="mt-6">
                   <h3 className="text-sm font-medium mb-3">Recently Imported</h3>
-                  
+
                   {recentImports.length === 0 ? (
                     <div className="text-center p-6 border border-dashed rounded-md">
                       <p className="text-muted-foreground">No imports yet</p>

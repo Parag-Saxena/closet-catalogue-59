@@ -21,7 +21,7 @@ const RecentActivity = ({ recentOutfits }: RecentActivityProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <Calendar className="h-5 w-5 text-closet-blue" />
+            <Calendar className="h-5 w-5 text-primary" />
             Recent Activity
           </CardTitle>
         </CardHeader>
@@ -39,7 +39,7 @@ const RecentActivity = ({ recentOutfits }: RecentActivityProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-closet-blue" />
+          <Calendar className="h-5 w-5 text-primary" />
           Recent Activity
         </CardTitle>
       </CardHeader>

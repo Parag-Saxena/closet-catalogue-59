@@ -9,27 +9,27 @@ import { Search, Plus, WashingMachine, Edit, Trash2, List, Grid } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
 } from "@/components/ui/pagination";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/components/ui/toggle-group";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -64,24 +64,24 @@ const Wardrobe = () => {
 
   useEffect(() => {
     let filtered = [...clothingItems];
-    
+
     if (searchQuery) {
-      filtered = filtered.filter(item => 
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+      filtered = filtered.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.notes?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-    
+
     if (categoryFilter !== 'All') {
       filtered = filtered.filter(item => item.category === categoryFilter);
     }
-    
+
     if (laundryFilter !== 'all') {
-      filtered = filtered.filter(item => 
+      filtered = filtered.filter(item =>
         laundryFilter === 'wash' ? item.needsWashing : !item.needsWashing
       );
     }
-    
+
     setFilteredItems(filtered);
     setCurrentPage(1);
   }, [searchQuery, categoryFilter, laundryFilter, clothingItems]);
@@ -93,11 +93,11 @@ const Wardrobe = () => {
   );
 
   const handleLaundryToggle = (id: string) => {
-    const updatedItems = clothingItems.map(item => 
+    const updatedItems = clothingItems.map(item =>
       item.id === id ? { ...item, needsWashing: !item.needsWashing } : item
     );
     setClothingItems(updatedItems);
-    
+
     const item = clothingItems.find(item => item.id === id);
     if (item) {
       toast({
@@ -116,11 +116,11 @@ const Wardrobe = () => {
   };
 
   const handleSaveItem = (updatedItem: ClothingItem) => {
-    const updatedItems = clothingItems.map(item => 
+    const updatedItems = clothingItems.map(item =>
       item.id === updatedItem.id ? updatedItem : item
     );
     setClothingItems(updatedItems);
-    
+
     toast({
       title: "Item updated",
       description: `${updatedItem.name} has been updated successfully.`
@@ -133,7 +133,7 @@ const Wardrobe = () => {
 
     const updatedItems = clothingItems.filter(item => item.id !== id);
     setClothingItems(updatedItems);
-    
+
     toast({
       title: "Item deleted",
       description: `${itemToDelete.name} has been removed from your wardrobe.`
@@ -148,9 +148,9 @@ const Wardrobe = () => {
 
   const renderActionButtons = (item: ClothingItem) => (
     <div className="flex gap-1">
-      <Button 
-        variant="ghost" 
-        size="icon" 
+      <Button
+        variant="ghost"
+        size="icon"
         className="h-7 w-7 hover:bg-primary/10 hover:text-primary"
         onClick={() => handleEditItem(item.id)}
       >
@@ -159,9 +159,9 @@ const Wardrobe = () => {
       </Button>
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <Button 
-            variant="ghost" 
-            size="icon" 
+          <Button
+            variant="ghost"
+            size="icon"
             className="h-7 w-7 hover:bg-destructive/10 hover:text-destructive"
           >
             <Trash2 className="h-3.5 w-3.5" />
@@ -177,7 +177,7 @@ const Wardrobe = () => {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={() => handleDeleteItem(item.id)}
             >
@@ -195,7 +195,7 @@ const Wardrobe = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-foreground">My Wardrobe</h1>
           <Link
-            to="/add"
+            to="/wardrobe/add"
             className="inline-flex items-center justify-center rounded-full h-10 px-4 py-2 bg-primary text-primary-foreground shadow-sm transition-all duration-200 hover:opacity-90 hover:scale-105 active:scale-95"
             aria-label="Add new item"
           >
@@ -203,7 +203,7 @@ const Wardrobe = () => {
             <span>Add Item</span>
           </Link>
         </div>
-        
+
         {clothingItems.length === 0 && !isLoading ? (
           <EmptyState />
         ) : (
@@ -220,7 +220,7 @@ const Wardrobe = () => {
                     className="h-10 w-full rounded-full border border-input bg-background pl-10 pr-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   />
                 </div>
-                
+
                 <select
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
@@ -231,28 +231,28 @@ const Wardrobe = () => {
                   ))}
                 </select>
               </div>
-              
+
               <div className="flex items-center justify-between gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <Button 
-                    variant={laundryFilter === 'all' ? "default" : "outline"} 
-                    size="sm" 
+                  <Button
+                    variant={laundryFilter === 'all' ? "default" : "outline"}
+                    size="sm"
                     onClick={() => setLaundryFilter('all')}
                     className="rounded-full"
                   >
                     All Items
                   </Button>
-                  <Button 
-                    variant={laundryFilter === 'clean' ? "default" : "outline"} 
-                    size="sm" 
+                  <Button
+                    variant={laundryFilter === 'clean' ? "default" : "outline"}
+                    size="sm"
                     onClick={() => setLaundryFilter('clean')}
                     className="rounded-full"
                   >
                     Clean Items
                   </Button>
-                  <Button 
-                    variant={laundryFilter === 'wash' ? "default" : "outline"} 
-                    size="sm" 
+                  <Button
+                    variant={laundryFilter === 'wash' ? "default" : "outline"}
+                    size="sm"
                     onClick={() => setLaundryFilter('wash')}
                     className="rounded-full flex items-center gap-1"
                   >
@@ -260,7 +260,7 @@ const Wardrobe = () => {
                     Laundry ({laundryCount})
                   </Button>
                 </div>
-                
+
                 <ToggleGroup type="single" value={viewMode} onValueChange={(value) => value && setViewMode(value as 'card' | 'list')}>
                   <ToggleGroupItem value="card" aria-label="Card View">
                     <Grid className="h-4 w-4" />
@@ -271,7 +271,7 @@ const Wardrobe = () => {
                 </ToggleGroup>
               </div>
             </div>
-            
+
             {paginatedItems.length === 0 ? (
               <div className="py-12 text-center">
                 <p className="text-muted-foreground">No items found matching your search.</p>
@@ -283,9 +283,9 @@ const Wardrobe = () => {
                     <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       {renderActionButtons(item)}
                     </div>
-                    <ClothingCard 
-                      item={item} 
-                      onLaundryToggle={handleLaundryToggle} 
+                    <ClothingCard
+                      item={item}
+                      onLaundryToggle={handleLaundryToggle}
                     />
                   </div>
                 ))}
@@ -310,8 +310,8 @@ const Wardrobe = () => {
                         <TableCell>{item.category}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <div 
-                              className="h-3 w-3 rounded-full" 
+                            <div
+                              className="h-3 w-3 rounded-full"
                               style={{ backgroundColor: item.color }}
                             />
                             {item.color}
@@ -329,9 +329,9 @@ const Wardrobe = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
+                            <Button
+                              variant="ghost"
+                              size="sm"
                               onClick={() => handleLaundryToggle(item.id)}
                             >
                               {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
@@ -345,20 +345,20 @@ const Wardrobe = () => {
                 </Table>
               </div>
             )}
-            
+
             {totalPages > 1 && (
               <Pagination className="my-4">
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious 
+                    <PaginationPrevious
                       onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                       className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
                     />
                   </PaginationItem>
-                  
+
                   {Array.from({ length: totalPages }).map((_, index) => (
                     <PaginationItem key={index}>
-                      <PaginationLink 
+                      <PaginationLink
                         isActive={currentPage === index + 1}
                         onClick={() => handlePageChange(index + 1)}
                       >
@@ -366,9 +366,9 @@ const Wardrobe = () => {
                       </PaginationLink>
                     </PaginationItem>
                   ))}
-                  
+
                   <PaginationItem>
-                    <PaginationNext 
+                    <PaginationNext
                       onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                       className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
                     />
@@ -380,7 +380,7 @@ const Wardrobe = () => {
         )}
       </div>
 
-      <EditItemDialog 
+      <EditItemDialog
         item={editingItem}
         isOpen={isEditDialogOpen}
         onClose={() => {

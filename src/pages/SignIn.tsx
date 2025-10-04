@@ -146,7 +146,7 @@ const SignIn = () => {
         {/* Right side - Image */}
         <div className="hidden md:block md:w-1/2 h-[calc(100vh-4rem)] bg-secondary">
           <img
-            src="/placeholder.svg"
+            src="/banner.png"
             alt="Wardrobe illustration"
             className="w-full h-full object-cover"
           />

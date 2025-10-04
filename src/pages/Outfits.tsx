@@ -1,13 +1,13 @@
 
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
   CardFooter,
-  CardHeader, 
-  CardTitle 
+  CardHeader,
+  CardTitle
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ import { BookHeart, Shirt, Plus, Edit, Trash2, Calendar, Filter, Clock, Star, Br
 import { format } from 'date-fns';
 import { useToast } from "@/hooks/use-toast";
 import { useApp } from '@/context/AppContext';
-import { 
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -29,7 +29,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -40,11 +40,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { 
-  Tabs, 
-  TabsContent, 
-  TabsList, 
-  TabsTrigger 
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger
 } from "@/components/ui/tabs";
 import {
   DropdownMenu,
@@ -185,7 +185,7 @@ const Outfits = () => {
 
   const handleEditSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!name.trim() || selectedItems.length === 0 || !editingOutfit) {
       toast({
         title: "Missing fields",
@@ -194,11 +194,11 @@ const Outfits = () => {
       });
       return;
     }
-    
-    const occasionValue = selectedOccasions.length > 0 
+
+    const occasionValue = selectedOccasions.length > 0
       ? OCCASIONS.find(o => o.id === selectedOccasions[0])?.label || ''
       : '';
-    
+
     const updatedOutfit: Outfit = {
       ...editingOutfit,
       name: name.trim(),
@@ -208,18 +208,18 @@ const Outfits = () => {
       tags: tags,
       items: selectedItems
     };
-    
-    const updatedOutfits = outfits.map(outfit => 
+
+    const updatedOutfits = outfits.map(outfit =>
       outfit.id === editingOutfit.id ? updatedOutfit : outfit
     );
-    
+
     setOutfits(updatedOutfits);
-    
+
     toast({
       title: "Outfit updated",
       description: `${name} has been updated successfully.`
     });
-    
+
     handleCloseEditDialog();
   };
 
@@ -236,10 +236,10 @@ const Outfits = () => {
   const handleDeleteOutfit = (id: string) => {
     const outfitToDelete = outfits.find(outfit => outfit.id === id);
     if (!outfitToDelete) return;
-    
+
     const updatedOutfits = outfits.filter(outfit => outfit.id !== id);
     setOutfits(updatedOutfits);
-    
+
     toast({
       title: "Outfit deleted",
       description: `${outfitToDelete.name} has been removed from your outfits.`
@@ -253,12 +253,12 @@ const Outfits = () => {
       }
       return outfit;
     });
-    
+
     setOutfits(updatedOutfits);
-    
+
     const outfitName = outfits.find(o => o.id === outfitId)?.name;
     const isFavorite = outfits.find(o => o.id === outfitId)?.isFavorite;
-    
+
     toast({
       title: isFavorite ? "Removed from favorites" : "Added to favorites",
       description: `${outfitName} has been ${isFavorite ? 'removed from' : 'added to'} your favorites.`
@@ -295,7 +295,7 @@ const Outfits = () => {
   const getWeatherSuggestion = () => {
     const now = new Date();
     const month = now.getMonth(); // 0-11
-    
+
     // Simple season-based suggestion
     if (month >= 2 && month <= 4) { // Spring
       return {
@@ -325,10 +325,10 @@ const Outfits = () => {
   };
 
   const weatherSuggestion = getWeatherSuggestion();
-  const weatherIcon = weatherSuggestion.condition === 'sunny' ? 
-    <Sun className="h-5 w-5 text-amber-500" /> : 
-    weatherSuggestion.condition === 'rainy' ? 
-    <CloudRain className="h-5 w-5 text-blue-500" /> : 
+  const weatherIcon = weatherSuggestion.condition === 'sunny' ?
+    <Sun className="h-5 w-5 text-amber-500" /> :
+    weatherSuggestion.condition === 'rainy' ?
+    <CloudRain className="h-5 w-5 text-blue-500" /> :
     <CloudSnow className="h-5 w-5 text-blue-300" />;
 
   return (
@@ -358,8 +358,8 @@ const Outfits = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 {OCCASIONS.map(occasion => (
-                  <DropdownMenuItem 
-                    key={occasion.id} 
+                  <DropdownMenuItem
+                    key={occasion.id}
                     onClick={() => setActiveTab(occasion.id)}
                     className="flex items-center"
                   >
@@ -369,7 +369,7 @@ const Outfits = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link to="/add-outfit">
+            <Link to="/outfits/add-outfit">
               <Button>
                 <Plus className="mr-2 h-4 w-4" />
                 Create Outfit
@@ -409,14 +409,14 @@ const Outfits = () => {
             </h2>
             <Button variant="ghost" size="sm">View All</Button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {TRENDING_STYLES.map(style => (
               <Card key={style.id} className="overflow-hidden group">
                 <div className="relative h-48">
-                  <img 
-                    src={style.image} 
-                    alt={style.name} 
+                  <img
+                    src={style.image}
+                    alt={style.name}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
@@ -426,9 +426,9 @@ const Outfits = () => {
                 </div>
                 <CardContent className="p-4">
                   <p className="text-sm text-muted-foreground mb-3">{style.description}</p>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="w-full"
                     onClick={() => handleOpenTrendingDialog(style)}
                   >
@@ -473,7 +473,7 @@ const Outfits = () => {
                 <p className="text-muted-foreground mb-6 max-w-md mx-auto">
                   Create your first outfit by combining items from your wardrobe.
                 </p>
-                <Link to="/add-outfit">
+                <Link to="/outfits/add-outfit">
                   <Button>
                     <Plus className="mr-2 h-4 w-4" />
                     Create First Outfit
@@ -487,17 +487,17 @@ const Outfits = () => {
                   return (
                     <Card key={outfit.id} className="group relative overflow-hidden hover:shadow-md transition-all duration-300">
                       <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                        <Button 
-                          variant="secondary" 
-                          size="icon" 
+                        <Button
+                          variant="secondary"
+                          size="icon"
                           className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
                           onClick={() => toggleFavorite(outfit.id)}
                         >
                           <Star className={`h-4 w-4 ${outfit.isFavorite ? 'text-amber-500 fill-amber-500' : ''}`} />
                         </Button>
-                        <Button 
-                          variant="secondary" 
-                          size="icon" 
+                        <Button
+                          variant="secondary"
+                          size="icon"
                           className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
                           onClick={() => handleOpenEditDialog(outfit)}
                         >
@@ -505,9 +505,9 @@ const Outfits = () => {
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button 
-                              variant="secondary" 
-                              size="icon" 
+                            <Button
+                              variant="secondary"
+                              size="icon"
                               className="h-8 w-8 bg-white/80 backdrop-blur-sm hover:bg-white"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -522,7 +522,7 @@ const Outfits = () => {
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction 
+                              <AlertDialogAction
                                 className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                 onClick={() => handleDeleteOutfit(outfit.id)}
                               >
@@ -596,16 +596,16 @@ const Outfits = () => {
                     )}
                   </div>
                   <h3 className="mb-1 text-lg font-medium text-foreground">
-                    {tab === 'favorites' ? 'No Favorited Outfits' : 
-                     tab === 'recent' ? 'No Recent Outfits' : 
+                    {tab === 'favorites' ? 'No Favorited Outfits' :
+                     tab === 'recent' ? 'No Recent Outfits' :
                      'No Scheduled Outfits'}
                   </h3>
                   <p className="mb-4 text-sm text-muted-foreground">
-                    {tab === 'favorites' ? 'Add outfits to your favorites for quick access.' : 
-                     tab === 'recent' ? 'Your recently created or worn outfits will appear here.' : 
+                    {tab === 'favorites' ? 'Add outfits to your favorites for quick access.' :
+                     tab === 'recent' ? 'Your recently created or worn outfits will appear here.' :
                      'Schedule outfits for upcoming events to see them here.'}
                   </p>
-                  <Link to="/add-outfit">
+                  <Link to="/outfits/add-outfit">
                     <Button>
                       <Plus className="mr-2 h-4 w-4" />
                       Create New Outfit
@@ -631,9 +631,9 @@ const Outfits = () => {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Outfit Name</Label>
-                <Input 
-                  id="name" 
-                  placeholder="Summer Casual" 
+                <Input
+                  id="name"
+                  placeholder="Summer Casual"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -678,9 +678,9 @@ const Outfits = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <Textarea 
-                  id="description" 
-                  placeholder="Light and comfortable outfit for warm days" 
+                <Textarea
+                  id="description"
+                  placeholder="Light and comfortable outfit for warm days"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={3}
@@ -693,8 +693,8 @@ const Outfits = () => {
                   {tags.map(tag => (
                     <Badge key={tag} variant="secondary" className="flex items-center gap-1">
                       {tag}
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => removeTag(tag)}
                         className="ml-1 h-3 w-3 rounded-full hover:bg-background/20 inline-flex items-center justify-center"
                       >
@@ -705,8 +705,8 @@ const Outfits = () => {
                     </Badge>
                   ))}
                 </div>
-                <Input 
-                  id="tagInput" 
+                <Input
+                  id="tagInput"
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   onKeyDown={handleTagAdd}
@@ -717,7 +717,7 @@ const Outfits = () => {
 
             <div className="space-y-4">
               <h3 className="font-medium text-lg text-foreground">Select Items for This Outfit</h3>
-              
+
               {Object.keys(itemsByCategory).length === 0 ? (
                 <div className="rounded-lg border border-dashed p-10 text-center">
                   <p className="text-muted-foreground">
@@ -731,15 +731,15 @@ const Outfits = () => {
                       <h4 className="text-sm font-medium text-foreground">{category}</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                         {items.map(item => (
-                          <Card 
-                            key={item.id} 
+                          <Card
+                            key={item.id}
                             className={`cursor-pointer hover:bg-accent transition-colors ${
                               selectedItems.includes(item.id) ? 'border-primary ring-1 ring-primary' : ''
                             }`}
                             onClick={() => handleItemToggle(item.id)}
                           >
                             <CardContent className="p-3 flex items-center space-x-3">
-                              <Checkbox 
+                              <Checkbox
                                 checked={selectedItems.includes(item.id)}
                                 onCheckedChange={() => handleItemToggle(item.id)}
                                 id={`item-${item.id}`}
@@ -766,8 +766,8 @@ const Outfits = () => {
               <Button variant="outline" type="button" onClick={handleCloseEditDialog}>
                 Cancel
               </Button>
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 disabled={!name.trim() || selectedItems.length === 0}
               >
                 Save Changes
@@ -790,9 +790,9 @@ const Outfits = () => {
           {selectedTrendingStyle && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <img 
-                  src={selectedTrendingStyle.image} 
-                  alt={selectedTrendingStyle.name} 
+                <img
+                  src={selectedTrendingStyle.image}
+                  alt={selectedTrendingStyle.name}
                   className="rounded-lg object-cover w-full aspect-square"
                 />
                 <div className="mt-4">
@@ -811,7 +811,7 @@ const Outfits = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-medium">Select matching items from your wardrobe:</Label>
@@ -828,15 +828,15 @@ const Outfits = () => {
                           <h4 className="text-xs font-medium uppercase text-muted-foreground mb-1">{category}</h4>
                           <div className="space-y-1">
                             {items.map(item => (
-                              <Card 
-                                key={item.id} 
+                              <Card
+                                key={item.id}
                                 className={`cursor-pointer hover:bg-accent transition-colors ${
                                   selectedItems.includes(item.id) ? 'border-primary ring-1 ring-primary' : ''
                                 }`}
                                 onClick={() => handleItemToggle(item.id)}
                               >
                                 <CardContent className="p-2 flex items-center space-x-3">
-                                  <Checkbox 
+                                  <Checkbox
                                     checked={selectedItems.includes(item.id)}
                                     onCheckedChange={() => handleItemToggle(item.id)}
                                     id={`trend-item-${item.id}`}
@@ -856,14 +856,14 @@ const Outfits = () => {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="border-t pt-4">
                   <h4 className="text-sm font-medium mb-2">Missing items for this look:</h4>
                   <div className="space-y-2">
                     {selectedTrendingStyle.items
                       .filter((item: string) => {
                         // Simple check if user has anything similar
-                        return !clothingItems.some(closetItem => 
+                        return !clothingItems.some(closetItem =>
                           closetItem.name.toLowerCase().includes(item.toLowerCase())
                         );
                       })
@@ -878,9 +878,9 @@ const Outfits = () => {
                           </Button>
                         </div>
                       ))}
-                    
-                    {!selectedTrendingStyle.items.some((item: string) => 
-                      !clothingItems.some(closetItem => 
+
+                    {!selectedTrendingStyle.items.some((item: string) =>
+                      !clothingItems.some(closetItem =>
                         closetItem.name.toLowerCase().includes(item.toLowerCase())
                       )
                     ) && (
@@ -893,12 +893,12 @@ const Outfits = () => {
               </div>
             </div>
           )}
-          
+
           <DialogFooter className="mt-4">
             <Button variant="outline" onClick={handleCloseTrendingDialog}>
               Cancel
             </Button>
-            <Link to="/add-outfit">
+            <Link to="/outfits/add-outfit">
               <Button disabled={selectedItems.length === 0}>
                 Create This Outfit
               </Button>

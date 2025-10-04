@@ -19,7 +19,7 @@ const WardrobeAnalytics = ({ categoryData }: WardrobeAnalyticsProps) => {
       <Card>
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
-            <PieChartIcon className="h-5 w-5 text-closet-blue" />
+            <PieChartIcon className="h-5 w-5 text-primary" />
             Wardrobe Analytics
           </CardTitle>
         </CardHeader>
@@ -37,7 +37,7 @@ const WardrobeAnalytics = ({ categoryData }: WardrobeAnalyticsProps) => {
     <Card>
       <CardHeader>
         <CardTitle className="text-lg flex items-center gap-2">
-          <PieChartIcon className="h-5 w-5 text-closet-blue" />
+          <PieChartIcon className="h-5 w-5 text-primary" />
           Wardrobe Analytics
         </CardTitle>
       </CardHeader>

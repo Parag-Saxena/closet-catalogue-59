@@ -39,20 +39,20 @@ const SignUp = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const [showMobileForm, setShowMobileForm] = useState(false);
-  
+
   useEffect(() => {
     const checkScreenSize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
-    
+
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
-    
+
     return () => {
       window.removeEventListener('resize', checkScreenSize);
     };
   }, []);
-  
+
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -64,64 +64,64 @@ const SignUp = () => {
       terms: false,
     },
   });
-  
+
   const watchPassword = form.watch("password");
   const [passwordStrength, setPasswordStrength] = useState({
     score: 0,
     message: "",
   });
-  
+
   useEffect(() => {
     if (!watchPassword) {
       setPasswordStrength({ score: 0, message: "" });
       return;
     }
-    
+
     let score = 0;
     // Length check
     if (watchPassword.length >= 6) score++;
     if (watchPassword.length >= 8) score++;
-    
+
     // Complexity checks
     if (/[A-Z]/.test(watchPassword)) score++;
     if (/[0-9]/.test(watchPassword)) score++;
     if (/[^A-Za-z0-9]/.test(watchPassword)) score++;
-    
+
     let message = "";
     if (score === 0) message = "Too weak";
     else if (score <= 2) message = "Weak";
     else if (score <= 4) message = "Medium";
     else message = "Strong";
-    
+
     setPasswordStrength({ score, message });
   }, [watchPassword]);
-  
+
   const getPasswordStrengthColor = () => {
     if (passwordStrength.score === 0) return "bg-gray-200";
     if (passwordStrength.score <= 2) return "bg-red-500";
     if (passwordStrength.score <= 4) return "bg-yellow-500";
     return "bg-green-500";
   };
-  
+
   const handleSignUp = async (values: SignUpFormValues) => {
     setIsLoading(true);
 
     try {
       // In a real app, this would be an API call
       console.log('Signing up with:', values);
-      
+
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Store user info
       const user = { name: values.name, email: values.email, username: values.username };
       saveUser(user);
-      
+
       toast({
         title: "Success!",
         description: "Your account has been created.",
       });
-      
+
       navigate('/');
     } catch (error) {
       console.error('Sign up error:', error);
@@ -134,10 +134,10 @@ const SignUp = () => {
       setIsLoading(false);
     }
   };
-  
+
   const handleGoogleSignUp = async () => {
     setIsGoogleLoading(true);
-    
+
     try {
       const user = await signInWithGoogle();
       toast({
@@ -159,7 +159,7 @@ const SignUp = () => {
 
   const renderForm = () => (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(handleSignUp)} className="space-y-3">
         {/* Google Sign In Button */}
         <Button
           type="button"
@@ -185,7 +185,7 @@ const SignUp = () => {
             </>
           )}
         </Button>
-        
+
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <Separator className="w-full" />
@@ -194,7 +194,7 @@ const SignUp = () => {
             <span className="bg-background px-2 text-sm text-muted-foreground">or sign up with email</span>
           </div>
         </div>
-        
+
         {/* Name field */}
         <FormField
           control={form.control}
@@ -205,8 +205,8 @@ const SignUp = () => {
               <div className="relative">
                 <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                 <FormControl>
-                  <Input 
-                    placeholder="Your full name" 
+                  <Input
+                    placeholder="Your full name"
                     className="pl-10"
                     {...field}
                   />
@@ -216,7 +216,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Username field */}
         <FormField
           control={form.control}
@@ -227,8 +227,8 @@ const SignUp = () => {
               <div className="relative">
                 <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                 <FormControl>
-                  <Input 
-                    placeholder="your_username" 
+                  <Input
+                    placeholder="your_username"
                     className="pl-10"
                     {...field}
                   />
@@ -238,7 +238,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Email field */}
         <FormField
           control={form.control}
@@ -249,9 +249,9 @@ const SignUp = () => {
               <div className="relative">
                 <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                 <FormControl>
-                  <Input 
+                  <Input
                     type="email"
-                    placeholder="you@example.com" 
+                    placeholder="you@example.com"
                     className="pl-10"
                     {...field}
                   />
@@ -261,7 +261,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Password field */}
         <FormField
           control={form.control}
@@ -272,14 +272,14 @@ const SignUp = () => {
               <div className="relative">
                 <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                 <FormControl>
-                  <Input 
+                  <Input
                     type={showPassword ? "text" : "password"}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     className="pl-10"
                     {...field}
                   />
                 </FormControl>
-                <button 
+                <button
                   type="button"
                   className="absolute right-3 top-2.5 text-muted-foreground"
                   onClick={() => setShowPassword(!showPassword)}
@@ -292,14 +292,14 @@ const SignUp = () => {
                   )}
                 </button>
               </div>
-              
+
               {/* Password strength indicator */}
               {watchPassword && (
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
                     <div className="h-2 flex-1 rounded-full bg-gray-100 overflow-hidden">
-                      <div 
-                        className={`h-full transition-all duration-300 ${getPasswordStrengthColor()}`} 
+                      <div
+                        className={`h-full transition-all duration-300 ${getPasswordStrengthColor()}`}
                         style={{ width: `${(passwordStrength.score / 5) * 100}%` }}
                       />
                     </div>
@@ -307,32 +307,32 @@ const SignUp = () => {
                       {passwordStrength.message}
                     </span>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
-                      {watchPassword.length >= 6 ? 
-                        <Check className="h-3 w-3 text-green-500" /> : 
+                      {watchPassword.length >= 6 ?
+                        <Check className="h-3 w-3 text-green-500" /> :
                         <X className="h-3 w-3 text-red-500" />
                       }
                       <span>At least 6 characters</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      {/[A-Z]/.test(watchPassword) ? 
-                        <Check className="h-3 w-3 text-green-500" /> : 
+                      {/[A-Z]/.test(watchPassword) ?
+                        <Check className="h-3 w-3 text-green-500" /> :
                         <X className="h-3 w-3 text-red-500" />
                       }
                       <span>Uppercase letter</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      {/[0-9]/.test(watchPassword) ? 
-                        <Check className="h-3 w-3 text-green-500" /> : 
+                      {/[0-9]/.test(watchPassword) ?
+                        <Check className="h-3 w-3 text-green-500" /> :
                         <X className="h-3 w-3 text-red-500" />
                       }
                       <span>Number</span>
                     </div>
                     <div className="flex items-center gap-1">
-                      {/[^A-Za-z0-9]/.test(watchPassword) ? 
-                        <Check className="h-3 w-3 text-green-500" /> : 
+                      {/[^A-Za-z0-9]/.test(watchPassword) ?
+                        <Check className="h-3 w-3 text-green-500" /> :
                         <X className="h-3 w-3 text-red-500" />
                       }
                       <span>Special character</span>
@@ -344,7 +344,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Confirm Password field */}
         <FormField
           control={form.control}
@@ -355,14 +355,14 @@ const SignUp = () => {
               <div className="relative">
                 <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                 <FormControl>
-                  <Input 
+                  <Input
                     type={showConfirmPassword ? "text" : "password"}
-                    placeholder="••••••••" 
+                    placeholder="••••••••"
                     className="pl-10"
                     {...field}
                   />
                 </FormControl>
-                <button 
+                <button
                   type="button"
                   className="absolute right-3 top-2.5 text-muted-foreground"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -379,7 +379,7 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Terms and Privacy Policy */}
         <FormField
           control={form.control}
@@ -401,10 +401,10 @@ const SignUp = () => {
             </FormItem>
           )}
         />
-        
+
         {/* Submit button */}
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           className="w-full mt-6"
           disabled={isLoading}
         >
@@ -433,22 +433,22 @@ const SignUp = () => {
               <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to Closet Keeper</h1>
               <p className="text-muted-foreground">Your virtual wardrobe organizer</p>
             </div>
-            
+
             <div className="rounded-2xl overflow-hidden shadow-xl">
-              <img 
-                src="https://images.unsplash.com/photo-1472396961693-142e6e269027?auto=format&fit=crop&w=800&q=80" 
-                alt="Closet inspiration" 
+              <img
+                src="/banner_2.png"
+                alt="Closet inspiration"
                 className="w-full h-52 object-cover"
               />
             </div>
-            
+
             <Button
               className="w-full py-6 text-lg"
               onClick={() => setShowMobileForm(true)}
             >
               Create an Account
             </Button>
-            
+
             <div className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link to="/sign-in" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
@@ -457,7 +457,7 @@ const SignUp = () => {
             </div>
           </div>
         </div>
-        
+
         <Sheet open={showMobileForm} onOpenChange={setShowMobileForm}>
           <SheetContent side="bottom" className="h-[90%] p-6 rounded-t-[20px]">
             <div className="mx-auto w-12 h-1.5 bg-muted rounded-full mb-6" />
@@ -485,9 +485,9 @@ const SignUp = () => {
               <h1 className="text-3xl font-bold tracking-tight text-foreground">Join Closet Keeper</h1>
               <p className="text-muted-foreground">Create an account to start organizing your wardrobe</p>
             </div>
-            
+
             {renderForm()}
-            
+
             <div className="mt-6 text-center text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link to="/sign-in" className="text-primary hover:text-primary/80 underline-offset-4 hover:underline dark:text-blue-400 dark:hover:text-blue-300">
@@ -497,27 +497,16 @@ const SignUp = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Right side - Image area with improved styling */}
       <div className="hidden lg:block lg:w-1/2 xl:w-7/12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/40 to-indigo-600/40 z-10" />
-        <img 
-          src="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?auto=format&fit=crop&q=80"
-          alt="Wardrobe inspiration" 
+        <img
+          src="/banner_2.png"
+          alt="Wardrobe inspiration"
           className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ boxShadow: "0 0 40px rgba(0,0,0,0.2)" }}
+          style={{ boxShadow: "0 0 40px rgba(0,0,0,0.2)", objectPosition: 'center right'}}
         />
-        
-        <div className="absolute top-1/4 left-1/4 z-20 max-w-md bg-white/10 backdrop-blur-sm p-8 rounded-2xl border border-white/20 text-white shadow-xl">
-          <h2 className="text-3xl font-bold mb-4">Organize Your Style</h2>
-          <p className="text-white/90 mb-6">
-            Keep track of your entire wardrobe, create stunning outfits, and never worry about what to wear again.
-          </p>
-          <div className="flex items-center space-x-2">
-            <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
-            <p className="text-white/80 text-sm">Join thousands of fashion enthusiasts</p>
-          </div>
-        </div>
       </div>
     </div>
   );

@@ -91,7 +91,7 @@ const App = () => (
 
                 {/* Protected routes */}
                 <Route
-                  path="/add"
+                  path="/wardrobe/add"
                   element={
                     <ProtectedRoute>
                       <AddItem />
@@ -123,7 +123,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/add-outfit"
+                  path="/outfits/add-outfit"
                   element={
                     <ProtectedRoute>
                       <AddOutfit />
@@ -131,7 +131,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/style"
+                  path="/styles"
                   element={
                     <ProtectedRoute>
                       <Style />
@@ -139,7 +139,7 @@ const App = () => (
                   }
                 />
                 <Route
-                  path="/add-style"
+                  path="/styles/add-style"
                   element={
                     <ProtectedRoute>
                       <AddStyleGuide />
