@@ -5,6 +5,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useWardrobe } from '@/context/WardrobeContext';
@@ -25,6 +26,11 @@ const AddClothingForm = () => {
     color: '#000000',
     occasion: 'casual' as 'casual' | 'formal',
     environment: 'indoors' as 'indoors' | 'outdoors',
+    fabric: '',
+    fit: '',
+    season: '',
+    tags: '',
+    notes: '',
   });
 
   const [image, setImage] = useState<string>('');
@@ -74,6 +80,11 @@ const AddClothingForm = () => {
         lastWorn: '',
         createdAt: currentDate,
         updatedAt: currentDate,
+        fabric: formData.fabric,
+        fit: formData.fit,
+        season: formData.season,
+        tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+        notes: formData.notes,
         // Add environment only for t-shirts
         ...(formData.type.toLowerCase().includes('shirt') && {
           environment: formData.environment,
@@ -279,6 +290,73 @@ const AddClothingForm = () => {
               </RadioGroup>
             </div>
           )}
+
+          {/* Fabric */}
+          <div className="space-y-2">
+            <Label htmlFor="fabric" className="text-foreground">Fabric</Label>
+            <Input
+              id="fabric"
+              value={formData.fabric}
+              onChange={(e) => handleInputChange('fabric', e.target.value)}
+              placeholder="e.g., Cotton, Denim, Polyester"
+            />
+          </div>
+
+          {/* Fit */}
+          <div className="space-y-2">
+            <Label htmlFor="fit" className="text-foreground">Fit</Label>
+            <Select value={formData.fit} onValueChange={(value) => handleInputChange('fit', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select fit" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Slim">Slim</SelectItem>
+                <SelectItem value="Regular">Regular</SelectItem>
+                <SelectItem value="Loose">Loose</SelectItem>
+                <SelectItem value="Oversized">Oversized</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Season */}
+          <div className="space-y-2">
+            <Label htmlFor="season" className="text-foreground">Season</Label>
+            <Select value={formData.season} onValueChange={(value) => handleInputChange('season', value)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select season" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Spring">Spring</SelectItem>
+                <SelectItem value="Summer">Summer</SelectItem>
+                <SelectItem value="Fall">Fall</SelectItem>
+                <SelectItem value="Winter">Winter</SelectItem>
+                <SelectItem value="All Seasons">All Seasons</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        {/* Tags */}
+        <div className="space-y-2">
+          <Label htmlFor="tags" className="text-foreground">Tags</Label>
+          <Input
+            id="tags"
+            value={formData.tags}
+            onChange={(e) => handleInputChange('tags', e.target.value)}
+            placeholder="e.g., summer, favorite, denim (comma separated)"
+          />
+        </div>
+
+        {/* Notes */}
+        <div className="space-y-2">
+          <Label htmlFor="notes" className="text-foreground">Notes</Label>
+          <Textarea
+            id="notes"
+            value={formData.notes}
+            onChange={(e) => handleInputChange('notes', e.target.value)}
+            placeholder="Any additional details about this item"
+            className="min-h-[80px]"
+          />
         </div>
 
         {/* Image Upload */}

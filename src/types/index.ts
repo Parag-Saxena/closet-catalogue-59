@@ -28,6 +28,9 @@ export interface ClothingItem {
   // Optional fields
   size?: string;
   material?: string;
+  fabric?: string;
+  fit?: string;
+  season?: string;
   tags?: string[];
 }
 
