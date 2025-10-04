@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useWardrobe } from '@/context/WardrobeContext';
+import { useClothingForm } from '@/context/ClothingFormContext';
 import { clothingService } from '@/services/clothingService';
 import { Upload } from 'lucide-react';
 
@@ -16,6 +17,7 @@ const AddClothingForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { refreshClothing } = useWardrobe();
+  const { types, fits, seasons } = useClothingForm();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -23,7 +25,7 @@ const AddClothingForm = () => {
     category: '',
     brand: '',
     size: '',
-    color: '#000000',
+    color: '',
     occasion: 'casual' as 'casual' | 'formal',
     environment: 'indoors' as 'indoors' | 'outdoors',
     fabric: '',
@@ -149,18 +151,18 @@ const AddClothingForm = () => {
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="T-Shirt">T-Shirt</SelectItem>
-                <SelectItem value="Shirt">Shirt</SelectItem>
-                <SelectItem value="Polo Shirt">Polo Shirt</SelectItem>
-                <SelectItem value="Pants">Pants</SelectItem>
-                <SelectItem value="Jeans">Jeans</SelectItem>
-                <SelectItem value="Shorts">Shorts</SelectItem>
-                <SelectItem value="Jacket">Jacket</SelectItem>
-                <SelectItem value="Sweater">Sweater</SelectItem>
-                <SelectItem value="Hoodie">Hoodie</SelectItem>
-                <SelectItem value="Dress">Dress</SelectItem>
-                <SelectItem value="Skirt">Skirt</SelectItem>
-                <SelectItem value="Shoes">Shoes</SelectItem>
+                {types.map((group) => (
+                  <React.Fragment key={group.label}>
+                    <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+                      {group.label}
+                    </div>
+                    {group.options.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </React.Fragment>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -196,25 +198,15 @@ const AddClothingForm = () => {
           {/* Color */}
           <div className="space-y-2">
             <Label htmlFor="color" className="text-foreground">
-              Color <span className="text-destructive">*</span>
+              Color(s) <span className="text-destructive">*</span>
             </Label>
-            <div className="flex gap-3 items-center">
-              <Input
-                id="color"
-                type="color"
-                value={formData.color}
-                onChange={(e) => handleInputChange('color', e.target.value)}
-                className="w-20 h-10 cursor-pointer"
-                required
-              />
-              <Input
-                type="text"
-                value={formData.color}
-                onChange={(e) => handleInputChange('color', e.target.value)}
-                placeholder="#000000"
-                className="flex-1"
-              />
-            </div>
+            <Input
+              id="color"
+              value={formData.color}
+              onChange={(e) => handleInputChange('color', e.target.value)}
+              placeholder="e.g., Blue, Red, White (comma separated)"
+              required
+            />
           </div>
 
           {/* Occasion */}
@@ -310,10 +302,11 @@ const AddClothingForm = () => {
                 <SelectValue placeholder="Select fit" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Slim">Slim</SelectItem>
-                <SelectItem value="Regular">Regular</SelectItem>
-                <SelectItem value="Loose">Loose</SelectItem>
-                <SelectItem value="Oversized">Oversized</SelectItem>
+                {fits.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -326,11 +319,11 @@ const AddClothingForm = () => {
                 <SelectValue placeholder="Select season" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Spring">Spring</SelectItem>
-                <SelectItem value="Summer">Summer</SelectItem>
-                <SelectItem value="Fall">Fall</SelectItem>
-                <SelectItem value="Winter">Winter</SelectItem>
-                <SelectItem value="All Seasons">All Seasons</SelectItem>
+                {seasons.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
