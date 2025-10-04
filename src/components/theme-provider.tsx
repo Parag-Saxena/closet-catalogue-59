@@ -92,8 +92,8 @@ export function ThemeProvider({
     theme,
     systemTheme,
     resolvedTheme,
-    setTheme: (theme: Theme) => {
-      setTheme(theme);
+    setTheme: (newTheme: Theme) => {
+      setTheme(newTheme);
     },
   };
 
