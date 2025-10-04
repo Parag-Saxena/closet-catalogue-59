@@ -31,48 +31,57 @@ const AppSidebar = () => {
     return null;
   }
 
+  const isRouteActive = (url: string) => {
+    // Exact match for root path
+    if (url === "/") {
+      return location.pathname === "/";
+    }
+    // For other routes, match if current path starts with the route URL
+    return location.pathname === url || location.pathname.startsWith(url + "/");
+  };
+
   const navigationItems: NavItem[] = [
     {
       title: "Dashboard",
       url: "/",
       icon: LayoutDashboard,
-      isActive: location.pathname === "/"
+      isActive: isRouteActive("/")
     },
     {
       title: "My Wardrobe",
       url: "/wardrobe",
       icon: Shirt,
-      isActive: location.pathname === "/wardrobe"
+      isActive: isRouteActive("/wardrobe")
     },
     {
       title: "Categories",
       url: "/categories",
       icon: LayoutList,
-      isActive: location.pathname === "/categories"
+      isActive: isRouteActive("/categories")
     },
     {
       title: "My Outfits",
       url: "/outfits",
       icon: BookHeart,
-      isActive: location.pathname === "/outfits"
+      isActive: isRouteActive("/outfits")
     },
     {
       title: "My Measurements",
       url: "/measurements",
       icon: Ruler,
-      isActive: location.pathname === "/measurements"
+      isActive: isRouteActive("/measurements")
     },
     {
       title: "Shopping Schedule",
       url: "/shopping-schedule",
       icon: ShoppingBag,
-      isActive: location.pathname === "/shopping-schedule"
+      isActive: isRouteActive("/shopping-schedule")
     },
     {
       title: "My Style",
       url: "/style",
       icon: BookOpenText,
-      isActive: location.pathname === "/style"
+      isActive: isRouteActive("/style")
     }
   ];
 
@@ -81,13 +90,13 @@ const AppSidebar = () => {
       title: "Account",
       url: "/account",
       icon: User,
-      isActive: location.pathname === "/account"
+      isActive: isRouteActive("/account")
     },
     {
       title: "Settings",
       url: "/settings",
       icon: Settings,
-      isActive: location.pathname === "/settings"
+      isActive: isRouteActive("/settings")
     }
   ];
 

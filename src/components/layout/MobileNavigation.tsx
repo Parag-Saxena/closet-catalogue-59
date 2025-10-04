@@ -12,6 +12,15 @@ import { cn } from '@/lib/utils';
 const MobileNavigation = () => {
   const location = useLocation();
 
+  const isRouteActive = (url: string) => {
+    // Exact match for root path
+    if (url === "/") {
+      return location.pathname === "/";
+    }
+    // For other routes, match if current path starts with the route URL
+    return location.pathname === url || location.pathname.startsWith(url + "/");
+  };
+
   const navItems = [
     {
       title: "Dashboard",
@@ -45,7 +54,7 @@ const MobileNavigation = () => {
       <div className="flex items-center justify-around py-2 px-1">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.url;
+          const isActive = isRouteActive(item.url);
           
           return (
             <Link
