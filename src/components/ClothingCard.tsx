@@ -70,31 +70,31 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
         </div>
       </div>
 
-      <div className="clothing-card-content flex-1 flex flex-col">
-        <div className="flex-1 space-y-2">
-          <h3 className="stylestack-body font-medium text-foreground line-clamp-2" title={item.name}>
+      <div className="clothing-card-content flex-1 flex flex-col min-h-0 h-full">
+        <div className="flex-1 space-y-1.5 sm:space-y-2 min-h-0">
+          <h3 className="stylestack-body font-medium text-foreground line-clamp-2 leading-tight" title={item.name}>
             {item.name}
           </h3>
-          <div className="flex items-center gap-2 flex-wrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
             <div className="flex items-center gap-1">
               {colors.slice(0, 3).map((color, idx) => (
                 <div
                   key={idx}
-                  className="w-3 h-3 rounded-full border border-white/20 shadow-sm"
+                  className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full border border-white/20 shadow-sm flex-shrink-0"
                   style={{ backgroundColor: color }}
                   aria-label={`Color: ${color}`}
                 />
               ))}
               {colors.length > 3 && (
-                <span className="stylestack-caption text-muted-foreground">+{colors.length - 3}</span>
+                <span className="stylestack-caption text-muted-foreground text-[10px] sm:text-xs">+{colors.length - 3}</span>
               )}
             </div>
             {item.size && (
-              <p className="stylestack-caption ml-auto whitespace-nowrap">Size {item.size}</p>
+              <p className="stylestack-caption ml-auto whitespace-nowrap text-[10px] sm:text-xs">Size {item.size}</p>
             )}
           </div>
           {item.brand && (
-            <p className="stylestack-caption text-muted-foreground truncate" title={item.brand}>
+            <p className="stylestack-caption text-muted-foreground truncate text-[10px] sm:text-xs" title={item.brand}>
               {item.brand}
             </p>
           )}
@@ -103,15 +103,15 @@ const ClothingCard: React.FC<ClothingCardProps> = ({ item, onLaundryToggle }) =>
         <Button
           variant="ghost"
           size="sm"
-          className="stylestack-glass border-0 h-8 px-3 text-xs font-medium w-full mt-2"
+          className="stylestack-glass border-0 h-7 sm:h-8 px-2 sm:px-3 text-[10px] sm:text-xs font-medium w-full mt-auto"
           onClick={(e) => {
             e.stopPropagation();
             handleLaundryToggle();
           }}
           type="button"
         >
-          <WashingMachine className="w-3 h-3 mr-1" />
-          {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
+          <WashingMachine className="w-3 h-3 mr-1 flex-shrink-0" />
+          <span className="truncate">{item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}</span>
         </Button>
       </div>
     </div>
