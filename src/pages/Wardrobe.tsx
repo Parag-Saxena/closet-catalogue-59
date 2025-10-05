@@ -4,6 +4,7 @@ import Layout from '../components/Layout';
 import ClothingCard from '../components/ClothingCard';
 import EmptyState from '../components/EmptyState';
 import EditItemDialog from '../components/EditItemDialog';
+import ViewItemDialog from '../components/ViewItemDialog';
 import { ClothingItem } from '../types';
 import { Search, Plus, WashingMachine, Edit, Trash2, List, Grid } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -51,12 +52,14 @@ const Wardrobe = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<ClothingItem | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [viewingItem, setViewingItem] = useState<ClothingItem | null>(null);
+  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Number of items to display per page
+  const itemsPerPage = 12; // Number of items to display per page
   const { toast } = useToast();
 
-  const categories = ['All', ...new Set(clothingItems.map(item => item.category))];
+  const allCategories = ['All', ...new Set(clothingItems.map(item => item.category))];
 
   useEffect(() => {
     setIsLoading(false);
@@ -86,11 +89,18 @@ const Wardrobe = () => {
     setCurrentPage(1);
   }, [searchQuery, categoryFilter, laundryFilter, clothingItems]);
 
+  // Group items by category
+  const groupedItems = filteredItems.reduce((acc, item) => {
+    const category = item.category || 'Uncategorized';
+    if (!acc[category]) {
+      acc[category] = [];
+    }
+    acc[category].push(item);
+    return acc;
+  }, {} as Record<string, ClothingItem[]>);
+
+  const categories = Object.keys(groupedItems).sort();
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-  const paginatedItems = filteredItems.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
 
   const handleLaundryToggle = (id: string) => {
     const updatedItems = clothingItems.map(item =>
@@ -138,6 +148,14 @@ const Wardrobe = () => {
       title: "Item deleted",
       description: `${itemToDelete.name} has been removed from your wardrobe.`
     });
+  };
+
+  const handleViewItem = (id: string) => {
+    const item = clothingItems.find(item => item.id === id);
+    if (item) {
+      setViewingItem(item);
+      setIsViewDialogOpen(true);
+    }
   };
 
   const handlePageChange = (page: number) => {
@@ -226,7 +244,7 @@ const Wardrobe = () => {
                   onChange={(e) => setCategoryFilter(e.target.value)}
                   className="h-10 rounded-full border border-input bg-background px-4 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  {categories.map(category => (
+                  {allCategories.map(category => (
                     <option key={category} value={category}>{category}</option>
                   ))}
                 </select>
@@ -272,81 +290,121 @@ const Wardrobe = () => {
               </div>
             </div>
 
-            {paginatedItems.length === 0 ? (
+            {filteredItems.length === 0 ? (
               <div className="py-12 text-center">
                 <p className="text-muted-foreground">No items found matching your search.</p>
               </div>
             ) : viewMode === 'card' ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 mt-6">
-                {paginatedItems.map(item => (
-                  <div key={item.id} className="group relative">
-                    <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {renderActionButtons(item)}
+              <div className="space-y-8 mt-6">
+                {categories.map(category => (
+                  <div key={category}>
+                    <h2 className="text-xl font-semibold text-foreground mb-4 pb-2 border-b">
+                      {category}
+                      <span className="text-muted-foreground text-sm ml-2">
+                        ({groupedItems[category].length})
+                      </span>
+                    </h2>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-3 sm:gap-4">
+                      {groupedItems[category].map(item => (
+                        <div key={item.id} className="group relative">
+                          <div className="absolute top-2 right-2 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {renderActionButtons(item)}
+                          </div>
+                          <div 
+                            className="cursor-pointer"
+                            onClick={() => handleViewItem(item.id)}
+                          >
+                            <ClothingCard
+                              item={item}
+                              onLaundryToggle={handleLaundryToggle}
+                            />
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <ClothingCard
-                      item={item}
-                      onLaundryToggle={handleLaundryToggle}
-                    />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="mt-6">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Category</TableHead>
-                      <TableHead>Color</TableHead>
-                      <TableHead>Brand</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {paginatedItems.map(item => (
-                      <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.name}</TableCell>
-                        <TableCell>{item.category}</TableCell>
-                        <TableCell>
-                          <div className="flex items-center gap-2">
-                            <div
-                              className="h-3 w-3 rounded-full"
-                              style={{ backgroundColor: item.color }}
-                            />
-                            {item.color}
-                          </div>
-                        </TableCell>
-                        <TableCell>{item.brand || '-'}</TableCell>
-                        <TableCell>
-                          {item.needsWashing ? (
-                            <span className="text-amber-500 flex items-center gap-1">
-                              <WashingMachine className="h-3 w-3" /> Needs washing
-                            </span>
-                          ) : (
-                            <span className="text-green-500">Clean</span>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => handleLaundryToggle(item.id)}
-                            >
-                              {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
-                            </Button>
-                            {renderActionButtons(item)}
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+              <div className="mt-6 space-y-6">
+                {categories.map(category => (
+                  <div key={category}>
+                    <h2 className="text-xl font-semibold text-foreground mb-3">
+                      {category}
+                      <span className="text-muted-foreground text-sm ml-2">
+                        ({groupedItems[category].length})
+                      </span>
+                    </h2>
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Name</TableHead>
+                          <TableHead>Color</TableHead>
+                          <TableHead>Brand</TableHead>
+                          <TableHead>Size</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {groupedItems[category].map(item => (
+                          <TableRow 
+                            key={item.id} 
+                            className="cursor-pointer hover:bg-muted/50"
+                            onClick={() => handleViewItem(item.id)}
+                          >
+                            <TableCell className="font-medium">{item.name}</TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                {item.color?.split(',').slice(0, 2).map((color, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="h-3 w-3 rounded-full border border-border"
+                                    style={{ backgroundColor: color.trim() }}
+                                  />
+                                ))}
+                                <span className="text-sm">{item.color?.split(',')[0]?.trim()}</span>
+                                {item.color?.split(',').length > 1 && (
+                                  <span className="text-xs text-muted-foreground">+{item.color.split(',').length - 1}</span>
+                                )}
+                              </div>
+                            </TableCell>
+                            <TableCell>{item.brand || '-'}</TableCell>
+                            <TableCell>{item.size || '-'}</TableCell>
+                            <TableCell>
+                              {item.needsWashing ? (
+                                <span className="text-amber-500 flex items-center gap-1">
+                                  <WashingMachine className="h-3 w-3" /> Needs washing
+                                </span>
+                              ) : (
+                                <span className="text-green-500">Clean</span>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right" onClick={(e) => e.stopPropagation()}>
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleLaundryToggle(item.id);
+                                  }}
+                                >
+                                  {item.needsWashing ? 'Mark Clean' : 'Add to Laundry'}
+                                </Button>
+                                {renderActionButtons(item)}
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                ))}
               </div>
             )}
 
-            {totalPages > 1 && (
+            {totalPages > 1 && viewMode === 'list' && (
               <Pagination className="my-4">
                 <PaginationContent>
                   <PaginationItem>
@@ -379,6 +437,15 @@ const Wardrobe = () => {
           </>
         )}
       </div>
+
+      <ViewItemDialog
+        item={viewingItem}
+        isOpen={isViewDialogOpen}
+        onClose={() => {
+          setIsViewDialogOpen(false);
+          setViewingItem(null);
+        }}
+      />
 
       <EditItemDialog
         item={editingItem}
