@@ -115,6 +115,47 @@
   html {
     @apply scroll-smooth;
   }
+
+  /* Responsive font sizes for interactive elements */
+  button {
+    font-size: 0.75rem; /* 12px - mobile */
+  }
+
+  span {
+    font-size: 0.75rem; /* 12px - mobile */
+  }
+
+  a > span {
+    font-size: 0.75rem; /* 12px - mobile */
+  }
+
+  @media (min-width: 640px) {
+    button {
+      font-size: 0.875rem; /* 14px - tablet */
+    }
+
+    span {
+      font-size: 0.875rem; /* 14px - tablet */
+    }
+
+    a > span {
+      font-size: 0.875rem; /* 14px - tablet */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    button {
+      font-size: 0.9375rem; /* 15px - desktop */
+    }
+
+    span {
+      font-size: 0.9375rem; /* 15px - desktop */
+    }
+
+    a > span {
+      font-size: 0.9375rem; /* 15px - desktop */
+    }
+  }
 }
 
 @layer components {
